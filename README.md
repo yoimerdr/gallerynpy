@@ -17,7 +17,7 @@ init 999 python:
 
         For images, you don't need to create or specify any file, since by default the same image will be displayed as thumbnail.
 
-        For videos, you need to create a image file in the path 'images/gallerynpy/thumbnails' with name videoname_thumbnail.jpg 
+        For videos, you need to create a image file in the path 'gallerynpy/images/thumbnails' with name pathtovideo/videoname_thumbnail.jpg 
         or videoname_thumbnail.png. If you don't do this, the default thumbnail is a not avaible image.
 
         For animations, you need to specify the name of a image declaration or a image path when you put the animation
@@ -37,8 +37,8 @@ init 999 python:
     # For add a video, you need to specify at least the first two arguments, first the path of 
     # an video in your renpy project and second on which slide you want that video to be displayed.
     gallerynpy.put_video("videos/wonderful.mp4", "videos")
-    # You also can specify the condition for unlock the video add the condition argument
-    gallerynpy.put_video("videos/wonderful.mp4", "videos", condition="persistent.valid_condition")
+    # You also can specify the condition for unlock the video add the condition argument or add the thumbnail image
+    gallerynpy.put_video("videos/wonderful.mp4", "videos", thumbnail="wonderful_screen", condition="persistent.valid_condition")
 
     # For add a animation, you need to specify at least the first two arguments, first the name of 
     # an atl (animation) block declaration in your renpy project and second a path or a valid name of 
@@ -50,7 +50,7 @@ init 999 python:
 
     # You can also change some properties in gallerynpy
     # for specify the initial slide to show
-    gallerynpy.current_page = "images"  
+    gallerynpy.change_slide("images")
     # for show a vertical bar at right of all slides buttons, default doesn't show
     gallerynpy_properties.show_pages_bar = True 
     # changes the thumbnail for locked items, default is images/locked.png
