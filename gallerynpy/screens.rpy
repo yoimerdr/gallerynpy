@@ -59,17 +59,17 @@ screen gallerynpy():
 
 
 screen gallerynpy_content():
-    grid gallerynpy.columns gallerynpy.rows:
+    grid gallerynpy.columns() gallerynpy.rows():
         xfill True
         yfill True
         
-        for index in range(gallerynpy.start, gallerynpy.end + 1):
+        for index in range(gallerynpy.start(), gallerynpy.end() + 1):
             $ item = gallerynpy.make_current_button_at(index)
             if item:
                 add item
             else:
                 null
-        for index in range(gallerynpy.end - gallerynpy.start + 1, gallerynpy.max_in_page):
+        for index in range(gallerynpy.end() - gallerynpy.start() + 1, gallerynpy.max_items()):
             null
 
 screen gallerynpy_pages():
@@ -84,11 +84,13 @@ screen gallerynpy_pages():
                 yadjustment gallerynpy_properties.adjustment
 
             has vbox
-            for name in gallerynpy.items.keys():
+            for name in gallerynpy.slides():
                 if gallerynpy.slide_size(name) > 0:
                     $ item = gallerynpy_names[name] if name in gallerynpy_names.keys() else name.capitalize()
                     textbutton _("[item!t]"):
-                        action [Function(gallerynpy.update, True), SetVariable("gallerynpy.current_page", name)]
+                        selected gallerynpy.is_current_slide(name)
+                        action [Function(gallerynpy.update, True), Function(gallerynpy.change_slide, name)]
+
         
         if gallerynpy_properties.show_pages_bar:
             bar:
@@ -104,7 +106,7 @@ screen gallerynpy_pages():
 screen gallerynpy_sliders():
     frame:
         style "gallerynpy_frame"
-        xsize gallerynpy.navigation_width
+        xsize gallerynpy.nav_width()
         has vbox
         yalign 0.9
         style_prefix "gallerynpy"
@@ -112,7 +114,7 @@ screen gallerynpy_sliders():
         spacing gallerynpy_properties.spacing
         if persistent.gallerynpy_spedded and gallerynpy.is_current_animation_slide():
             use gallerynpy_anim_speeds
-            use gallerynpy_options([Function(gallerynpy.update, True), SetVariable("gallerynpy.current_page", gallerynpy_properties.default_slide)])
+            use gallerynpy_options([Function(gallerynpy.update, True), Function(gallerynpy.change_slide, gallerynpy_properties.default_slide)])
         else:
             use gallerynpy_pages 
             
@@ -120,11 +122,11 @@ screen gallerynpy_sliders():
 
 screen gallerynpy_options(return_action=Return()):
     textbutton _("Previous"):
-        if gallerynpy.page > 0:
-            action SetVariable("gallerynpy.page", gallerynpy.page - 1)
+        if gallerynpy.page() > 0:
+            action Function(gallerynpy.change_page, gallerynpy.page() - 1)
     textbutton _("Next"):
-        if (gallerynpy.page + 1) * gallerynpy.max_in_page < gallerynpy.current_slide_size():
-            action SetVariable("gallerynpy.page", gallerynpy.page + 1)
+        if (gallerynpy.page() + 1) * gallerynpy.max_items() < gallerynpy.current_slide_size():
+            action Function(gallerynpy.change_page, gallerynpy.page() + 1)
     
     textbutton _("Return"):
         action return_action

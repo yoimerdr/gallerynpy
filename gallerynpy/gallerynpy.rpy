@@ -62,15 +62,17 @@ init -1 python:
             self.thumbnail_folder = gallerynpy_images_path('thumbnails')
             self.common_pages = ['videos', 'animations', 'images']
             self.version = '1.0.1'
+            self.default_slide = 'images'
+
+            ## The properties below may change 
             self.font_size = 15
-            self.font = gallerynpy_fonts_path("JetBrainsMono-Bold.ttf")
+            self.font = gallerynpy_fonts_path("JetBrainsMono-Bold.ttf")  # can be change for a valid font path
             self.color = "#fff"
             self.hover_color = "#99ccff"
             self.selected_color = "#99ccff"
             self.insensitive_color = "#ffffff99"
             self.navigation_xpos = 45
             self.spacing = 5
-            self.default_slide = 'images'
             self.pages_spacing = 0
             self.pages_ysize = 120
             self.adjustment = ui.adjustment()
@@ -190,72 +192,89 @@ init -1 python:
                 min_item_width: The min thumbnail size if confing.screen_width is lower than min_screen
             """
             # navigation configuration
-            self.start = 0
-            self.end = 0
-            self.columns = columns
-            self.rows = rows
+            self.__start = 0
+            self.__end = 0
+            self.__columns = columns
+            self.__rows = rows
+            self.__item_width = item_width
+            self.__item_min_width = min_item_width
+            self.__min_screen = min_screen
 
-            # thumbnail size configuration
-            width = item_width  # default width value
-            ratio = 0.5625
+            if config.screen_width <= self.__min_screen:
+                self.__columns = 3 if self.__columns > 3 else self.__columns
+                self.__rows = 3 if self.__rows > 3 else self.__rows
+                self.__item_width = self.__item_min_width
 
-            if config.screen_width <= min_screen:
-                self.columns = 3 if self.columns > 3 else self.columns
-                self.rows = 3 if self.rows > 3 else self.rows
-                width = min_item_width
+            self.__scaling = config.screen_width / float(self.__min_screen)
+            self.__navigation_width = int(190 * self.__scaling)
+            self.__page = 0
 
-            self.scaling = config.screen_width / float(min_screen)
-            self.navigation_width = int(290 * self.scaling)
-            self.page = 0
-
-            self.thumbnail_size = GallerynpySize(width, int(width * 0.5625))  # change the 0.5625 according a image scale
-            self.max_in_page = self.columns * self.rows  # number of items in one page
+            self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
+            self.__max_in_page = self.__columns * self.__rows  # number of items in one page
 
             # Gallery
-            self.gallery = Gallery()
-            self.gallery.transition = dissolve
-            self.gallery.locked_button = self.scale(gallerynpy_properties.locked)      
-            self.video_idle_overlay = self.scale(gallerynpy_properties.play_idle_overlay)
-            self.video_hover_overlay = self.scale(gallerynpy_properties.play_hover_overlay)  
+            self.__gallery = Gallery()
+            self.__gallery.transition = dissolve
+            self.__gallery.locked_button = self.scale(gallerynpy_properties.locked)      
+            self.__video_idle_overlay = self.scale(gallerynpy_properties.play_idle_overlay)
+            self.__video_hover_overlay = self.scale(gallerynpy_properties.play_hover_overlay)  
 
-            self.items = {}
-            self.current_page = gallerynpy_properties.default_slide
-            self.index = 0
+            self.__items = {}
+            self.__current_page = gallerynpy_properties.default_slide
+            self.__index = 0
+        
+        def __init_distribution(self):
+            self.__item_width = 400 - 40 * (self.columns() - 3)
+            if config.screen_width <= self.__min_screen:
+                self.__columns = 3 if self.__columns > 3 else self.__columns
+                self.__rows = 3 if self.__rows > 3 else self.__rows
+                self.__item_width = self.__item_min_width
+
+            self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
+            self.__max_in_page = self.__columns * self.__rows
+        
+        def change_distribution(self, rows=None, columns=None):
+            if rows is not None:
+                self.__rows = rows
+            if columns is not None:
+                self.__columns = columns
+
+            self.__init_distribution()
 
         def __put_item(self, item, where):
             where = str(where)
-            if where not in self.items.keys():
-                self.items[where] = []
+            if where not in self.__items.keys():
+                self.__items[where] = []
 
-            self.items[where].append(item)
-            self.index += 1
+            self.__items[where].append(item)
+            self.__index += 1
         
         def __create_item(self, filename, song=None):
             return GalleryItem(
-                'gallerynpy-' + str(self.index),
-                filename, self.thumbnail_size, song
+                'gallerynpy-' + str(self.__index),
+                filename, self.__thumbnail_size, song
             )
 
         def __add_to_gallery(self, item, condition=None):
-            self.gallery.button(item.name)
-            self.gallery.image(item.path)
+            self.__gallery.button(item.name)
+            self.__gallery.image(item.path)
             if condition and isinstance(condition, str):
-                self.gallery.condition(condition)
+                self.__gallery.condition(condition)
 
         def __get_item(self, index):
-            if self.current_page not in self.items.keys() or index > len(self.items[self.current_page]):
+            if self.__current_page not in self.__items.keys() or index > len(self.__items[self.__current_page]):
                 return None
-            return self.items[where][index]
+            return self.__items[where][index]
 
         def __add_music(self, button, song):
             button.action = [Play("music", song), button.action]
             return button
 
         def __make_playable_button(self, item):
-            return self.gallery.make_button(
+            return self.__gallery.make_button(
                 item.name, item.thumbnail,
-                idle_border=self.video_idle_overlay, 
-                hover_border=self.video_hover_overlay, 
+                idle_border=self.__video_idle_overlay, 
+                hover_border=self.__video_hover_overlay, 
                 fit_first=True, xalign=0.5, yalign=0.5
             )
 
@@ -268,7 +287,7 @@ init -1 python:
             Args:
                 image: Can be the filepath to image file, the name of the image declaration or a Image object
             """
-            self.gallery.locked_button = self.scale(image)
+            self.__gallery.locked_button = self.scale(image)
 
         def change_transition(self, transition):
             """
@@ -276,7 +295,7 @@ init -1 python:
             Args:
                 transition: A valid renpy transition object
             """
-            self.gallery.transitions = transition
+            self.__gallery.transitions = transition
 
         def scale(self, path):
             """
@@ -284,7 +303,7 @@ init -1 python:
             Args:
                 path: Can be the filepath to image file, the name of the image declaration or a Image object
             """
-            return im.Scale(path, self.thumbnail_size.width, self.thumbnail_size.height)
+            return im.Scale(path, self.__thumbnail_size.width, self.__thumbnail_size.height)
 
         def put_image(self, image, where, song=None, condition=None):
             """
@@ -350,14 +369,14 @@ init -1 python:
             Args:
                 where: The slide where items where pushed
             """
-            return len(self.items[where]) if where in self.items.keys() else 0
+            return len(self.__items[where]) if where in self.__items.keys() else 0
 
         def current_slide_size(self):
             """
             Returns the size of the current slide. 
             If current slide is not a valid slide, returns 0
             """
-            return self.slide_size(self.current_page)
+            return self.slide_size(self.__current_page)
         
         def item_at(self, where, index):
             """
@@ -367,9 +386,9 @@ init -1 python:
                 where: The slide where items were pushed
                 index: The index of the item
             """
-            if where not in self.items.keys() or index < 0 or index > self.slide_size(where):
+            if where not in self.__items.keys() or index < 0 or index > self.slide_size(where):
                 return None
-            return self.items[where][index]
+            return self.__items[where][index]
 
         def current_item_at(self, index):
             """
@@ -378,7 +397,7 @@ init -1 python:
             Args:
                 index: The index of the item
             """
-            return self.item_at(self.current_page, index)
+            return self.item_at(self.__current_page, index)
 
         def update(self, to_start=False):
             """
@@ -387,9 +406,9 @@ init -1 python:
                 to_start: If True, back to the zero page in current slide.
             """
             if to_start:
-                self.page = 0
-            self.start = self.page * self.max_in_page
-            self.end = min(self.start + self.max_in_page - 1, self.current_slide_size() - 1)
+                self.__page = 0
+            self.__start = self.__page * self.__max_in_page
+            self.__end = min(self.__start + self.__max_in_page - 1, self.current_slide_size() - 1)
         
         def make_animation_button(self, item):
             """
@@ -423,7 +442,7 @@ init -1 python:
                 item: The GallerynpyItem
             """
             if item and item.type == GallerynpyTypes.image:
-                button = self.gallery.make_button(
+                button = self.__gallery.make_button(
                     item.name, item.thumbnail,
                     idle_border=gallerynpy_properties.idle_overlay, 
                     xalign=0.5, yalign=0.5
@@ -453,13 +472,101 @@ init -1 python:
             return None
 
         def is_current_animation_slide(self):
-            return self.current_page.lower() == gallerynpy_properties.animation_slide.lower()
+            return self.__current_page.lower() == gallerynpy_properties.animation_slide.lower()
         
+        def columns(self):
+            """
+            Returns the current columns number
+            """
+            return self.__columns
+
+        def rows(self):
+            """
+            Returns the current rows number
+            """
+            return self.__rows
+
+        def current_slide(self):
+            """
+            Returns the current slide name
+            """
+            return self.__current_page
+
+        def start(self):
+            """
+            Returns the current start slide number
+            """
+            return self.__start
+
+        def end(self):
+            """
+            Returns the current end slide number
+            """
+            return self.__end
+
+        def max_items(self):
+            """
+            Returns the current max items in the slide
+            """
+            return self.__max_in_page
+
+        def slides(self):
+            """
+            Returns the current all slide names
+            """
+            return self.__items.keys()
+
+        def change_slide(self, slide):
+            """
+            Changes the current slide.
+            If slide isn't insde the current slides, doesnt change.
+            Args:
+                slide: the new current slide name
+            """
+            if slide in self.slides():
+                self.__current_page = slide
+
+        def nav_width(self):
+            """
+            Returns the navigation width
+            """
+            return self.__navigation_width
+
+        def page(self):
+            """
+            Returns the current page number
+            """
+            return self.__page
+
+        def change_page(self, number):
+            """
+            Changes the current page number.
+            If number isnt valid, doesnt change.
+            Args:
+                number: the new page number
+            """
+            if number >= 0 and number * self.max_items() < self.current_slide_size():
+                self.__page = number
+
+        def scaling(self):
+            """
+            Returns the current scaling rate
+            """
+            return self.__scaling
+
+        def is_current_slide(self, slide):
+            """
+            Returns if the current slide is equals to slide.
+            Args:
+                slide: the slide value
+            """
+            return self.current_slide() == slide
+            
 
     gallerynpy = Gallerynpy()
     config.log = 'logger.txt'
 
 init 999 python:
     gallerynpy_names = {}
-    for name in gallerynpy.items.keys():
+    for name in gallerynpy.slides():
         gallerynpy_names[name] = name.capitalize()

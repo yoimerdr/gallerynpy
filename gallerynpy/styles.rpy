@@ -1,6 +1,6 @@
 image gallerynpy_bg_overlay:
     gallerynpy_properties.background_overlay
-    zoom gallerynpy.scaling
+    zoom gallerynpy.scaling()
 
 
 style gallerynpy:
