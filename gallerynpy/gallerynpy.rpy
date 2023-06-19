@@ -1,14 +1,16 @@
 # Gallerynpy logic
-init python:
+init -1 python:
     import os
 
     # for try fix image size
-    persistent.gallerynpy_rescale_image = False
-    persistent.gallerynpy_rescale_screen = False
+    if persistent.gallerynpy_rescale_image is None:
+        persistent.gallerynpy_rescale_image = False
+    if persistent.gallerynpy_rescale_screen is None:
+        persistent.gallerynpy_rescale_screen = False
 
     # for animation speed
     persistent.gallerynpy_animation_speed = 1
-    persistent.gallerynpy_spedded = True
+    persistent.gallerynpy_spedded = False
 
 
     class GallerynpySize:
@@ -23,9 +25,9 @@ init python:
 
 
     class GallerynpyTypes:
-        image = 'img'
-        video = 'vdo'
-        animation = 'anim'
+        image = 'image'
+        video = 'video'
+        animation = 'animation'
 
 
     def is_image_path(path):
@@ -39,21 +41,29 @@ init python:
     def renpy_path(path):
         return path.replace('\\', '/')
 
+    def gallerynpy_path(path):
+        return "gallerynpy/" + path
+
+    def gallerynpy_images_path(path):
+        return gallerynpy_path("images/" + path)
+
+    def gallerynpy_fonts_path(path):
+        return gallerynpy_path("fonts/" + path)
 
     class GallerynpyProperties:
         def __init__(self):
-            self.not_found_thumbnail = "images/gallerynpy/not_found.png"
-            self.play_hover_overlay = "images/gallerynpy/play_hover_overlay.png"
-            self.play_idle_overlay = "images/gallerynpy/play_idle_overlay.png"
-            self.idle_overlay = "images/gallerynpy/idle_overlay.png"
-            self.locked = "images/gallerynpy/locked.png"
-            self.background_overlay = "images/gallerynpy/background_overlay.png"
-            self.video_thumbnails_extension = ['_thumbnail.' + item for item in ['jpg', 'png']]
-            self.thumbnail_folder = 'images/gallerynpy/thumbnails'
+            self.not_found_thumbnail = gallerynpy_images_path("not_found.png")
+            self.play_hover_overlay = gallerynpy_images_path("play_hover_overlay.png")
+            self.play_idle_overlay = gallerynpy_images_path("play_idle_overlay.png")
+            self.idle_overlay = gallerynpy_images_path("idle_overlay.png")
+            self.locked = gallerynpy_images_path("locked.png")
+            self.background_overlay = gallerynpy_images_path("background_overlay.png")
+            self.video_thumbnails_extension = ('_thumbnail.' + item for item in ['jpg', 'png'])
+            self.thumbnail_folder = gallerynpy_images_path('thumbnails')
             self.common_pages = ['videos', 'animations', 'images']
             self.version = '1.0.1'
             self.font_size = 15
-            self.font = "fonts/gallerynpy/JetBrainsMono-Bold.ttf"
+            self.font = gallerynpy_fonts_path("JetBrainsMono-Bold.ttf")
             self.color = "#fff"
             self.hover_color = "#99ccff"
             self.selected_color = "#99ccff"
@@ -213,6 +223,7 @@ init python:
             self.index = 0
 
         def __put_item(self, item, where):
+            where = str(where)
             if where not in self.items.keys():
                 self.items[where] = []
 
@@ -231,8 +242,8 @@ init python:
             if condition and isinstance(condition, str):
                 self.gallery.condition(condition)
 
-        def __get_item(self, ndex):
-            if index > len(self.items[self.current_page]):
+        def __get_item(self, index):
+            if self.current_page not in self.items.keys() or index > len(self.items[self.current_page]):
                 return None
             return self.items[where][index]
 
@@ -297,17 +308,20 @@ init python:
                 self.__put_item(item, where)
                 self.__add_to_gallery(item, condition)
         
-        def put_video(self, filename, where, song=None, condition=None):
+        def put_video(self, filename, where, thumbnail=None, song=None, condition=None):
             """
             Put a video to gallery
             Args:
                 filename: Must be the filepath to video file.
                 where: The slide where the item video be put.
+                thumbnail: The image name or image path for put as video thumbnail.
                 song: The filepath to the song that will be played when video is played, default is None.
                 condition: The condition for unlock image, default is unlocked.
             """
             item = self.__create_item(filename, song)
             if item.type == GallerynpyTypes.video:
+                if thumbnail is not None and isinstance(thumbnail, str):
+                    item.thumbnail = item.create_animation_thumbnail(thumbnail)
                 self.__put_item(item, where)
                 self.__add_to_gallery(item, condition)
 
@@ -329,6 +343,43 @@ init python:
             self.__put_item(item, where)
             self.__add_to_gallery(item, condition)
 
+        def slide_size(self, where):
+            """
+            Returns the size of the slide. 
+            If where is not a valid slide, returns 0
+            Args:
+                where: The slide where items where pushed
+            """
+            return len(self.items[where]) if where in self.items.keys() else 0
+
+        def current_slide_size(self):
+            """
+            Returns the size of the current slide. 
+            If current slide is not a valid slide, returns 0
+            """
+            return self.slide_size(self.current_page)
+        
+        def item_at(self, where, index):
+            """
+            Returns the GalleryItem in the index passed from the where slide. 
+            If where slide is not a valid slide or index is a not valid index, returns None
+            Args:
+                where: The slide where items were pushed
+                index: The index of the item
+            """
+            if where not in self.items.keys() or index < 0 or index > self.slide_size(where):
+                return None
+            return self.items[where][index]
+
+        def current_item_at(self, index):
+            """
+            Returns the GalleryItem in the index passed from the where slide. 
+            If current slide is not a valid slide or index is a not valid index, returns None
+            Args:
+                index: The index of the item
+            """
+            return self.item_at(self.current_page, index)
+
         def update(self, to_start=False):
             """
             Caltulates the page in current slide
@@ -338,7 +389,7 @@ init python:
             if to_start:
                 self.page = 0
             self.start = self.page * self.max_in_page
-            self.end = min(self.start + self.max_in_page - 1, len(self.items[self.current_page]) - 1)
+            self.end = min(self.start + self.max_in_page - 1, self.current_slide_size() - 1)
         
         def make_animation_button(self, item):
             """
@@ -381,6 +432,29 @@ init python:
                 return self.__add_music(button, item.song) if item.song else button
             return self.__none_button()
 
+        def make_current_button_at(self, index):
+            """
+            Returns the button for the item at the index in the current slide.
+            If the index is not valid, returns None.
+            Args:
+                index: The index of the item
+            """
+            item = self.current_item_at(index)
+            if item is None:
+                return None
+
+            if item.type == GallerynpyTypes.image:
+                return self.make_image_button(item)
+            elif item.type == GallerynpyTypes.animation:
+                return self.make_animation_button(item)
+            elif item.type == GallerynpyTypes.video:
+                return self.make_video_button(item)
+
+            return None
+
+        def is_current_animation_slide(self):
+            return self.current_page.lower() == gallerynpy_properties.animation_slide.lower()
+        
 
     gallerynpy = Gallerynpy()
     config.log = 'logger.txt'
@@ -389,227 +463,3 @@ init 999 python:
     gallerynpy_names = {}
     for name in gallerynpy.items.keys():
         gallerynpy_names[name] = name.capitalize()
-
-
-### Styling
-
-image gallerynpy_bg_overlay:
-    gallerynpy_properties.background_overlay
-    zoom gallerynpy.scaling
-
-
-style gallerynpy:
-    xalign 0.5
-    yalign 0.46
-
-style gallerynpy_xcenter:
-    xalign 0.5
-
-style gallerynpy_button_text:
-    size gallerynpy_properties.font_size
-    font gallerynpy_properties.font
-    color gallerynpy_properties.color
-
-style gallerynpy_text is gallerynpy_button_text
-
-style gallerynpy_button_text:
-    hover_color gallerynpy_properties.hover_color
-    selected_color gallerynpy_properties.selected_color
-    insensitive_color gallerynpy_properties.insensitive_color
-
-style gallerynpy_tooltip:
-    xalign 1.0
-    yalign 1.0
-    ypadding 18
-    xpadding 10
-
-style gallerynpy_version is gallerynpy_tooltip
-style gallerynpy_version:
-    ypadding 2
-    xpadding 2
-    size 12
-
-style gallerynpy_tooltip_text is gallerynpy_text
-
-style gallerynpy_tooltip_text:
-    outlines [(1, "#000000", 0, 0)]
-
-style gallerynpy_rescaling:
-    yalign 0.0
-    xpos gallerynpy_properties.navigation_xpos
-
-style gallerynpy_frame:
-    yalign 0.992
-    xsize 420
-    background "#0005"
-
-
-### Necesary labels for gallerynpy works
-
-label gallerynpy_cinema(movie=None):
-    if not movie is None:
-        $ renpy.movie_cutscene(movie, loops=-1)
-    
-    call screen gallerynpy
-    return
-
-label gallerynpy_rescale(to_gallery=False):
-    if not persistent.gallerynpy_rescale_screen and not to_gallery:
-        call screen gallerynpy_rescale_screen
-    else:
-        if to_gallery:
-            $ persistent.gallerynpy_rescale_image = False
-        call screen gallerynpy
-    return
-
-
-### Screens
-
-screen gallerynpy_tooltip(tooltip):
-    if tooltip:
-        frame:
-            style_prefix "gallerynpy_tooltip"
-            style "gallerynpy_tooltip"
-            background None
-            text "[tooltip!t]":
-                xalign 0.5
-
-screen gallerynpy_rescaling():
-    hbox:
-        style_prefix "gallerynpy"
-        style "gallerynpy_rescaling"
-        text "Rescale:"
-        spacing 10
-        textbutton _("Yes"):
-            action [SetVariable("persistent.gallerynpy_rescale_image", True), Call("gallerynpy_rescale")]
-            tooltip "The mod will try to rescale the images to a correct aspect ratio"
-
-        textbutton _("No"):
-            action [SetVariable("persistent.gallerynpy_rescale_image", False), Call("gallerynpy_rescale", True)]
-            tooltip "The mod will not try to rescale the images to a correct aspect ratio"
-    use gallerynpy_tooltip(GetTooltip())
-
-
-screen gallerynpy_rescale_screen():
-    vbox:
-        style_prefix "gallerynpy"
-        style "gallerynpy"
-        text "This option may affect the performance of the game at startup, since at startup" xalign 0.5
-        text "the mod will try to rescale ALL IMAGES to a proper ratio and this can be slow." xalign 0.5
-        text "For this option to do its job, you have to exit the game and re-enter." xalign 0.5
-        text "Accept this option at your own risk." xalign 0.5
-        text "This screen will not appear again either.\n" xalign 0.5
-
-        hbox:
-            style_prefix "gallerynpy"
-            style "gallerynpy"
-            textbutton _("Accept"):
-                align(0.4,0.54)
-                action [SetVariable("persistent.gallerynpy_rescale_screen", True), Call('gallerynpy_rescale')]
-            textbutton _("Cancel"):
-                align(0.6,0.54)
-                action [Call("gallerynpy_rescale", True)]
-
-screen gallerynpy():
-    tag menu
-    $ gallerynpy.update()
-
-    ## Layout
-    style_prefix "game_menu"
-    add "gallerynpy_bg_overlay"
-    use gallerynpy_rescaling
-    text _("Gallerynpy v[gallerynpy_properties.version]"):
-        style "gallerynpy_version"
-    hbox:
-        use gallerynpy_sliders
-        use gallerynpy_content
-
-
-screen gallerynpy_content():
-    grid gallerynpy.columns gallerynpy.rows:
-        xfill True
-        yfill True
-        
-        for index in range(gallerynpy.start, gallerynpy.end + 1):
-            $ item = gallerynpy.items[gallerynpy.current_page][index]
-            if item.type == GallerynpyTypes.image:
-                add gallerynpy.make_image_button(item)
-            elif item.type == GallerynpyTypes.animation:
-                add gallerynpy.make_animation_button(item)
-            elif item.type == GallerynpyTypes.video:
-                add gallerynpy.make_video_button(item)
-            else:
-                null
-        for index in range(gallerynpy.end - gallerynpy.start + 1, gallerynpy.max_in_page):
-            null
-
-screen gallerynpy_pages():
-    side "c r b":
-        spacing gallerynpy_properties.pages_spacing
-        viewport:
-            ysize gallerynpy_properties.pages_ysize
-            mousewheel True
-            draggable True
-
-            if gallerynpy_properties.show_pages_bar:
-                yadjustment gallerynpy_properties.adjustment
-
-            has vbox
-            for name in gallerynpy.items.keys():
-                if len(gallerynpy.items[name]) > 0:
-                    python:
-                        try:
-                            item = gallerynpy_names[name]
-                        except:
-                            item = name.capitalize()
-                    textbutton _("[item!t]"):
-                        action [Function(gallerynpy.update, True), SetVariable("gallerynpy.current_page", name)]
-        
-        if gallerynpy_properties.show_pages_bar:
-            bar:
-                adjustment gallerynpy_properties.adjustment
-                style "vscrollbar"
-        else:
-            null
-
-        vbox:
-            null height 35
-            use gallerynpy_options  
-
-screen gallerynpy_sliders():
-    frame:
-        style "gallerynpy_frame"
-        xsize gallerynpy.navigation_width
-        has vbox
-        yalign 0.9
-        style_prefix "gallerynpy"
-        xpos gallerynpy_properties.navigation_xpos
-        spacing gallerynpy_properties.spacing
-        if persistent.gallerynpy_spedded and gallerynpy.current_page.lower() == gallerynpy_properties.animation_slide:
-            use gallerynpy_anim_speeds
-            use gallerynpy_options([Function(gallerynpy.update, True), SetVariable("gallerynpy.current_page", gallerynpy_properties.default_slide)])
-        else:
-            use gallerynpy_pages 
-            
-
-
-screen gallerynpy_options(return_action=Return()):
-    textbutton _("Previous"):
-        if gallerynpy.page > 0:
-            action SetVariable("gallerynpy.page", gallerynpy.page - 1)
-    textbutton _("Next"):
-        if (gallerynpy.page + 1) * gallerynpy.max_in_page < len(gallerynpy.items[gallerynpy.current_page]):
-            action SetVariable("gallerynpy.page", gallerynpy.page + 1)
-    
-    textbutton _("Return"):
-        action return_action
-
-
-screen gallerynpy_anim_speeds():
-    vbox:
-        text "Velocity:"
-        hbox:
-            textbutton "x1" action SetVariable("persistent.gallerynpy_animation_speed", 1)
-            textbutton "x2" action SetVariable("persistent.gallerynpy_animation_speed", 2)
-            textbutton "x3" action SetVariable("persistent.gallerynpy_animation_speed", 3)
-            textbutton "x4" action SetVariable("persistent.gallerynpy_animation_speed", 4)

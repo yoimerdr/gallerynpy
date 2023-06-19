@@ -72,7 +72,7 @@ screen main_menu():
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](gallerynpy/LICENSE) file for details.
 
 ## Acknowledgments
 
