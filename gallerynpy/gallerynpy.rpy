@@ -61,7 +61,7 @@ init -1 python:
             self.video_thumbnails_extension = ('_thumbnail.' + item for item in ['jpg', 'png'])
             self.thumbnail_folder = gallerynpy_images_path('thumbnails')
             self.common_pages = ['videos', 'animations', 'images']
-            self.version = '1.0.1'
+            self.version = '1.2.2'
             self.default_slide = 'images'
 
             ## The properties below may change 
