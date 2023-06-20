@@ -206,7 +206,7 @@ init -1 python:
                 self.__item_width = self.__item_min_width
 
             self.__scaling = config.screen_width / float(self.__min_screen)
-            self.__navigation_width = int(190 * self.__scaling)
+            self.__navigation_width = int(200 * self.__scaling)
             self.__page = 0
 
             self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
