@@ -4,7 +4,7 @@ Gallerynpy is a Ren'Py script that allows you to display a gallery screen in you
 
 ## Usage
 
-To use Gallerynpy, simply add the script and all resource files to your Ren'Py project and call the "gallerynpy" menu whenever you want to display the gallery screen. You can customize the appearance of the gallery display by modifying the provided screens and styles.
+To use Gallerynpy, simply add the gallerynpy folder to your Ren'Py project and call the "gallerynpy" menu whenever you want to display the gallery screen. You can customize the appearance of the gallery display by modifying the provided screens and styles.
 
 Before displaying the gallerynpy screen you should add some images, animations or videos into the gallerynpy object. I recommend that you do this in a python init block with a high wait number such as 999.
 
@@ -68,6 +68,98 @@ screen main_menu():
     # .......
     # .......
     textbutton _("Gallery") action ShowMenu("gallerynpy")  # this will be show the gallerynpy screen
+```
+
+## Gallerynpy methods
+
+The gallerynpy object has some methods you can use.
+
+```text
+put_image(image, where, song=None, condition=None)
+  Args:
+    image: Can be the filepath to image file or the name of the image declaration.
+    where: The slide where the image will be put.
+    song: The filepath to the song that will be played when image is showed, default is None.
+    condition: The condition for unlock image, default is unlocked.
+    
+put_video(filename, where, thumbnail=None, song=None, condition=None)
+  Args:
+    filename: Must be the filepath to video file.
+    where: The slide where the item video be put.
+    thumbnail: The image name or image path for put as video thumbnail.
+    song: The filepath to the song that will be played when video is played, default is None.
+    condition: The condition for unlock image, default is unlocked.
+    
+put_animation(atl_object, thumbnail_name, where=gallerynpy_properties.animation_slide, song=None, condition=None)
+  Args:
+    atl_object: Must be the name's atl animation block.
+    where: The slide where the animation will be put, default is animations.
+    thumbnail_name: Can be the filepath to image file or the name of the image declaration to set as thumbnail.
+    song: The filepath to the song that will be played when video is played, default is None.
+    condition: The condition for unlock image, default is unlocked.
+    
+change_distribution(rows=None, columns=None)
+  Change the distribution of items on screen.
+  If config.screen_width is lees or equal to __min_screen (default 1280), columns and rows ever are 3
+  I recommend you 3x3 (default) if your game screen width is equal to 1280 or 4x5 if is 1980
+  Use this method before use put methods (put_image, put_video, put_animation).
+  Args:
+      rows: a valid rows number
+      columns: a valid columns number 
+
+change_locked(image)
+  Changes the thumbnail for locked item
+  Args:
+    image: Can be the filepath to image file, the name of the image declaration or a Image object
+  
+change_transition(transition)
+  Change the transition for show item (image and animation)
+  Args:
+    transition: A valid renpy transition object
+  
+slides()
+  Returns the current all slide names
+ 
+change_slide(slide):
+  Changes the current slide.
+  If slide isn't inside the current slides, doesnt change.
+  Args:
+      slide: the new current slide name
+```
+
+## Gallerynpy properties
+For some styles, gallerynpy use some properties from gallerynpy_properties object. I recommend that you change only those shown below.
+
+```text
+font_size
+ A valid font size, it's used for font size on gallerynpy screen.
+ 
+font
+ A valid path to font resource (ttf or otf), it's used as font on gallerynpy screen.
+ 
+color
+ A valid hexadecimal color, it's used for font color on gallerynpy screen.
+ 
+hover_color
+ A valid hexadecimal color, it's used for color when slide names are hovered
+ 
+selected_color
+ A valid hexadecimal color, it's used for color when slide name is selected
+ 
+insensitive_color
+ A valid hexadecimal color, it's used for color when slide name is not selected
+```
+
+## Gallerynpy names
+To display the name of the slide as a text button, gallerynpy tries to use the value inside the gallerynpy_names dictionary if slide is a key of the dictionary. Otherwise the capitalized slide name will be used.
+```renpy
+init 999 python:
+    # ........
+    # ........
+    # after adding all elements, for example, if you have only added elements to img and anim as slides (where) name.
+    # the following will display Images and Animations instead of img and anim as button text
+    gallerynpy_names['img'] = "Images"
+    gallerynpy_names["anim"] = "Animations"
 ```
 
 ## License
