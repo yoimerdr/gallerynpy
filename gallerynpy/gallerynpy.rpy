@@ -233,14 +233,6 @@ init -1 python:
             self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
             self.__max_in_page = self.__columns * self.__rows
         
-        def change_distribution(self, rows=None, columns=None):
-            if rows is not None:
-                self.__rows = rows
-            if columns is not None:
-                self.__columns = columns
-
-            self.__init_distribution()
-
         def __put_item(self, item, where):
             where = str(where)
             if where not in self.__items.keys():
@@ -267,7 +259,7 @@ init -1 python:
             return self.__items[where][index]
 
         def __add_music(self, button, song):
-            button.action = [Play("music", song), button.action]
+            button.action = [Play("music", song), button.action, Stop("music")]
             return button
 
         def __make_playable_button(self, item):
@@ -280,6 +272,21 @@ init -1 python:
 
         def __none_button(self):
             return Button(action=None)
+
+        def change_distribution(self, rows=None, columns=None):
+            """
+            Change the distribution of items on screen.
+            Args:
+                rows: a valid rows number
+                columns: a valid columns number
+            """
+            if rows is not None and rows > 0:
+                self.__rows = rows
+            
+            if columns is not None and columns > 0:
+                self.__columns = columns
+
+            self.__init_distribution()
 
         def change_locked(self, image):
             """
