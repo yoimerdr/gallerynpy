@@ -148,6 +148,12 @@ selected_color
  
 insensitive_color
  A valid hexadecimal color, it's used for color when slide name is not selected
+
+show_pages_bar
+ Set True if you want to show the bar for the overflow slide names
+
+pages_bar_style
+ The style for the bar for the overflow slide names 
 ```
 
 ## Gallerynpy names
@@ -161,6 +167,16 @@ init 999 python:
     gallerynpy_names['img'] = "Images"
     gallerynpy_names["anim"] = "Animations"
 ```
+
+## Example
+The following image is a default gallerynpy screen
+
+<img src="./sample/gallerynpy.png" width="720" alt="gallerynpy screen"/>
+
+Produced by the following code:
+
+<img src="./sample/code.png" width="1606" alt="gallerynpy configure code"/>
+
 
 ## License
 
