@@ -101,7 +101,7 @@ screen gallerynpy_pages():
 
         vbox:
             null height 35
-            use gallerynpy_options  
+            use gallerynpy_options(gallerynpy.return_action())
 
 screen gallerynpy_sliders():
     frame:
