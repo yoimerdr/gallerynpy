@@ -101,6 +101,7 @@ init -1 python:
             self.extension = os.path.splitext(path)[1]
             self.thumbnail_size = thumbnail_size
             self.song = song
+            self.condition = unlocked_condition
 
             if self.extension in GallerynpyExtensions.image_extensions:
                 self.type = GallerynpyTypes.image
@@ -179,6 +180,81 @@ init -1 python:
 
             return self.not_found()
 
+    class GallerynpyBaseSlide:
+        def __init__(self, name, father=None):
+            self._name = name
+            self._father_slider = father
+            self._size = 0
+            self._items = None
+
+        def size(self):
+            return self._size
+
+        def name(self):
+            return str(self._name)
+
+        def father(self):
+            return self._father_slider
+        
+        def __len__(self):
+            return self.size()
+
+        def __str__(self):
+            return self.name()
+
+        def __repr__(self):
+            return self.name().__repr__()
+
+        def __hash__(self):
+            return self.name().__hash__()
+
+        def __iter__(self):
+            if self._items:
+                return self._items.__iter__()
+
+    class GallerynpySlide(GallerynpyBaseSlide):
+        def __init__(self, name, father=None):
+            super().__init__(name, father)
+            self._items = []
+
+        def put(self, item):
+            if isinstance(item, GalleryItem):
+                self._items.append(item)
+                self._size += 1
+
+        def get(self, index):
+            if index >= 0 and index < self.size():
+                return self._items[index]
+            return None
+    
+    class GallerynpySlider(GallerynpyBaseSlide):
+        def __init__(self, name, father=None):
+            super().__init__(name, father)
+            self._items = {}
+
+        def put(self, slide):
+            if isinstance(slide, GallerynpySlide) or isinstance(slide, GallerynpySlider):
+                if slide.name() not in self.slides():
+                    self._items[str(slide)] = slide
+                    self._size += 1
+        
+        def create_slide(self, name):
+            return GallerynpySlide(name, self)
+        
+        def create_slider(self, name):
+            return GallerynpySlider(name, self)
+
+        def get(self, key):
+            if key in self.slides():
+                return self._items[key]
+            return None
+            
+        def slides(self):
+            return self._items.keys()
+
+        def __getitem__(self, key):
+            return self.get(key)
+
 
     class Gallerynpy:
         def __init__(self, columns=3, rows=3, item_width=400, min_screen=1280, min_item_width=270):
@@ -220,8 +296,9 @@ init -1 python:
             self.__gallery.locked_button = self.scale(gallerynpy_properties.locked)      
             self.__video_idle_overlay = self.scale(gallerynpy_properties.play_idle_overlay)
             self.__video_hover_overlay = self.scale(gallerynpy_properties.play_hover_overlay)  
-
-            self.__items = {}
+            
+            self.__sliders = GallerynpySlider("base")
+            self.__current_slider =  self.__sliders
             self.__current_page = gallerynpy_properties.default_slide
             self.__index = 0
         
@@ -237,28 +314,22 @@ init -1 python:
         
         def __put_item(self, item, where):
             where = str(where)
-            if where not in self.__items.keys():
-                self.__items[where] = []
-
-            self.__items[where].append(item)
-            self.__index += 1
+            self.__sliders.put(GallerynpySlide(where, self.__sliders))
+            self.__sliders[where].put(item)
         
         def __create_item(self, filename, song=None):
-            return GalleryItem(
+            item = GalleryItem(
                 'gallerynpy-' + str(self.__index),
                 filename, self.__thumbnail_size, song
             )
+            self.__index += 1
+            return item
 
         def __add_to_gallery(self, item, condition=None):
             self.__gallery.button(item.name)
             self.__gallery.image(item.path)
             if condition and isinstance(condition, str):
                 self.__gallery.condition(condition)
-
-        def __get_item(self, index):
-            if self.__current_page not in self.__items.keys() or index > len(self.__items[self.__current_page]):
-                return None
-            return self.__items[where][index]
 
         def __add_music(self, button, song):
             button.action = [Play("music", song), button.action, Stop("music")]
@@ -272,8 +343,25 @@ init -1 python:
                 fit_first=True, xalign=0.5, yalign=0.5
             )
 
+        def __change_current_slide(self, name, sliders):
+            slider = sliders.get(name)
+            if isinstance(slider, GallerynpySlider):
+                self.__current_slider = slider
+
         def __none_button(self):
             return Button(action=None)
+
+        def __change_to_father(self):
+            self.__current_slider = self.__current_slider.father()
+
+        def __put_slider(self, slider):
+            for name in slider:
+                slide = slider.get(name)
+                if isinstance(slide, GallerynpySlider):
+                    self.__put_slider(slide)
+                else:
+                    for item in slide:
+                        self.__add_to_gallery(item, item.condition)
 
         def change_distribution(self, rows=None, columns=None):
             """
@@ -313,16 +401,8 @@ init -1 python:
                 path: Can be the filepath to image file, the name of the image declaration or a Image object
             """
             return im.Scale(path, self.__thumbnail_size.width, self.__thumbnail_size.height)
-
-        def put_image(self, image, where, song=None, condition=None):
-            """
-            Put a image to gallery
-            Args:
-                image: Can be the filepath to image file or the name of the image declaration.
-                where: The slide where the image will be put.
-                song: The filepath to the song that will be played when image is showed, default is None.
-                condition: The condition for unlock image, default is unlocked.
-            """
+        
+        def create_image(self, image, song=None, condition=None):
             item = self.__create_item(image, song)
             if item.type is None:
                 image = renpy.get_registered_image(image)
@@ -332,10 +412,29 @@ init -1 python:
                     item.path = item.rescale_image()
                     item.thumbnail = item.create_thumbnail()
 
+            return item
+        
+        def put_image(self, image, where, song=None, condition=None):
+            """
+            Put a image to gallery
+            Args:
+                image: Can be the filepath to image file or the name of the image declaration.
+                where: The slide where the image will be put.
+                song: The filepath to the song that will be played when image is showed, default is None.
+                condition: The condition for unlock image, default is unlocked.
+            """
+            item = self.create_image(image, song, condition)
             if item.type == GallerynpyTypes.image:
                 self.__put_item(item, where)
                 self.__add_to_gallery(item, condition)
         
+        def create_video(self, filename, thumbnail=None, song=None, condition=None):
+            item = self.__create_item(filename, song)
+            if item.type == GallerynpyTypes.video:
+                if thumbnail is not None and isinstance(thumbnail, str):
+                    item.thumbnail = item.create_animation_thumbnail(thumbnail)
+            return item
+
         def put_video(self, filename, where, thumbnail=None, song=None, condition=None):
             """
             Put a video to gallery
@@ -346,12 +445,18 @@ init -1 python:
                 song: The filepath to the song that will be played when video is played, default is None.
                 condition: The condition for unlock image, default is unlocked.
             """
-            item = self.__create_item(filename, song)
+            item = self.create_video(filename, thumbnail, song, condition)
             if item.type == GallerynpyTypes.video:
-                if thumbnail is not None and isinstance(thumbnail, str):
-                    item.thumbnail = item.create_animation_thumbnail(thumbnail)
                 self.__put_item(item, where)
                 self.__add_to_gallery(item, condition)
+
+        def create_animation(self, atl_object, thumbnail_name, song=None, condition=None):
+            if not isinstance(atl_object, str) or not isinstance(thumbnail_name, str):
+                return None
+            item = self.__create_item(atl_object, song)
+            item.thumbnail = item.create_animation_thumbnail(thumbnail_name)
+            item.type = GallerynpyTypes.animation
+            return item
 
         def put_animation(self, atl_object, thumbnail_name, where=gallerynpy_properties.animation_slide, song=None, condition=None):
             """
@@ -363,13 +468,20 @@ init -1 python:
                 song: The filepath to the song that will be played when video is played, default is None.
                 condition: The condition for unlock image, default is unlocked.
             """
-            if not isinstance(atl_object, str) or not isinstance(thumbnail_name, str):
-                return
-            item = self.__create_item(atl_object, song)
-            item.thumbnail = item.create_animation_thumbnail(thumbnail_name)
-            item.type = GallerynpyTypes.animation
-            self.__put_item(item, where)
-            self.__add_to_gallery(item, condition)
+            item = self.create_animation(atl_object, thumbnail_name, song, condition)
+            if item is not None:
+                self.__put_item(item, where)
+                self.__add_to_gallery(item, condition)
+
+        def create_slide(self, name):
+            return self.__sliders.create_slide(name)
+
+        def create_slider(self, name):
+            return self.__sliders.create_slider(name)
+        
+        def put_slider(self, slider):
+            self.__put_slider(slider)
+            self.__sliders.put(slider)
 
         def slide_size(self, where):
             """
@@ -378,7 +490,7 @@ init -1 python:
             Args:
                 where: The slide where items where pushed
             """
-            return len(self.__items[where]) if where in self.__items.keys() else 0
+            return len(self.__current_slider[where]) if where in self.__current_slider.slides() else 0
 
         def current_slide_size(self):
             """
@@ -395,9 +507,13 @@ init -1 python:
                 where: The slide where items were pushed
                 index: The index of the item
             """
-            if where not in self.__items.keys() or index < 0 or index > self.slide_size(where):
+            
+            if where not in self.slides() or index < 0 or index > self.slide_size(where):
                 return None
-            return self.__items[where][index]
+            slide = self.__current_slider[where]
+            if not isinstance(slide, GallerynpySlide):
+                return None
+            return slide.get(index)
 
         def current_item_at(self, index):
             """
@@ -523,7 +639,7 @@ init -1 python:
             """
             Returns the current all slide names
             """
-            return self.__items.keys()
+            return self.__current_slider.slides()
 
         def change_slide(self, slide):
             """
@@ -533,7 +649,11 @@ init -1 python:
                 slide: the new current slide name
             """
             if slide in self.slides():
+                self.__change_current_slide(slide, self.__sliders)
+                self.__change_current_slide(slide, self.__current_slider)
                 self.__current_page = slide
+            else:
+                self.__current_slider = self.__sliders
 
         def nav_width(self):
             """
@@ -570,6 +690,12 @@ init -1 python:
                 slide: the slide value
             """
             return self.current_slide() == slide
+
+        def return_action(self):
+            if self.__current_slider != self.__sliders:
+                return [Function(self.update, True), Function(self.__change_to_father)]
+
+            return Return()
             
 
     gallerynpy = Gallerynpy()
