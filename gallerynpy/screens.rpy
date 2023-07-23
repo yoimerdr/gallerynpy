@@ -49,7 +49,9 @@ screen gallerynpy():
 
     ## Layout
     style_prefix "game_menu"
+    add gallerynpy_properties.menu_bg
     add "gallerynpy_bg_overlay"
+    add gallerynpy_properties.menu
     use gallerynpy_rescaling
     text _("Gallerynpy v[gallerynpy_properties.version]"):
         style "gallerynpy_version"

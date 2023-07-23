@@ -80,6 +80,8 @@ init -1 python:
             self.animation_slide = 'animations'
             self.show_pages_bar = False
             self.pages_bar_style = 'vscrollbar'
+            self.menu_bg = Solid("#ffffff00")
+            self.menu = Solid("#ffffff00")
 
 
     gallerynpy_properties = GallerynpyProperties()
