@@ -250,7 +250,7 @@ init -1 python:
         def put(self, item):
             """
             Puts the GallerynpyItem object to the slide.
-            If item is not valid, it is not puted
+            If item is not valid, it is not putted
             Args:
                 item: The GallerynpyItem
             """
@@ -541,7 +541,7 @@ init -1 python:
 
         def make_animation_button(self, item):
             """
-            RReturns the button to display the animation type item.
+            Returns the button to display the animation type item.
             If it is not or item is not an GallerynpyItem, a button with no action will be returned.
             Args:
                 item: The GallerynpyItem

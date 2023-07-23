@@ -75,7 +75,17 @@ screen main_menu():
 The gallerynpy object has some methods you can use.
 
 ```text
+change_distribution(rows=None, columns=None)
+  Changes the distribution of the elements on the gallerynpy screen.
+  If config.screen_width is lees or equal to __min_screen (default 1280), columns and rows ever are 3
+  I recommend you 3x3 (default) if your game screen width is equal to 1280 or 4x5 if is 1980
+  Must be called before put or create methods.
+  Args:
+      rows: a valid rows number
+      columns: a valid columns number 
+
 put_image(image, where, song=None, condition=None)
+  Puts a image to gallery on the base slider and on the the where slide
   Args:
     image: Can be the filepath to image file or the name of the image declaration.
     where: The slide where the image will be put.
@@ -83,50 +93,168 @@ put_image(image, where, song=None, condition=None)
     condition: The condition for unlock image, default is unlocked.
     
 put_video(filename, where, thumbnail=None, song=None, condition=None)
+  Puts a video to gallery on the base slider and on the the where slide
   Args:
     filename: Must be the filepath to video file.
-    where: The slide where the item video be put.
+    where: The slide where the item video will be put.
     thumbnail: The image name or image path for put as video thumbnail.
     song: The filepath to the song that will be played when video is played, default is None.
     condition: The condition for unlock image, default is unlocked.
     
 put_animation(atl_object, thumbnail_name, where=gallerynpy_properties.animation_slide, song=None, condition=None)
+  Puts an animation to gallery on the base slider and on the where slide
   Args:
     atl_object: Must be the name's atl animation block.
     where: The slide where the animation will be put, default is animations.
     thumbnail_name: Can be the filepath to image file or the name of the image declaration to set as thumbnail.
     song: The filepath to the song that will be played when video is played, default is None.
     condition: The condition for unlock image, default is unlocked.
-    
-change_distribution(rows=None, columns=None)
-  Change the distribution of items on screen.
-  If config.screen_width is lees or equal to __min_screen (default 1280), columns and rows ever are 3
-  I recommend you 3x3 (default) if your game screen width is equal to 1280 or 4x5 if is 1980
-  Use this method before use put methods (put_image, put_video, put_animation).
-  Args:
-      rows: a valid rows number
-      columns: a valid columns number 
 
-change_locked(image)
+create_slide(name):
+  Creates a GallerynpySlide object with the specified name and the base slider as its father
+  A slide is basically a list of GallerynpyItem objects.
+  The father is used to know which slider to return to when the Return button is pressed.
+  Args:
+    name: A string variable
+    
+create_slider(name):
+  Creates a GallerynpySlider object with the specified name and the base slider as its father
+  A slider is basically a dict of GallerynpySlide or GallerynpySlider objects.
+  The father is used to know which slider to return to when the Return button is pressed.
+  Args:
+    name: A string variable
+    
+create_image(image, song=None, condition=None):
+  Returns an image GallerynpyItem.
+  You can use the item for put an image GallerynpyItem type in a GallerynpySlide object
+  Args:
+    image: Can be the filepath to image file or the name of the image declaration.
+    song: The filepath to the song that will be played when image is showed, default is None.
+    condition: The condition for unlock image, default is unlocked.
+
+create_video(filename, thumbnail=None, song=None, condition=None):
+  Returns an video GallerynpyItem.
+  You can use the item for put an video GallerynpyItem type in a GallerynpySlide object
+  Args:
+    filename: Must be the filepath to video file.
+    thumbnail: The image name or image path for put as video thumbnail.
+    song: The filepath to the song that will be played when video is played, default is None.
+    condition: The condition for unlock image, default is unlocked.
+
+create_animation(atl_object, thumbnail_name, song=None, condition=None):
+  Returns an animation GallerynpyItem.
+  If atl_object or thumbnail_name are not valid, None is returned.
+  You can use the item for put an animation GallerynpyItem type in a GallerynpySlide object
+  Args:
+    atl_object: Must be the name's atl animation block.
+    thumbnail_name: Can be the filepath to image file or the name of the image declaration to set as thumbnail.
+    song: The filepath to the song that will be played when video is played, default is None.
+    condition: The condition for unlock image, default is unlocked.
+
+put_slider(slider):
+  Puts the valid slider in the gallery.
+  You can use it for put a GallerynpySlider or GallerynpySlide object into the base gallerynpy slider
+  Args:
+      slider: A GallerynpySlider or GallerynpySlide object
+
+change_locked(image):
   Changes the thumbnail for locked item
   Args:
     image: Can be the filepath to image file, the name of the image declaration or a Image object
   
-change_transition(transition)
+change_transition(transition):
   Change the transition for show item (image and animation)
   Args:
     transition: A valid renpy transition object
   
-slides()
+slides():
   Returns the current all slide names
  
 change_slide(slide):
   Changes the current slide.
-  If slide isn't inside the current slides, doesnt change.
+  If slide isn't insde the current slides, doesnt change.
   Args:
-      slide: the new current slide name
+    slide: the new current slide name
 ```
 
+## GallerynpySlide methods
+
+Each slide created with the create_slide method has a some methods that you can use.
+
+```text
+size():
+ Returns the current size
+ Size is the number of items in the slide
+ 
+name():
+ Returns the current name
+
+put(item):
+  Puts the GallerynpyItem object to the slide.
+  If item is not valid, it is not putted
+  Args:
+   item: The GallerynpyItem
+   
+get(index):
+  Returns the GallerynpyItem object in the index.
+  If index is not valid, returns None
+  Args:
+      index: The item index
+      
+clone(self, name=None, include_father=False,):
+  Creates a new GallerynpySlide object with all the current values of this slide and returns it.
+  Args:
+    name: A new name for the new slide, default is the current slider name
+    include_father: If is True, sets the current slider father as father of the new GallerynpySlide
+```
+
+## GallerynpySlider methods
+
+Each slider created with the create_slider method has a some methods that you can use.
+
+```text
+size():
+ Returns the current size
+ Size is the number of items in the slider
+ 
+name():
+ Returns the current name
+ 
+put(slide):
+  Puts the GallerynpySlider or GallerynpySlide object with the their name as the key.
+  The name of the slide must be unique in this slider.
+  If slide is not valid, it is not puted
+  Args:
+    slide: The GallerynpySlider  or GallerynpySlide object
+    
+get(key):
+  Returns the GallerynpySlider or GallerynpySlide object associated with key.
+  If key is not valid, returns None
+  Args:
+    key: The name of the slide or slider
+    
+create_slide(name):
+  Creates a GallerynpySlide object with the specified name and the current slider as its father.
+  The father is used to know which slider to return to when the Return button is pressed.
+  Args:
+      name: A string variable
+      
+create_slider(name):
+  Creates a GallerynpySlider object with the specified name and the current slider as its father.
+  The father is used to know which slider to return to when the Return button is pressed.
+  Args:
+    name: A string variable
+    
+clone(name=None, include_father=True,):
+  Creates a new GallerynpySlider object with all the current values of this slider and returns it.
+  Args:
+    name: A new name for the new slider, default is the current slider name
+    include_father: If is True, sets the current slider as father of the new GallerynpySlider
+
+slides():
+  Returns all slide names.
+``` 
+ 
 ## Gallerynpy properties
 For some styles, gallerynpy use some properties from gallerynpy_properties object. I recommend that you change only those shown below.
 
@@ -149,11 +277,15 @@ selected_color
 insensitive_color
  A valid hexadecimal color, it's used for color when slide name is not selected
 
+frame_color
+  A valid hexadecimal color, it's used for background of the frame where are the buttons
+  
 show_pages_bar
  Set True if you want to show the bar for the overflow slide names
 
 pages_bar_style
- The style for the bar for the overflow slide names 
+ The style for the bar for the overflow slide names
+ 
 ```
 
 ## Gallerynpy names
