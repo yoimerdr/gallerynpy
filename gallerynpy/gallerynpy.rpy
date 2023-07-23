@@ -184,6 +184,13 @@ init -1 python:
             return self.not_found()
 
 
+    def is_gallerynpy_slider(obj):
+        return isinstance(obj, GallerynpySlider)
+
+    def is_gallerynpy_slide(obj):
+        return isinstance(obj, GallerynpySlide)
+
+
     class GallerynpyBaseSlide:
         def __init__(self, name, father=None):
             self._name = name
@@ -248,7 +255,7 @@ init -1 python:
             self._items = {}
 
         def put(self, slide):
-            if isinstance(slide, GallerynpySlide) or isinstance(slide, GallerynpySlider):
+            if is_gallerynpy_slide(slide) or is_gallerynpy_slider(slide):
                 if slide.name() not in self.slides():
                     self._items[str(slide)] = slide
                     self._size += 1
@@ -275,6 +282,8 @@ init -1 python:
 
         def __getitem__(self, key):
             return self.get(key)
+
+
 
 
     class Gallerynpy:
@@ -366,20 +375,26 @@ init -1 python:
 
         def __change_current_slide(self, name, sliders):
             slider = sliders.get(name)
-            if isinstance(slider, GallerynpySlider):
+            if is_gallerynpy_slider(slider):
                 self.__current_slider = slider
 
         def __none_button(self):
             return Button(action=None)
 
+        def __put_slide(self, slide):
+            for item in slide:
+                self.__add_to_gallery(item, item.condition)
+
         def __put_slider(self, slider):
-            for name in slider:
-                slide = slider.get(name)
-                if isinstance(slide, GallerynpySlider):
-                    self.__put_slider(slide)
-                else:
-                    for item in slide:
-                        self.__add_to_gallery(item, item.condition)
+            if is_gallerynpy_slider(slider):
+                for name in slider:
+                    slide = slider.get(name)
+                    if is_gallerynpy_slider(slide):
+                        self.__put_slider(slide)
+                    elif is_gallerynpy_slide(slide):
+                        self.__put_slide(slide)
+            elif is_gallerynpy_slide(slider):
+                self.__put_slide(slider)
 
         def __change_to_father(self):
             self.__current_slider = self.__current_slider.father()
@@ -604,7 +619,7 @@ init -1 python:
             if where not in self.slides() or index < 0 or index > self.slide_size(where):
                 return None
             slide = self.__current_slider[where]
-            if not isinstance(slide, GallerynpySlide):
+            if not is_gallerynpy_slide(slide):
                 return None
             return slide.get(index)
 
