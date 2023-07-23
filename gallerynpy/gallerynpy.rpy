@@ -225,6 +225,10 @@ init -1 python:
         def clone(self, name=None, include_father=False,):
             raise NotImplementedError
 
+        def _change_father(self, father):
+            if is_gallerynpy_slider(father):
+                self._father_slider = father
+
         def __len__(self):
             return self.size()
 
@@ -336,7 +340,11 @@ init -1 python:
             """
             name = name if name else self._name
             slider = GallerynpySlider(name, self if include_father else None)
-            [slider.put(self.get(name).clone(include_father=True)) for name in self.slides()]
+            for name in self.slides():
+                slide = self.get(name).clone()
+                slide._change_father(slider)
+                slider.put(slide)
+
             return slider
 
         def slides(self):
@@ -460,6 +468,8 @@ init -1 python:
 
         def __change_to_father(self):
             self.__current_slider = self.__current_slider.father()
+            if self.__current_slider is None:
+                self.__current_slider = self.__sliders
 
         def create_image(self, image, song=None, condition=None):
             """
@@ -853,7 +863,7 @@ init -1 python:
 
 
     gallerynpy = Gallerynpy()
-    config.log = 'logger.txt'
+    config.log = 'gallerynpy.txt'
 
 init 999 python:
     gallerynpy_names = {}
