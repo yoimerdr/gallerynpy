@@ -46,4 +46,4 @@ style gallerynpy_rescaling:
 style gallerynpy_frame:
     yalign 0.992
     xsize 420
-    background "#0005"
+    background gallerynpy_properties.frame_color

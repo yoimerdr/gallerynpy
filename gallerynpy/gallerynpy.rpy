@@ -50,6 +50,8 @@ init -1 python:
     def gallerynpy_fonts_path(path):
         return gallerynpy_path("fonts/" + path)
 
+    def is_string(obj):
+        return isinstance(obj, str)
 
     class GallerynpyProperties:
         def __init__(self):
@@ -58,7 +60,7 @@ init -1 python:
             self.play_idle_overlay = gallerynpy_images_path("play_idle_overlay.png")
             self.idle_overlay = gallerynpy_images_path("idle_overlay.png")
             self.locked = gallerynpy_images_path("locked.png")
-            self.background_overlay = gallerynpy_images_path("background_overlay.png")
+            self.background_overlay = im.Scale(gallerynpy_images_path("background_overlay.png"), config.screen_width, config.screen_height)
             self.video_thumbnails_extension = ('_thumbnail.' + item for item in ['jpg', 'png'])
             self.thumbnail_folder = gallerynpy_images_path('thumbnails')
             self.common_pages = ['videos', 'animations', 'images']
@@ -72,6 +74,7 @@ init -1 python:
             self.hover_color = "#99ccff"
             self.selected_color = "#99ccff"
             self.insensitive_color = "#ffffff99"
+            self.frame_color = "#0005"
             self.navigation_xpos = 45
             self.spacing = 5
             self.pages_spacing = 0
@@ -124,7 +127,7 @@ init -1 python:
             if not self.type == GallerynpyTypes.image:
                 raise ValueError('the type must be GallerynpyTypes.image')
 
-            image = im.Image(self.path) if isinstance(self.path, str) else self.path
+            image = im.Image(self.path) if is_string(self.path) else self.path
             if persistent.gallerynpy_rescale_image:
                 width, height = image.load().get_size()
                 ratio = width / height
@@ -358,7 +361,7 @@ init -1 python:
         def __add_to_gallery(self, item, condition=None):
             self.__gallery.button(item.name)
             self.__gallery.image(item.path)
-            if condition and isinstance(condition, str):
+            if condition and is_string(condition):
                 self.__gallery.condition(condition)
 
         def __add_music(self, button, song):
@@ -414,12 +417,12 @@ init -1 python:
         def create_video(self, filename, thumbnail=None, song=None, condition=None):
             item = self.__create_item(filename, song)
             if item.type == GallerynpyTypes.video:
-                if thumbnail is not None and isinstance(thumbnail, str):
+                if thumbnail is not None and is_string(thumbnail):
                     item.thumbnail = item.create_animation_thumbnail(thumbnail)
             return item
 
         def create_animation(self, atl_object, thumbnail_name, song=None, condition=None):
-            if not isinstance(atl_object, str) or not isinstance(thumbnail_name, str):
+            if not is_string(atl_object) or not is_string(thumbnail_name):
                 return None
             item = self.__create_item(atl_object, song)
             item.thumbnail = item.create_animation_thumbnail(thumbnail_name)
@@ -467,10 +470,12 @@ init -1 python:
             Args:
                 item: The GallerynpyItem
             """
+            idle = gallerynpy_properties.idle_overlay
+            border = self.scale(idle) if is_string(idle) and idle.endswith(GallerynpyExtensions.image_extensions) else idle
             if item and item.type == GallerynpyTypes.image:
                 button = self.__gallery.make_button(
                     item.name, item.thumbnail,
-                    idle_border=gallerynpy_properties.idle_overlay,
+                    idle_border=border,
                     xalign=0.5, yalign=0.5
                 )
 
