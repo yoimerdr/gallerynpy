@@ -311,12 +311,19 @@ init 999 python:
 ## Example
 The following image is a default gallerynpy screen
 
-<img src="./sample/gallerynpy.png" width="720" alt="gallerynpy screen"/>
+<img src="./sample/base gallerynpy.png" width="720" alt="gallerynpy screen"/>
 
 Produced by the following code:
 
-<img src="./sample/code.png" width="1606" alt="gallerynpy configure code"/>
+<img src="./sample/base code.png" width="1606" alt="gallerynpy configure code"/>
 
+And here are a gallerynpy screen with slides
+
+<img src="./sample/slides gallerynpy.gif" width="720" alt="gallerynpy slides screen"/>
+
+Produced by the following code:
+
+<img src="./sample/slides code.png" width="1514" alt="gallerynpy configure code"/>
 
 ## License
 
