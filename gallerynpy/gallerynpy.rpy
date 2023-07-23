@@ -50,6 +50,7 @@ init -1 python:
     def gallerynpy_fonts_path(path):
         return gallerynpy_path("fonts/" + path)
 
+
     class GallerynpyProperties:
         def __init__(self):
             self.not_found_thumbnail = gallerynpy_images_path("not_found.png")
@@ -64,7 +65,7 @@ init -1 python:
             self.version = '1.2.2'
             self.default_slide = 'images'
 
-            ## The properties below may change 
+            ## The properties below may change
             self.font_size = 15
             self.font = gallerynpy_fonts_path("JetBrainsMono-Bold.ttf")  # can be change for a valid font path
             self.color = "#fff"
@@ -180,6 +181,7 @@ init -1 python:
 
             return self.not_found()
 
+
     class GallerynpyBaseSlide:
         def __init__(self, name, father=None):
             self._name = name
@@ -195,7 +197,10 @@ init -1 python:
 
         def father(self):
             return self._father_slider
-        
+
+        def clone(self, name=None, include_father=False,):
+            raise NotImplementedError
+
         def __len__(self):
             return self.size()
 
@@ -212,6 +217,7 @@ init -1 python:
             if self._items:
                 return self._items.__iter__()
 
+
     class GallerynpySlide(GallerynpyBaseSlide):
         def __init__(self, name, father=None):
             super().__init__(name, father)
@@ -223,10 +229,17 @@ init -1 python:
                 self._size += 1
 
         def get(self, index):
-            if index >= 0 and index < self.size():
+            if 0 <= index < self.size():
                 return self._items[index]
             return None
-    
+
+        def clone(self, name=None, include_father=False,):
+            name = name if name else self._name
+            slide = GallerynpySlide(str(name), self._father_slider if include_father else None)
+            [slide.put(item) for item in self]
+            return slide
+
+
     class GallerynpySlider(GallerynpyBaseSlide):
         def __init__(self, name, father=None):
             super().__init__(name, father)
@@ -237,18 +250,24 @@ init -1 python:
                 if slide.name() not in self.slides():
                     self._items[str(slide)] = slide
                     self._size += 1
-        
-        def create_slide(self, name):
-            return GallerynpySlide(name, self)
-        
-        def create_slider(self, name):
-            return GallerynpySlider(name, self)
 
         def get(self, key):
             if key in self.slides():
                 return self._items[key]
             return None
-            
+
+        def create_slide(self, name):
+            return GallerynpySlide(name, self)
+
+        def create_slider(self, name):
+            return GallerynpySlider(name, self)
+
+        def clone(self, name=None, include_father=True,):
+            name = name if name else self._name
+            slider = GallerynpySlider(name, self if include_father else None)
+            [slider.put(self.get(name).clone(include_father=True)) for name in self.slides()]
+            return slider
+
         def slides(self):
             return self._items.keys()
 
@@ -293,15 +312,15 @@ init -1 python:
             # Gallery
             self.__gallery = Gallery()
             self.__gallery.transition = dissolve
-            self.__gallery.locked_button = self.scale(gallerynpy_properties.locked)      
+            self.__gallery.locked_button = self.scale(gallerynpy_properties.locked)
             self.__video_idle_overlay = self.scale(gallerynpy_properties.play_idle_overlay)
-            self.__video_hover_overlay = self.scale(gallerynpy_properties.play_hover_overlay)  
-            
+            self.__video_hover_overlay = self.scale(gallerynpy_properties.play_hover_overlay)
+
             self.__sliders = GallerynpySlider("base")
             self.__current_slider =  self.__sliders
             self.__current_page = gallerynpy_properties.default_slide
             self.__index = 0
-        
+
         def __init_distribution(self):
             self.__item_width = 400 - 40 * (self.columns() - 3)
             if config.screen_width <= self.__min_screen:
@@ -311,12 +330,12 @@ init -1 python:
 
             self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
             self.__max_in_page = self.__columns * self.__rows
-        
+
         def __put_item(self, item, where):
             where = str(where)
-            self.__sliders.put(GallerynpySlide(where, self.__sliders))
+            self.__sliders.put(GallerynpySlide(where))
             self.__sliders[where].put(item)
-        
+
         def __create_item(self, filename, song=None):
             item = GalleryItem(
                 'gallerynpy-' + str(self.__index),
@@ -338,8 +357,8 @@ init -1 python:
         def __make_playable_button(self, item):
             return self.__gallery.make_button(
                 item.name, item.thumbnail,
-                idle_border=self.__video_idle_overlay, 
-                hover_border=self.__video_hover_overlay, 
+                idle_border=self.__video_idle_overlay,
+                hover_border=self.__video_hover_overlay,
                 fit_first=True, xalign=0.5, yalign=0.5
             )
 
@@ -351,9 +370,6 @@ init -1 python:
         def __none_button(self):
             return Button(action=None)
 
-        def __change_to_father(self):
-            self.__current_slider = self.__current_slider.father()
-
         def __put_slider(self, slider):
             for name in slider:
                 slide = slider.get(name)
@@ -362,6 +378,107 @@ init -1 python:
                 else:
                     for item in slide:
                         self.__add_to_gallery(item, item.condition)
+
+        def __change_to_father(self):
+            self.__current_slider = self.__current_slider.father()
+
+        def create_image(self, image, song=None, condition=None):
+            item = self.__create_item(image, song)
+            if item.type is None:
+                image = renpy.get_registered_image(image)
+                if image:
+                    item.type = GallerynpyTypes.image
+                    item.path = image
+                    item.path = item.rescale_image()
+                    item.thumbnail = item.create_thumbnail()
+
+            return item
+
+        def create_video(self, filename, thumbnail=None, song=None, condition=None):
+            item = self.__create_item(filename, song)
+            if item.type == GallerynpyTypes.video:
+                if thumbnail is not None and isinstance(thumbnail, str):
+                    item.thumbnail = item.create_animation_thumbnail(thumbnail)
+            return item
+
+        def create_animation(self, atl_object, thumbnail_name, song=None, condition=None):
+            if not isinstance(atl_object, str) or not isinstance(thumbnail_name, str):
+                return None
+            item = self.__create_item(atl_object, song)
+            item.thumbnail = item.create_animation_thumbnail(thumbnail_name)
+            item.type = GallerynpyTypes.animation
+            return item
+
+        def create_slide(self, name):
+            return self.__sliders.create_slide(name)
+
+        def create_slider(self, name):
+            return self.__sliders.create_slider(name)
+
+        def put_slider(self, slider):
+            self.__put_slider(slider)
+            self.__sliders.put(slider)
+
+        def make_animation_button(self, item):
+            """
+            Returns the button for show the animation item.
+            Args:
+                item: The GallerynpyItem
+            """
+            if item and item.type == GallerynpyTypes.animation:
+                button = self.__make_playable_button(item)
+                return self.__add_music(button, item.song) if item.song else button
+
+            return self.__none_button()
+
+        def make_video_button(self, item):
+            """
+            Returns the button for show the video item.
+            Args:
+                item: The GallerynpyItem
+            """
+            if item and item.type == GallerynpyTypes.video:
+                button = self.__make_playable_button(item)
+                if button.action is not None:
+                    button.action = Call("gallerynpy_cinema", movie=item.path)
+                return self.__add_music(button, item.song) if item.song else button
+            return self.__none_button()
+
+        def make_image_button(self, item):
+            """
+            Returns the button for show the image item.
+            Args:
+                item: The GallerynpyItem
+            """
+            if item and item.type == GallerynpyTypes.image:
+                button = self.__gallery.make_button(
+                    item.name, item.thumbnail,
+                    idle_border=gallerynpy_properties.idle_overlay,
+                    xalign=0.5, yalign=0.5
+                )
+
+                return self.__add_music(button, item.song) if item.song else button
+            return self.__none_button()
+
+        def make_current_button_at(self, index):
+            """
+            Returns the button for the item at the index in the current slide.
+            If the index is not valid, returns None.
+            Args:
+                index: The index of the item
+            """
+            item = self.current_item_at(index)
+            if item is None:
+                return None
+
+            if item.type == GallerynpyTypes.image:
+                return self.make_image_button(item)
+            elif item.type == GallerynpyTypes.animation:
+                return self.make_animation_button(item)
+            elif item.type == GallerynpyTypes.video:
+                return self.make_video_button(item)
+
+            return None
 
         def change_distribution(self, rows=None, columns=None):
             """
@@ -372,7 +489,7 @@ init -1 python:
             """
             if rows is not None and rows > 0:
                 self.__rows = rows
-            
+
             if columns is not None and columns > 0:
                 self.__columns = columns
 
@@ -401,19 +518,7 @@ init -1 python:
                 path: Can be the filepath to image file, the name of the image declaration or a Image object
             """
             return im.Scale(path, self.__thumbnail_size.width, self.__thumbnail_size.height)
-        
-        def create_image(self, image, song=None, condition=None):
-            item = self.__create_item(image, song)
-            if item.type is None:
-                image = renpy.get_registered_image(image)
-                if image:
-                    item.type = GallerynpyTypes.image
-                    item.path = image
-                    item.path = item.rescale_image()
-                    item.thumbnail = item.create_thumbnail()
 
-            return item
-        
         def put_image(self, image, where, song=None, condition=None):
             """
             Put a image to gallery
@@ -427,13 +532,6 @@ init -1 python:
             if item.type == GallerynpyTypes.image:
                 self.__put_item(item, where)
                 self.__add_to_gallery(item, condition)
-        
-        def create_video(self, filename, thumbnail=None, song=None, condition=None):
-            item = self.__create_item(filename, song)
-            if item.type == GallerynpyTypes.video:
-                if thumbnail is not None and isinstance(thumbnail, str):
-                    item.thumbnail = item.create_animation_thumbnail(thumbnail)
-            return item
 
         def put_video(self, filename, where, thumbnail=None, song=None, condition=None):
             """
@@ -450,14 +548,6 @@ init -1 python:
                 self.__put_item(item, where)
                 self.__add_to_gallery(item, condition)
 
-        def create_animation(self, atl_object, thumbnail_name, song=None, condition=None):
-            if not isinstance(atl_object, str) or not isinstance(thumbnail_name, str):
-                return None
-            item = self.__create_item(atl_object, song)
-            item.thumbnail = item.create_animation_thumbnail(thumbnail_name)
-            item.type = GallerynpyTypes.animation
-            return item
-
         def put_animation(self, atl_object, thumbnail_name, where=gallerynpy_properties.animation_slide, song=None, condition=None):
             """
             Put an animation to gallery
@@ -473,57 +563,6 @@ init -1 python:
                 self.__put_item(item, where)
                 self.__add_to_gallery(item, condition)
 
-        def create_slide(self, name):
-            return self.__sliders.create_slide(name)
-
-        def create_slider(self, name):
-            return self.__sliders.create_slider(name)
-        
-        def put_slider(self, slider):
-            self.__put_slider(slider)
-            self.__sliders.put(slider)
-
-        def slide_size(self, where):
-            """
-            Returns the size of the slide. 
-            If where is not a valid slide, returns 0
-            Args:
-                where: The slide where items where pushed
-            """
-            return len(self.__current_slider[where]) if where in self.__current_slider.slides() else 0
-
-        def current_slide_size(self):
-            """
-            Returns the size of the current slide. 
-            If current slide is not a valid slide, returns 0
-            """
-            return self.slide_size(self.__current_page)
-        
-        def item_at(self, where, index):
-            """
-            Returns the GalleryItem in the index passed from the where slide. 
-            If where slide is not a valid slide or index is a not valid index, returns None
-            Args:
-                where: The slide where items were pushed
-                index: The index of the item
-            """
-            
-            if where not in self.slides() or index < 0 or index > self.slide_size(where):
-                return None
-            slide = self.__current_slider[where]
-            if not isinstance(slide, GallerynpySlide):
-                return None
-            return slide.get(index)
-
-        def current_item_at(self, index):
-            """
-            Returns the GalleryItem in the index passed from the where slide. 
-            If current slide is not a valid slide or index is a not valid index, returns None
-            Args:
-                index: The index of the item
-            """
-            return self.item_at(self.__current_page, index)
-
         def update(self, to_start=False):
             """
             Caltulates the page in current slide
@@ -534,71 +573,51 @@ init -1 python:
                 self.__page = 0
             self.__start = self.__page * self.__max_in_page
             self.__end = min(self.__start + self.__max_in_page - 1, self.current_slide_size() - 1)
-        
-        def make_animation_button(self, item):
+
+        def slide_size(self, where):
             """
-            Returns the button for show the animation item.
+            Returns the size of the slide.
+            If where is not a valid slide, returns 0
             Args:
-                item: The GallerynpyItem
+                where: The slide where items where pushed
             """
-            if item and item.type == GallerynpyTypes.animation:
-                button = self.__make_playable_button(item)
-                return self.__add_music(button, item.song) if item.song else button
-            
-            return self.__none_button()
+            return len(self.__current_slider[where]) if where in self.__current_slider.slides() else 0
 
-        def make_video_button(self, item):
+        def current_slide_size(self):
             """
-            Returns the button for show the video item.
+            Returns the size of the current slide.
+            If current slide is not a valid slide, returns 0
+            """
+            return self.slide_size(self.__current_page)
+
+        def item_at(self, where, index):
+            """
+            Returns the GalleryItem in the index passed from the where slide.
+            If where slide is not a valid slide or index is a not valid index, returns None
             Args:
-                item: The GallerynpyItem
+                where: The slide where items were pushed
+                index: The index of the item
             """
-            if item and item.type == GallerynpyTypes.video:
-                button = self.__make_playable_button(item)
-                if button.action is not None:
-                    button.action = Call("gallerynpy_cinema", movie=item.path)
-                return self.__add_music(button, item.song) if item.song else button
-            return self.__none_button()
 
-        def make_image_button(self, item):
-            """
-            Returns the button for show the image item.
-            Args:
-                item: The GallerynpyItem
-            """
-            if item and item.type == GallerynpyTypes.image:
-                button = self.__gallery.make_button(
-                    item.name, item.thumbnail,
-                    idle_border=gallerynpy_properties.idle_overlay, 
-                    xalign=0.5, yalign=0.5
-                )
+            if where not in self.slides() or index < 0 or index > self.slide_size(where):
+                return None
+            slide = self.__current_slider[where]
+            if not isinstance(slide, GallerynpySlide):
+                return None
+            return slide.get(index)
 
-                return self.__add_music(button, item.song) if item.song else button
-            return self.__none_button()
-
-        def make_current_button_at(self, index):
+        def current_item_at(self, index):
             """
-            Returns the button for the item at the index in the current slide.
-            If the index is not valid, returns None.
+            Returns the GalleryItem in the index passed from the where slide.
+            If current slide is not a valid slide or index is a not valid index, returns None
             Args:
                 index: The index of the item
             """
-            item = self.current_item_at(index)
-            if item is None:
-                return None
-
-            if item.type == GallerynpyTypes.image:
-                return self.make_image_button(item)
-            elif item.type == GallerynpyTypes.animation:
-                return self.make_animation_button(item)
-            elif item.type == GallerynpyTypes.video:
-                return self.make_video_button(item)
-
-            return None
+            return self.item_at(self.__current_page, index)
 
         def is_current_animation_slide(self):
             return self.__current_page.lower() == gallerynpy_properties.animation_slide.lower()
-        
+
         def columns(self):
             """
             Returns the current columns number
@@ -641,20 +660,6 @@ init -1 python:
             """
             return self.__current_slider.slides()
 
-        def change_slide(self, slide):
-            """
-            Changes the current slide.
-            If slide isn't insde the current slides, doesnt change.
-            Args:
-                slide: the new current slide name
-            """
-            if slide in self.slides():
-                self.__change_current_slide(slide, self.__sliders)
-                self.__change_current_slide(slide, self.__current_slider)
-                self.__current_page = slide
-            else:
-                self.__current_slider = self.__sliders
-
         def nav_width(self):
             """
             Returns the navigation width
@@ -666,16 +671,6 @@ init -1 python:
             Returns the current page number
             """
             return self.__page
-
-        def change_page(self, number):
-            """
-            Changes the current page number.
-            If number isnt valid, doesnt change.
-            Args:
-                number: the new page number
-            """
-            if number >= 0 and number * self.max_items() < self.current_slide_size():
-                self.__page = number
 
         def scaling(self):
             """
@@ -696,7 +691,28 @@ init -1 python:
                 return [Function(self.update, True), Function(self.__change_to_father)]
 
             return Return()
-            
+
+        def change_page(self, number):
+            """
+            Changes the current page number.
+            If number isnt valid, doesnt change.
+            Args:
+                number: the new page number
+            """
+            if number >= 0 and number * self.max_items() < self.current_slide_size():
+                self.__page = number
+
+        def change_slide(self, slide):
+            """
+            Changes the current slide.
+            If slide isn't insde the current slides, doesnt change.
+            Args:
+                slide: the new current slide name
+            """
+            if slide in self.slides():
+                self.__change_current_slide(slide, self.__current_slider)
+                self.__current_page = slide
+
 
     gallerynpy = Gallerynpy()
     config.log = 'logger.txt'
