@@ -225,7 +225,11 @@ init -1 python:
         def clone(self, name=None, include_father=False,):
             raise NotImplementedError
 
-        def _change_father(self, father):
+        def change_father(self, father):
+            """
+            Changes the father slider
+            If father is not valid, doesn't changes.
+            """
             if is_gallerynpy_slider(father):
                 self._father_slider = father
 
@@ -342,7 +346,7 @@ init -1 python:
             slider = GallerynpySlider(name, self if include_father else None)
             for name in self.slides():
                 slide = self.get(name).clone()
-                slide._change_father(slider)
+                slide.change_father(slider)
                 slider.put(slide)
 
             return slider

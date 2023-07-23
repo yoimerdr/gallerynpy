@@ -188,6 +188,10 @@ size():
  
 name():
  Returns the current name
+ 
+change_father(father):
+  Changes the father slider
+  If father is not valid, doesn't changes.
 
 put(item):
   Puts the GallerynpyItem object to the slide.
@@ -220,6 +224,10 @@ size():
 name():
  Returns the current name
  
+change_father(father):
+  Changes the father slider
+  If father is not valid, doesn't changes.
+  
 put(slide):
   Puts the GallerynpySlider or GallerynpySlide object with the their name as the key.
   The name of the slide must be unique in this slider.
