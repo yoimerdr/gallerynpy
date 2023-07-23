@@ -2,7 +2,7 @@
 
 Gallerynpy is a Ren'Py script that allows you to display a gallery screen in your visual novel. The gallery screen displays all images, animations and videos that have been inserted into the gallerynpy object.
 
-<div style="text-align: center;">
+<div style="text-align: center;" align="center">
 
 [![Latest Release](https://img.shields.io/github/v/release/Yoimer-Davila/gallerynpy?label=latest%20release)](https://github.com/Yoimer-Davila/gallerynpy/releases/latest)
 </div>
