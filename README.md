@@ -298,7 +298,13 @@ show_pages_bar
 
 pages_bar_style
  The style for the bar for the overflow slide names
- 
+
+menu_bg
+ A displayable element to be added to the gallerynpy menu can be a string or path to a valid image. 
+ If it is an image, remember to rescale it to the game screen size with Im.Scale.
+menu
+ A displayable element to be added to the gallerynpy menu after menu_bg can be a string or path to a valid image. 
+ If it is an image, remember to rescale it to the game screen size with Im.Scale.
 ```
 
 ## Gallerynpy names
