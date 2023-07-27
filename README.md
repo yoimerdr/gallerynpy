@@ -55,7 +55,7 @@ init 999 python:
 
     # You can also change some properties in gallerynpy
     # for specify the initial slide to show
-    gallerynpy.change_slide("images")
+    gallerynpy.change_slide("images") ## Unnecessary, galleynpy will switch to the first slide that is not marked as an animation slide.
     # for show a vertical bar at right of all slides buttons, default doesn't show
     gallerynpy_properties.show_pages_bar = True 
     # changes the thumbnail for locked items, default is images/locked.png
@@ -115,12 +115,13 @@ put_animation(atl_object, thumbnail_name, where=gallerynpy_properties.animation_
     song: The filepath to the song that will be played when video is played, default is None.
     condition: The condition for unlock image, default is unlocked.
 
-create_slide(name):
+create_slide(name, is_animation_slide=False):
   Creates a GallerynpySlide object with the specified name and the base slider as its father
   A slide is basically a list of GallerynpyItem objects.
   The father is used to know which slider to return to when the Return button is pressed.
   Args:
     name: A string variable
+    is_animation_slide: If is True, the slide is marked as an animation slide
     
 create_slider(name):
   Creates a GallerynpySlider object with the specified name and the base slider as its father
@@ -171,6 +172,12 @@ change_transition(transition):
   Change the transition for show item (image and animation)
   Args:
     transition: A valid renpy transition object
+
+to_first_slide(sort=False):
+  Changes the current slide to the first slide in the current slider.
+  If current slider size is 0 or unique slide is marked as animation slide, change to a empty slide.
+  Args:
+    sort: If is True, sort the names list before select the first slide name
   
 slides():
   Returns the current all slide names
@@ -246,11 +253,12 @@ get(key):
   Args:
     key: The name of the slide or slider
     
-create_slide(name):
+create_slide(name, is_animation_slide=False):
   Creates a GallerynpySlide object with the specified name and the current slider as its father.
   The father is used to know which slider to return to when the Return button is pressed.
   Args:
       name: A string variable
+      is_animation_slide: If is True, the slide is marked as an animation slide
       
 create_slider(name):
   Creates a GallerynpySlider object with the specified name and the current slider as its father.
@@ -292,9 +300,24 @@ insensitive_color
 
 frame_color
   A valid hexadecimal color, it's used for background of the frame where are the buttons
+
+frame_yalign
+  A number between 0 and 1 is used to align the axis of frame of the buttons.
+  
+frame_xsize
+  A valid number, is used to the size for the frame of the buttons.
+  
+frame_position
+  Can be l or r letter, is used to decide on which side of the screen the frame of the buttons will be positioned.
+
+frame_content_spacing
+  A valid number, is used for the spacing between the frame of the buttons and the items content
   
 show_pages_bar
  Set True if you want to show the bar for the overflow slide names
+
+sort_slides
+  Set to True if you want to display the slide buttons in alphabetical order.
 
 pages_bar_style
  The style for the bar for the overflow slide names
@@ -302,6 +325,7 @@ pages_bar_style
 menu_bg
  A displayable element to be added to the gallerynpy menu can be a string or path to a valid image. 
  If it is an image, remember to rescale it to the game screen size with Im.Scale.
+ 
 menu
  A displayable element to be added to the gallerynpy menu after menu_bg can be a string or path to a valid image. 
  If it is an image, remember to rescale it to the game screen size with Im.Scale.
