@@ -8,18 +8,21 @@ screen gallerynpy_tooltip(tooltip):
                 xalign 0.5
 
 screen gallerynpy_rescaling():
-    hbox:
-        style_prefix "gallerynpy"
-        style "gallerynpy_rescaling"
-        text "Rescale:"
-        spacing 10
-        textbutton _("Yes"):
-            action [SetVariable("persistent.gallerynpy_rescale_image", True), Call("gallerynpy_rescale")]
-            tooltip "The mod will try to rescale the images to a correct aspect ratio"
+    frame:
+        style 'gallerynpy_rescale_frame'
+        hbox:
+            style_prefix "gallerynpy"
+            style "gallerynpy_rescaling"
+            text "Rescale:":
+                color gallerynpy_properties.color
+            spacing 10
+            textbutton _("Yes"):
+                action [SetVariable("persistent.gallerynpy_rescale_image", True), Call("gallerynpy_rescale")]
+                tooltip "The mod will try to rescale the images to a correct aspect ratio"
 
-        textbutton _("No"):
-            action [SetVariable("persistent.gallerynpy_rescale_image", False), Call("gallerynpy_rescale", True)]
-            tooltip "The mod will not try to rescale the images to a correct aspect ratio"
+            textbutton _("No"):
+                action [SetVariable("persistent.gallerynpy_rescale_image", False), Call("gallerynpy_rescale", True)]
+                tooltip "The mod will not try to rescale the images to a correct aspect ratio"
     use gallerynpy_tooltip(GetTooltip())
 
 
@@ -46,25 +49,31 @@ screen gallerynpy_rescale_screen():
 screen gallerynpy():
     tag menu
     $ gallerynpy.update()
-
     ## Layout
     style_prefix "game_menu"
     add gallerynpy_properties.menu_bg
     add "gallerynpy_bg_overlay"
     add gallerynpy_properties.menu
-    use gallerynpy_rescaling
     text _("Gallerynpy v[gallerynpy_properties.version]"):
         style "gallerynpy_version"
     hbox:
-        use gallerynpy_sliders
-        use gallerynpy_content
+        spacing gallerynpy_properties.frame_content_spacing
+        if gallerynpy_properties.frame_position == 'r':
+            use gallerynpy_content
+            use gallerynpy_sliders
+        else:
+            use gallerynpy_sliders
+            use gallerynpy_content
+
+    use gallerynpy_rescaling
 
 
 screen gallerynpy_content():
     grid gallerynpy.columns() gallerynpy.rows():
-        xfill True
         yfill True
-        
+        xfill gallerynpy_properties.frame_position != 'r'
+        if gallerynpy_properties.frame_position == 'r':
+            xspacing gallerynpy_properties.item_xspacing
         for index in range(gallerynpy.start(), gallerynpy.end() + 1):
             $ item = gallerynpy.make_current_button_at(index)
             if item:
@@ -75,7 +84,7 @@ screen gallerynpy_content():
             null
 
 screen gallerynpy_pages():
-    side "c r b":
+    side "c " + gallerynpy_properties.pages_bar_position + " b":
         spacing gallerynpy_properties.pages_spacing
         viewport:
             ysize gallerynpy_properties.pages_ysize
@@ -86,14 +95,14 @@ screen gallerynpy_pages():
                 yadjustment gallerynpy_properties.adjustment
 
             has vbox
-            for name in gallerynpy.slides():
+            for name in gallerynpy.slides(gallerynpy_properties.sort_slides):
                 if gallerynpy.slide_size(name) > 0:
                     $ item = gallerynpy_names[name] if name in gallerynpy_names.keys() else name.capitalize()
                     textbutton _("[item!t]"):
                         selected gallerynpy.is_current_slide(name)
                         action [Function(gallerynpy.update, True), Function(gallerynpy.change_slide, name)]
 
-        
+
         if gallerynpy_properties.show_pages_bar:
             bar:
                 adjustment gallerynpy_properties.adjustment
@@ -108,15 +117,13 @@ screen gallerynpy_pages():
 screen gallerynpy_sliders():
     frame:
         style "gallerynpy_frame"
-        xsize gallerynpy.nav_width()
         has vbox
-        yalign 0.9
         style_prefix "gallerynpy"
-        xpos gallerynpy_properties.navigation_xpos
+        xpos gallerynpy_properties.frame_xpos
         spacing gallerynpy_properties.spacing
         if persistent.gallerynpy_spedded and gallerynpy.is_current_animation_slide():
             use gallerynpy_anim_speeds
-            use gallerynpy_options([Function(gallerynpy.update, True), Function(gallerynpy.change_slide, gallerynpy_properties.default_slide)])
+            use gallerynpy_options(gallerynpy.return_action(True))
         else:
             use gallerynpy_pages 
             

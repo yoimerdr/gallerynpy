@@ -64,27 +64,51 @@ init -1 python:
             self.video_thumbnails_extension = ('_thumbnail.' + item for item in ['jpg', 'png'])
             self.thumbnail_folder = gallerynpy_images_path('thumbnails')
             self.common_pages = ['videos', 'animations', 'images']
-            self.version = '1.4.2'
+            self.version = '1.4.5'
             self.default_slide = 'images'
 
             ## The properties below may change
-            self.font_size = 15
+            self.font_size = 20
             self.font = gallerynpy_fonts_path("JetBrainsMono-Bold.ttf")  # can be change for a valid font path
             self.color = "#fff"
             self.hover_color = "#99ccff"
             self.selected_color = "#99ccff"
             self.insensitive_color = "#ffffff99"
+
+            # frame options properties
             self.frame_color = "#0005"
-            self.navigation_xpos = 45
+            self.frame_yalign = 0.992
+            self.frame_xsize = 420
+            self.frame_position = 'l'
+            self.frame_xpos = 45
+            self.frame_content_spacing = 0
+
+            # item properties
+            self.item_xspacing = 10
+
             self.spacing = 5
+            self.navigation_xpos = 45
+
             self.pages_spacing = 0
             self.pages_ysize = 120
             self.adjustment = ui.adjustment()
             self.animation_slide = 'animations'
             self.show_pages_bar = False
+            self.pages_bar_position = 'r'
             self.pages_bar_style = 'vscrollbar'
             self.menu_bg = Solid("#ffffff00")
             self.menu = Solid("#ffffff00")
+            self.sort_slides = False
+
+
+        def validate(self,):
+            if self.pages_bar_position not in ('l', 'r'):
+                self.pages_bar_position = 'r'
+            if self.frame_position not in ('l', 'r'):
+                self.frame_position = 'l'
+            if self.frame_yalign < 0 or self.frame_yalign > 1:
+                self.frame_yalign = 0.992
+
 
 
     gallerynpy_properties = GallerynpyProperties()
@@ -198,11 +222,12 @@ init -1 python:
 
 
     class GallerynpyBaseSlide:
-        def __init__(self, name, father=None):
+        def __init__(self, name, father=None, is_animation_slide=False):
             self._name = str(name)
             self._father_slider = father
             self._size = 0
             self._items = None
+            self._is_anim_slide = is_animation_slide
 
         def size(self):
             """
@@ -221,6 +246,12 @@ init -1 python:
             Returns the current father
             """
             return self._father_slider
+
+        def is_animation_slide(self):
+            """
+            Returns if slide is marked as animation slide.
+            """
+            return self._is_anim_slide
 
         def clone(self, name=None, include_father=False,):
             raise NotImplementedError
@@ -251,8 +282,8 @@ init -1 python:
 
 
     class GallerynpySlide(GallerynpyBaseSlide):
-        def __init__(self, name, father=None):
-            super().__init__(name, father)
+        def __init__(self, name, father=None, is_animation_slide=False):
+            super().__init__(name, father, is_animation_slide)
             self._items = []
 
         def put(self, item):
@@ -285,7 +316,7 @@ init -1 python:
                 include_father: If is True, sets the current slider father as father of the new GallerynpySlide
             """
             name = name if name else self._name
-            slide = GallerynpySlide(str(name), self._father_slider if include_father else None)
+            slide = GallerynpySlide(str(name), self._father_slider if include_father else None, self._is_anim_slide)
             [slide.put(item) for item in self]
             return slide
 
@@ -319,13 +350,14 @@ init -1 python:
                 return self._items[key]
             return None
 
-        def create_slide(self, name):
+        def create_slide(self, name, is_animation_slide=False):
             """
             Creates a GallerynpySlide object with the specified name and the current slider as its father
             Args:
                 name: A string variable
+                is_animation_slide: If is True, the slide is marked as an animation slide
             """
-            return GallerynpySlide(name, self)
+            return GallerynpySlide(name, self, is_animation_slide)
 
         def create_slider(self, name):
             """
@@ -351,11 +383,16 @@ init -1 python:
 
             return slider
 
-        def slides(self):
+        def slides(self, sort=False):
             """
-            Returns all slide names.
+            Returns all slide names
+            Args:
+                sort: If is True, sort the list before return it.
             """
-            return self._items.keys()
+            names = list(self._items.keys())
+            if sort:
+                names.sort()
+            return names
 
         def __getitem__(self, key):
             return self.get(key)
@@ -409,8 +446,11 @@ init -1 python:
             self.__current_page = gallerynpy_properties.default_slide
             self.__index = 0
 
+            gallerynpy_properties.frame_xsize = self.nav_width()
+
         def __init_distribution(self):
-            self.__item_width = 400 - 40 * (self.columns() - 3)
+            self.__item_width = (config.screen_width - gallerynpy_properties.frame_xsize - gallerynpy_properties.frame_content_spacing - 10 * (self.columns() - 3)) / self.columns()
+
             if config.screen_width <= self.__min_screen:
                 self.__columns = 3 if self.__columns > 3 else self.__columns
                 self.__rows = 3 if self.__rows > 3 else self.__rows
@@ -418,10 +458,14 @@ init -1 python:
 
             self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
             self.__max_in_page = self.__columns * self.__rows
+            self.__gallery.locked_button = self.scale(gallerynpy_properties.locked)
+            self.__video_idle_overlay = self.scale(gallerynpy_properties.play_idle_overlay)
+            self.__video_hover_overlay = self.scale(gallerynpy_properties.play_hover_overlay)
 
-        def __put_item(self, item, where):
+
+        def __put_item(self, item, where, is_animation_slide=False):
             where = str(where)
-            self.__sliders.put(GallerynpySlide(where))
+            self.__sliders.put(GallerynpySlide(where, is_animation_slide=is_animation_slide))
             self.__sliders[where].put(item)
 
         def __create_item(self, filename, song=None):
@@ -451,6 +495,8 @@ init -1 python:
             slider = sliders.get(name)
             if is_gallerynpy_slider(slider):
                 self.__current_slider = slider
+                return True
+            return False
 
         def __none_button(self):
             return Button(action=None)
@@ -470,10 +516,22 @@ init -1 python:
             elif is_gallerynpy_slide(slider):
                 self.__put_slide(slider)
 
+        def __empty_slide(self):
+            self.__current_page = ""
+
         def __change_to_father(self):
             self.__current_slider = self.__current_slider.father()
             if self.__current_slider is None:
                 self.__current_slider = self.__sliders
+            self.to_first_slide()
+
+        def __slide(self, where):
+            if where not in self.slides():
+                return None
+            return self.__current_slider[where]
+
+        def __current_slide(self):
+            return self.__slide(self.__current_page)
 
         def create_image(self, image, song=None, condition=None):
             """
@@ -526,13 +584,14 @@ init -1 python:
             item.type = GallerynpyTypes.animation
             return item
 
-        def create_slide(self, name):
+        def create_slide(self, name, is_animation_slide=False):
             """
             Creates a GallerynpySlide object with the specified name and the base slider as its father
             Args:
                 name: A string variable
+                is_animation_slide: If is True, the slide is marked as an animation slide
             """
-            return self.__sliders.create_slide(name)
+            return self.__sliders.create_slide(name, is_animation_slide)
 
         def create_slider(self, name):
             """
@@ -694,7 +753,7 @@ init -1 python:
                 self.__put_item(item, where)
                 self.__add_to_gallery(item, condition)
 
-        def put_animation(self, atl_object, thumbnail_name, where=gallerynpy_properties.animation_slide, song=None, condition=None):
+        def put_animation(self, atl_object, thumbnail_name, where=gallerynpy_properties.animation_slide, song=None, condition=None, is_animation_slide=True):
             """
             Puts an animation to gallery on the base slider and on the where slide
             Args:
@@ -706,7 +765,7 @@ init -1 python:
             """
             item = self.create_animation(atl_object, thumbnail_name, song, condition)
             if item is not None:
-                self.__put_item(item, where)
+                self.__put_item(item, where, is_animation_slide)
                 self.__add_to_gallery(item, condition)
 
         def update(self, to_start=False):
@@ -715,6 +774,7 @@ init -1 python:
             Args:
                 to_start: If True, back to the zero page in current slide.
             """
+            gallerynpy_properties.validate()
             if to_start:
                 self.__page = 0
             self.__start = self.__page * self.__max_in_page
@@ -761,11 +821,14 @@ init -1 python:
             """
             return self.item_at(self.__current_page, index)
 
-        def is_current_animation_slide(self):
+        def is_current_animation_slide(self,):
             """
             Returns True if current slide name is equal to gallerynpy_properties.animation_slide
             """
-            return self.__current_page.lower() == gallerynpy_properties.animation_slide.lower()
+            slide = self.__current_slide()
+            if not is_gallerynpy_slide(slide):
+                return False
+            return slide.is_animation_slide()
 
         def columns(self):
             """
@@ -803,11 +866,13 @@ init -1 python:
             """
             return self.__max_in_page
 
-        def slides(self):
+        def slides(self, sort=False):
             """
             Returns the current all slide names
+            Args:
+                sort: If is True, sort the list before return it.
             """
-            return self.__current_slider.slides()
+            return self.__current_slider.slides(sort)
 
         def nav_width(self):
             """
@@ -835,12 +900,15 @@ init -1 python:
             """
             return self.current_slide() == slide
 
-        def return_action(self):
+        def return_action(self, from_animation_options=False):
             """
             Returns the action for the back button on the current slider
             """
-            if self.__current_slider != self.__sliders:
+            if not from_animation_options and self.__current_slider != self.__sliders:
                 return [Function(self.update, True), Function(self.__change_to_father)]
+
+            if from_animation_options and self.is_current_animation_slide():
+                return [Function(self.update, True), Function(self.to_first_slide)]
 
             return Return()
 
@@ -854,6 +922,27 @@ init -1 python:
             if number >= 0 and number * self.max_items() < self.current_slide_size():
                 self.__page = number
 
+        def to_first_slide(self, sort=False):
+            """
+            Changes the current slide to the first slide in the current slider.
+            If current slider size is 0 or unique slide is is_current_animation_slide, change to a empty slide.
+            Args:
+                sort: If is True, sort the names list before select the first slide name
+            """
+            names = self.slides()
+            if names:
+                size = len(names)
+                if sort:
+                    names.sort()
+
+                for name in names:
+                    slide = self.__slide(name)
+                    if is_gallerynpy_slide(slide) and not slide.is_animation_slide():
+                        self.change_slide(name)
+                        return
+
+                self.__empty_slide()
+
         def change_slide(self, slide):
             """
             Changes the current slide.
@@ -862,14 +951,15 @@ init -1 python:
                 slide: the new current slide name
             """
             if slide in self.slides():
-                self.__change_current_slide(slide, self.__current_slider)
-                self.__current_page = slide
+                if self.__change_current_slide(slide, self.__current_slider):
+                    self.to_first_slide()
+                else:
+                    self.__current_page = slide
 
 
     gallerynpy = Gallerynpy()
     config.log = 'gallerynpy.txt'
 
-init 999 python:
+init 1999 python:
+    gallerynpy.to_first_slide(True)
     gallerynpy_names = {}
-    for name in gallerynpy.slides():
-        gallerynpy_names[name] = name.capitalize()

@@ -44,6 +44,11 @@ style gallerynpy_rescaling:
     xpos gallerynpy_properties.navigation_xpos
 
 style gallerynpy_frame:
-    yalign 0.992
-    xsize 420
+    yalign gallerynpy_properties.frame_yalign
+    xsize gallerynpy_properties.frame_xsize
     background gallerynpy_properties.frame_color
+
+style gallerynpy_rescale_frame is gallerynpy_frame
+
+style gallerynpy_rescale_frame:
+    yalign 0.0
