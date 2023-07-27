@@ -81,7 +81,7 @@ init -1 python:
             self.frame_xsize = 420
             self.frame_position = 'l'
             self.frame_xpos = 45
-            self.frame_content_spacing = 50
+            self.frame_content_spacing = 10
 
             # item properties
             self.item_xspacing = 10
@@ -94,8 +94,18 @@ init -1 python:
             self.adjustment = ui.adjustment()
             self.animation_slide = 'animations'
             self.show_pages_bar = False
+
             self.pages_bar_position = 'r'
-            self.pages_bar_style = 'vscrollbar'
+            self.pages_bar_style = 'vscrollbar'  # No longer used
+            self.pages_bar_xsize = 20
+            if config.screen_width <= 1280:
+                self.pages_bar_xsize = 15
+            self.pages_bar_xpos = self.pages_bar_xsize * 2
+            
+
+            if config.screen_width <= 1280:
+                self.pages_bar_xpos += 10
+            
             self.menu_bg = Solid("#ffffff00")
             self.menu = Solid("#ffffff00")
             self.sort_slides = False
@@ -419,7 +429,7 @@ init -1 python:
 
             self.__navigation_width = int(290 * self.__scaling)
             if config.screen_width <= self.__min_screen:
-                self.__navigation_width = int(240 * self.__scaling)
+                self.__navigation_width = int(260 * self.__scaling)
 
             gallerynpy_properties.frame_xsize = self.nav_width()
             self.__item_width = self._item_width()

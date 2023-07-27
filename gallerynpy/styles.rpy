@@ -52,3 +52,9 @@ style gallerynpy_rescale_frame is gallerynpy_frame
 
 style gallerynpy_rescale_frame:
     yalign 0.0
+
+style gallerynpy_vscrollbar is vscrollbar
+
+style gallerynpy_vscrollbar:
+    xsize gallerynpy_properties.pages_bar_xsize
+    xpos -gallerynpy_properties.pages_bar_xpos

@@ -86,7 +86,7 @@ screen gallerynpy_content():
 screen gallerynpy_pages():
     side "c " + gallerynpy_properties.pages_bar_position + " b":
         spacing gallerynpy_properties.pages_spacing
-        viewport:
+        viewport id "gallerynpy_pages":
             ysize gallerynpy_properties.pages_ysize
             mousewheel True
             draggable True
@@ -102,11 +102,11 @@ screen gallerynpy_pages():
                         selected gallerynpy.is_current_slide(name)
                         action [Function(gallerynpy.update, True), Function(gallerynpy.change_slide, name)]
 
-
+        
         if gallerynpy_properties.show_pages_bar:
-            bar:
-                adjustment gallerynpy_properties.adjustment
-                style "vscrollbar"
+            vbar:
+                value YScrollValue("gallerynpy_pages")
+                style "gallerynpy_vscrollbar"
         else:
             null
 
