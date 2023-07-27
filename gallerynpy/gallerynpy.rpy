@@ -81,7 +81,7 @@ init -1 python:
             self.frame_xsize = 420
             self.frame_position = 'l'
             self.frame_xpos = 45
-            self.frame_content_spacing = 0
+            self.frame_content_spacing = 50
 
             # item properties
             self.item_xspacing = 10
@@ -399,37 +399,37 @@ init -1 python:
 
 
 
-
     class Gallerynpy:
-        def __init__(self, columns=3, rows=3, item_width=400, min_screen=1280, min_item_width=270):
+        def __init__(self, columns=3, rows=3, item_width=None, min_screen=1280):
             """
             constructor for Gallerynpy
             Args:
                 columns: The number of columns in a slide.
                 rows: The number of rows in a slide.
-                item_width: thumbnail width for each GallerynpyItem.
-                min_screen: The min config screen size to set item_width to min_item_width and columns and rows to 3
-                min_item_width: The min thumbnail size if confing.screen_width is lower than min_screen
+                item_width: thumbnail width for each GallerynpyItem. No longer used.
+                min_screen: The min config screen size
             """
             # navigation configuration
             self.__start = 0
             self.__end = 0
             self.__columns = columns
             self.__rows = rows
-            self.__item_width = item_width
-            self.__item_min_width = min_item_width
             self.__min_screen = min_screen
+            self.__scaling = config.screen_width / float(self.__min_screen)
+
+            self.__navigation_width = int(290 * self.__scaling)
+            if config.screen_width <= self.__min_screen:
+                self.__navigation_width = int(240 * self.__scaling)
+
+            gallerynpy_properties.frame_xsize = self.nav_width()
+            self.__item_width = self._item_width()
+
+            self.__page = 0
 
             if config.screen_width <= self.__min_screen:
                 self.__columns = 3 if self.__columns > 3 else self.__columns
                 self.__rows = 3 if self.__rows > 3 else self.__rows
-                self.__item_width = self.__item_min_width
-
-            self.__scaling = config.screen_width / float(self.__min_screen)
-            self.__navigation_width = int(290 * self.__scaling)
-            if config.screen_width <= self.__min_screen:
-                self.__navigation_width = int(240 * self.__scaling)
-            self.__page = 0
+                self.__item_width = self._item_width()
 
             self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
             self.__max_in_page = self.__columns * self.__rows  # number of items in one page
@@ -443,18 +443,22 @@ init -1 python:
 
             self.__sliders = GallerynpySlider("base")
             self.__current_slider =  self.__sliders
-            self.__current_page = gallerynpy_properties.default_slide
+            self.__current_page = ""
             self.__index = 0
 
-            gallerynpy_properties.frame_xsize = self.nav_width()
+        def _item_width(self,):
+            spacing_size = gallerynpy_properties.item_xspacing * (self.columns() - 1)
+            screen = config.screen_width - gallerynpy_properties.frame_xsize - gallerynpy_properties.frame_content_spacing
+
+            return (screen - spacing_size) / self.columns()
 
         def __init_distribution(self):
-            self.__item_width = (config.screen_width - gallerynpy_properties.frame_xsize - gallerynpy_properties.frame_content_spacing - 10 * (self.columns() - 3)) / self.columns()
+            self.__item_width = self._item_width()
 
             if config.screen_width <= self.__min_screen:
                 self.__columns = 3 if self.__columns > 3 else self.__columns
                 self.__rows = 3 if self.__rows > 3 else self.__rows
-                self.__item_width = self.__item_min_width
+                self.__item_width = self._item_width()
 
             self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
             self.__max_in_page = self.__columns * self.__rows
@@ -692,10 +696,10 @@ init -1 python:
                 rows: a valid rows number
                 columns: a valid columns number
             """
-            if rows is not None and rows > 0:
+            if rows is not None and rows > 0 and rows != self.__rows:
                 self.__rows = rows
 
-            if columns is not None and columns > 0:
+            if columns is not None and columns > 0 and columns != self.__columns:
                 self.__columns = columns
 
             self.__init_distribution()
@@ -762,6 +766,7 @@ init -1 python:
                 thumbnail_name: Can be the filepath to image file or the name of the image declaration to set as thumbnail.
                 song: The filepath to the song that will be played when video is played, default is None.
                 condition: The condition for unlock image, default is unlocked.
+                is_animation_slide: If is True, mark the where slide as animation slide
             """
             item = self.create_animation(atl_object, thumbnail_name, song, condition)
             if item is not None:
@@ -823,7 +828,7 @@ init -1 python:
 
         def is_current_animation_slide(self,):
             """
-            Returns True if current slide name is equal to gallerynpy_properties.animation_slide
+            Returns True if current slide name is marked as animation slide
             """
             slide = self.__current_slide()
             if not is_gallerynpy_slide(slide):
@@ -937,7 +942,7 @@ init -1 python:
 
                 for name in names:
                     slide = self.__slide(name)
-                    if is_gallerynpy_slide(slide) and not slide.is_animation_slide():
+                    if is_gallerynpy_slide(slide) and not (persistent.gallerynpy_spedded and slide.is_animation_slide()):
                         self.change_slide(name)
                         return
 
