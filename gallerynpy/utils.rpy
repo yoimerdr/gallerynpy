@@ -54,6 +54,9 @@ init -3 python:
     def gallerynpy_images_path(path):
         return gallerynpy_path(renpy_join("images", path))
 
+    def images_path(path):
+        return renpy_join("images", path)
+
     def gallerynpy_fonts_path(path):
         return gallerynpy_path(renpy_join("fonts", path))
 

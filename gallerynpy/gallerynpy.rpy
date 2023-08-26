@@ -22,12 +22,12 @@ init -1 python:
             self.locked = gallerynpy_images_path("locked.png")
             self.background_overlay = im.Scale(gallerynpy_images_path("background_overlay.png"), config.screen_width, config.screen_height)
             self.video_thumbnails_extension = tuple('_thumbnail.' + item for item in ['jpg', 'png'])
-            self.thumbnail_folder = gallerynpy_images_path('thumbnails')
             self.common_pages = ['videos', 'animations', 'images']
             self.version = '1.6'
             self.default_slide = 'images'
 
             ## The properties below may change
+            self.thumbnail_folder = images_path(renpy_join("gallerynpy", "thumbnails"))
             self.font_size = 20
             self.font = gallerynpy_fonts_path("JetBrainsMono-Bold.ttf")  # can be change for a valid font path
             self.color = "#fff"
@@ -75,7 +75,7 @@ init -1 python:
             if is_string(self.idle_overlay):
                 if not is_image_loadable(self.idle_overlay):
                     image = renpy.get_registered_image(self.idle_overlay)
-                    self.idle_overlay = image if is_image(image) else gallerynpy_images_path("play_idle_overlay.png")
+                    self.idle_overlay = image if is_image(image) else gallerynpy_images_path("idle_overlay.png")
                 self.idle_overlay = gallerynpy.scale(self.idle_overlay)
 
         def validate(self,):
@@ -240,6 +240,9 @@ init -1 python:
             return im.Scale(path, self.thumbnail_size.width, self.thumbnail_size.height)
 
         def change_size(self, size):
+            """
+            Change the current size and rescale the thumbnail and image
+            """
             if is_gallerynpy_size(size) and size != self.thumbnail_size:
                 self.thumbnail_size = size
                 if self.type == GallerynpyTypes.image:
@@ -247,6 +250,9 @@ init -1 python:
                 self.thumbnail = self.create_thumbnail()
 
         def set_custom_thumbnail(self, thumbnail):
+            """
+            Change the thumbnail image
+            """
             if is_string(thumbnail):
                 if is_image_loadable(thumbnail):
                     self.image_size = self.__custom_thumbnail_size(thumbnail)

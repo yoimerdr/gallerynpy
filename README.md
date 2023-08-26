@@ -314,10 +314,14 @@ frame_content_spacing
   A valid number, is used for the spacing between the frame of the buttons and the items content
   
 show_pages_bar
- Set True if you want to show the bar for the overflow slide names
+  Set True if you want to show the bar for the overflow slide names
 
 sort_slides
   Set to True if you want to display the slide buttons in alphabetical order.
+
+thumbnail_folder
+  folder where you will look for the images for the videos with _thumbnail at the end of the name (.jpg, .png) 
+  default is images/gallerynpy/thumbnails, set before put video
 
 pages_bar_style
  The style for the bar for the overflow slide names
