@@ -14,13 +14,13 @@ init -3 python:
 
     def is_animation(obj):
         return isinstance(obj, renpy_module.display.transform.ATLTransform)
-
+    
     def is_video_loadable(path):
         return is_string(path) and path.endswith(GallerynpyExtensions.video_extensions) and renpy.loadable(path)
 
     def is_image_loadable(path):
         return is_string(path) and path.endswith(GallerynpyExtensions.image_extensions) and renpy.loadable(path)
-
+    
     def is_image_path(path):
         try:
             head, tail = os.path.splitext(path)
@@ -32,7 +32,7 @@ init -3 python:
 
     def game_fullpath():
         return join_paths(renpy_module.config.basedir, "game")
-
+    
     def exists_path(path):
         return os.path.exists(path)
 
@@ -41,7 +41,7 @@ init -3 python:
 
     def join_paths(first, second):
         return os.path.join(first, second)
-
+    
     def renpy_join(first, second):
         return first + "/" + second
 
@@ -71,7 +71,7 @@ init -3 python:
 
     def is_gallerynpy_item(obj):
         return isinstance(obj, GallerynpyItem)
-
+    
     class GallerynpySize:
         def __init__(self, width, height):
             self.width = width
@@ -110,8 +110,8 @@ init -3 python:
             try:
                 self.__sizes = json_module.load(renpy.file(renpy_path(self.__source), encoding="utf-8"))
             except:
-                pass
-
+                pass   
+        
         def __file(self, mode='r'):
             return open(join_paths(game_fullpath(), self.__source), mode=mode, encoding='utf-8')
 

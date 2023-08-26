@@ -7,44 +7,6 @@ screen gallerynpy_tooltip(tooltip):
             text "[tooltip!t]":
                 xalign 0.5
 
-screen gallerynpy_rescaling():
-    frame:
-        style 'gallerynpy_rescale_frame'
-        hbox:
-            style_prefix "gallerynpy"
-            style "gallerynpy_rescaling"
-            text "Rescale:":
-                color gallerynpy_properties.color
-            spacing 10
-            textbutton _("Yes"):
-                action [SetVariable("persistent.gallerynpy_rescale_image", True), Call("gallerynpy_rescale")]
-                tooltip "The mod will try to rescale the images to a correct aspect ratio"
-
-            textbutton _("No"):
-                action [SetVariable("persistent.gallerynpy_rescale_image", False), Call("gallerynpy_rescale", True)]
-                tooltip "The mod will not try to rescale the images to a correct aspect ratio"
-    use gallerynpy_tooltip(GetTooltip())
-
-
-screen gallerynpy_rescale_screen():
-    vbox:
-        style_prefix "gallerynpy"
-        style "gallerynpy"
-        text "This option may affect the performance of the game at startup, since at startup" xalign 0.5
-        text "the mod will try to rescale ALL IMAGES to a proper ratio and this can be slow." xalign 0.5
-        text "For this option to do its job, you have to exit the game and re-enter." xalign 0.5
-        text "Accept this option at your own risk." xalign 0.5
-        text "This screen will not appear again either.\n" xalign 0.5
-
-        hbox:
-            style_prefix "gallerynpy"
-            style "gallerynpy"
-            textbutton _("Accept"):
-                align(0.4,0.54)
-                action [SetVariable("persistent.gallerynpy_rescale_screen", True), Call('gallerynpy_rescale')]
-            textbutton _("Cancel"):
-                align(0.6,0.54)
-                action [Call("gallerynpy_rescale", True)]
 
 screen gallerynpy():
     tag menu
@@ -64,8 +26,8 @@ screen gallerynpy():
         else:
             use gallerynpy_sliders
             use gallerynpy_content
-
-    use gallerynpy_rescaling
+            
+    use gallerynpy_tooltip(gallerynpy.tooltip()) 
 
 
 screen gallerynpy_content():
@@ -75,11 +37,8 @@ screen gallerynpy_content():
         if gallerynpy_properties.frame_position == 'r':
             xspacing gallerynpy_properties.item_xspacing
         for index in range(gallerynpy.start(), gallerynpy.end() + 1):
-            $ item = gallerynpy.make_current_button_at(index)
-            if item:
-                add item
-            else:
-                null
+            add gallerynpy.make_current_button_at(index)
+            
         for index in range(gallerynpy.end() - gallerynpy.start() + 1, gallerynpy.max_items()):
             null
 
@@ -126,7 +85,7 @@ screen gallerynpy_sliders():
             use gallerynpy_options(gallerynpy.return_action(True))
         else:
             use gallerynpy_pages 
-            
+         
 
 
 screen gallerynpy_options(return_action=Return()):
