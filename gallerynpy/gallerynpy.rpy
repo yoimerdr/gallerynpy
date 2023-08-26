@@ -80,12 +80,11 @@ init -1 python:
                 self.frame_yalign = 0.992
 
 
-
     gallerynpy_properties = GallerynpyProperties()
 
 
     class GallerynpyItem:
-        def __init__(self, name, path, thumbnail_size, song=None, unlocked_condition=None):
+        def __init__(self, name, path, thumbnail_size, song=None, unlocked_condition=None, tooltip=None):
             """
             constructor for a GallerynpyItem.
             Args:
@@ -96,44 +95,108 @@ init -1 python:
             """
             self.name = name
             self.path = path
+            self.image = None
             self.thumbnail = None
             self.type = None
             self.extension = os.path.splitext(path)[1]
             self.thumbnail_size = thumbnail_size
             self.song = song
             self.condition = unlocked_condition
+            self.image_size = None
+            self.custom_thumbnail = None
+            self.__named_image = None
+            self.tooltip = ""
+            if tooltip is not None:
+                self.tooltip = str(tooltip)
 
             if self.extension in GallerynpyExtensions.image_extensions:
-                self.type = GallerynpyTypes.image
-                self.path = self.rescale_image()
+                self.image_size = gallerynpy_db.imagesize(path)
+                self.__init_image()
             elif self.extension in GallerynpyExtensions.video_extensions:
+                if not is_video_loadable(self.path):
+                    raise FileNotFoundError("Cannot find file '" + self.path + "'")
                 self.type = GallerynpyTypes.video
-
+            else:
+                image = renpy.get_registered_image(self.path)
+                if image:
+                    if is_image(image):
+                        self.image_size = gallerynpy_db.named_imagesize(self.path)
+                        self.__named_image = image
+                        self.__init_image()
+                    elif is_animation(image):
+                        self.type = GallerynpyTypes.animation
+                        self.image = image
+                else:
+                    raise NameError("No image block or animation with name '" + self.path + "' found.\nIf exists, make the put in a init 999 python block")
             self.thumbnail = self.create_thumbnail()
 
+        def __init_image(self):
+            self.type = GallerynpyTypes.image
+            self.image = self.rescale_image()
+
+        def __validate_size(self, image):
+            if self.image_size is None or not is_gallerynpy_size(self.image_size):
+                width, height = image.load().get_size()
+                self.image_size = GallerynpySize(width, height)
+                if self.__named_image:
+                    gallerynpy_db.put_named_imagesize(self.path, self.image_size)
+                else:
+                    gallerynpy_db.put_imagesize(self.path, self.image_size)
+
+        def __ratio_size(self, size, ratio=None):
+            if is_gallerynpy_size(size):
+                if ratio is None:
+                    ratio = self.image_size.width / self.image_size.height
+                if self.image_size == size or ratio == 16/9:
+                    return size
+                elif ratio > 16/9:
+                    return GallerynpySize(size.width, size.width / ratio)
+                return GallerynpySize(size.height * ratio, size.height)
+            return size
+
+        def __ratio_scale(self, image, screen_size, ratio=None):
+            if all(is_gallerynpy_size(item) for item in [self.image_size, screen_size]):
+                size = self.__ratio_size(screen_size, ratio)
+                return im.Scale(image, size.width, size.height)
+
+            return im.Scale(image, screen_size.width, screen_size.height)
+        
+        def __image_thumbnail(self):
+            if gallerynpy_properties.rescale_images:
+                return self.__ratio_scale(self.__named_image if self.__named_image else self.path, self.thumbnail_size)
+            return self.scale(self.__named_image if self.__named_image else self.path)
+
+        def __custom_thumbnail_size(self, path):
+            size = None
+            if self.type == GallerynpyTypes.image:
+                return size
+            if is_image_loadable(path):
+                size = gallerynpy_db.imagesize(path)
+            elif not '.' in path:
+                size = gallerynpy_db.named_imagesize(path)
+            return size
+        
         def rescale_image(self):
             """
             If item type is GallerynpyTypes.image, rescale the image to screen size.
-            If persistent.gallerynpy_rescale_image is True, it will rescale to a correct image ratio according to the screen size and image size.
+            If gallerynpy_properties.rescale_images is True, it will rescale to a correct image ratio according to the screen size and image size.
             """
             if self.path is None:
-                raise ValueError('the path cannot be None')
+                raise ValueError('The path cannot be None')
             if not self.type == GallerynpyTypes.image:
-                raise ValueError('the type must be GallerynpyTypes.image')
-
-            image = im.Image(self.path) if is_string(self.path) else self.path
-            if persistent.gallerynpy_rescale_image:
-                width, height = image.load().get_size()
-                ratio = width / height
+                raise ValueError('The type must be GallerynpyTypes.image')
+            image = gallerynpy_properties.not_found_thumbnail
+            if self.extension in GallerynpyExtensions.image_extensions:
+                if not is_image_loadable(self.path):
+                    raise FileNotFoundError("Cannot find file " + self.path)
+                image = Image(self.path)
+            elif self.__named_image:
+                image = self.__named_image
+            if gallerynpy_properties.rescale_images:
+                self.__validate_size(image)
+                ratio = self.image_size.width / self.image_size.height
                 try:
-                    if width == config.screen_width and height == config.screen_height:
-                        return image
-                    elif ratio == 16/9:
-                        return im.Scale(image, config.screen_width, config.screen_height)
-                    elif ratio > 16/9:
-                        return im.Scale(image, config.screen_width, int(config.screen_width / ratio))
-                    else:
-                        return im.Scale(image, int(config.screen_height * ratio), config.screen_height)
+                    return self.__ratio_scale(image, GallerynpySize(config.screen_width, config.screen_height), ratio)
                 except:
                     pass
             return im.Scale(image, config.screen_width, config.screen_height)
@@ -145,14 +208,15 @@ init -1 python:
             if self.type:
                 if self.type == GallerynpyTypes.video:
                     for extension in gallerynpy_properties.video_thumbnails_extension:
-                        thumbnail_path = renpy_path(os.path.join(gallerynpy_properties.thumbnail_folder, self.path.replace(self.extension, extension)))
-                        if renpy.loadable(thumbnail_path):
+                        thumbnail_path = renpy_path(join_paths(gallerynpy_properties.thumbnail_folder, self.path.replace(self.extension, extension)))
+                        if is_image_loadable(thumbnail_path):
                             return self.scale(thumbnail_path)
-                    return self.not_found()
                 elif self.type == GallerynpyTypes.image:
-                    return self.scale(self.path)
+                    return self.__croped_thumbnail()
+                elif self.type == GallerynpyTypes.animation and self.custom_thumbnail:
+                    return self.scale(self.custom_thumbnail)
 
-            return None
+            return self.not_found()
 
         def not_found(self):
             """
@@ -165,6 +229,31 @@ init -1 python:
             Return a im.Scale object rescaled to thumbnail_size
             """
             return im.Scale(path, self.thumbnail_size.width, self.thumbnail_size.height)
+
+        def change_size(self, size):
+            if is_gallerynpy_size(size) and size != self.thumbnail_size:
+                self.thumbnail_size = size
+                if self.type == GallerynpyTypes.image:
+                    self.image = self.rescale_image()
+                self.thumbnail = self.create_thumbnail()
+
+        def set_custom_thumbnail(self, thumbnail):
+            if is_string(thumbnail):
+                if is_image_loadable(thumbnail):
+                    self.image_size = self.__custom_thumbnail_size(thumbnail)
+                    self.thumbnail = self.__croped_thumbnail(self.__ratio_scale(thumbnail, self.thumbnail_size))
+                    self.image_size = None
+                    self.custom_thumbnail = thumbnail
+                    return
+                image = renpy.get_registered_image(thumbnail)
+                if image and is_image(image):
+                    self.custom_thumbnail = image
+                    self.image_size = self.__custom_thumbnail_size(thumbnail)
+                    self.thumbnail = self.__croped_thumbnail(self.__ratio_scale(image, self.thumbnail_size))
+                    self.image_size = None
+                    return
+            self.custom_thumbnail = None
+            # self.thumbnail = self.not_found()
 
         def create_animation_thumbnail(self, thumbnail_path):
             """
@@ -179,6 +268,17 @@ init -1 python:
                     return self.scale(thumbnail_path)
 
             return self.not_found()
+        
+        def __croped_thumbnail(self, thumbnail=None):
+            self.thumbnail = self.__image_thumbnail()
+            if thumbnail is not None:
+                self.thumbnail = thumbnail
+            x = 0
+            if gallerynpy_properties.rescale_images and is_gallerynpy_size(self.image_size):
+                size = self.__ratio_size(self.thumbnail_size)
+                x = int((self.thumbnail_size.width / 2 - size.width / 2))
+                
+            return Composite((self.thumbnail_size.width, self.thumbnail_size.height), (x, 0), self.thumbnail)
 
 
     def is_gallerynpy_slider(obj):
@@ -756,7 +856,8 @@ init -1 python:
 
     gallerynpy = Gallerynpy()
     config.log = 'gallerynpy.txt'
+    gallerynpy_names = {}
 
 init 1999 python:
     gallerynpy.to_first_slide(True)
-    gallerynpy_names = {}
+    
