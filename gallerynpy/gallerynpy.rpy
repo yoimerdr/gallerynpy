@@ -281,16 +281,6 @@ init -1 python:
             return Composite((self.thumbnail_size.width, self.thumbnail_size.height), (x, 0), self.thumbnail)
 
 
-    def is_gallerynpy_slider(obj):
-        return isinstance(obj, GallerynpySlider)
-
-    def is_gallerynpy_slide(obj):
-        return isinstance(obj, GallerynpySlide)
-
-    def is_gallerynpy_item(obj):
-        return isinstance(obj, GallerynpyItem)
-
-
     class Gallerynpy:
         def __init__(self, columns=3, rows=3, item_width=None, min_screen=1280):
             """
@@ -858,6 +848,8 @@ init -1 python:
     config.log = 'gallerynpy.txt'
     gallerynpy_names = {}
 
-init 1999 python:
-    gallerynpy.to_first_slide(True)
+init 9999 python:
+    gallerynpy_db.save()
+    gallerynpy_properties.validate()
+    gallerynpy.to_first_slide(gallerynpy_properties.sort_slides)
     
