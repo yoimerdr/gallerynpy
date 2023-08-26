@@ -1,7 +1,7 @@
 # Gallerynpy logic
 init -1 python:
     import os
-
+    
     # for try fix image size
     if persistent.gallerynpy_rescale_image is None:
         persistent.gallerynpy_rescale_image = False
@@ -11,7 +11,7 @@ init -1 python:
     # for animation speed
     persistent.gallerynpy_animation_speed = 1
     persistent.gallerynpy_spedded = False
-
+    
 
     class GallerynpyProperties:
         def __init__(self):
@@ -21,10 +21,10 @@ init -1 python:
             self.idle_overlay = gallerynpy_images_path("idle_overlay.png")
             self.locked = gallerynpy_images_path("locked.png")
             self.background_overlay = im.Scale(gallerynpy_images_path("background_overlay.png"), config.screen_width, config.screen_height)
-            self.video_thumbnails_extension = ('_thumbnail.' + item for item in ['jpg', 'png'])
+            self.video_thumbnails_extension = tuple('_thumbnail.' + item for item in ['jpg', 'png'])
             self.thumbnail_folder = gallerynpy_images_path('thumbnails')
             self.common_pages = ['videos', 'animations', 'images']
-            self.version = '1.4.5'
+            self.version = '1.6'
             self.default_slide = 'images'
 
             ## The properties below may change
@@ -69,7 +69,14 @@ init -1 python:
             self.menu_bg = Solid("#ffffff00")
             self.menu = Solid("#ffffff00")
             self.sort_slides = False
+            self.rescale_images = True
 
+        def __validate_image_overlay(self):
+            if is_string(self.idle_overlay):
+                if not is_image_loadable(self.idle_overlay):
+                    image = renpy.get_registered_image(self.idle_overlay)
+                    self.idle_overlay = image if is_image(image) else gallerynpy_images_path("play_idle_overlay.png")
+                self.idle_overlay = gallerynpy.scale(self.idle_overlay)
 
         def validate(self,):
             if self.pages_bar_position not in ('l', 'r'):
@@ -79,7 +86,9 @@ init -1 python:
             if self.frame_yalign < 0 or self.frame_yalign > 1:
                 self.frame_yalign = 0.992
 
-
+            self.__validate_image_overlay()
+            
+ 
     gallerynpy_properties = GallerynpyProperties()
 
 
@@ -280,9 +289,8 @@ init -1 python:
                 
             return Composite((self.thumbnail_size.width, self.thumbnail_size.height), (x, 0), self.thumbnail)
 
-
     class Gallerynpy:
-        def __init__(self, columns=3, rows=3, item_width=None, min_screen=1280):
+        def __init__(self, columns=5, rows=5, item_width=None, min_screen=1280):
             """
             constructor for Gallerynpy
             Args:
@@ -308,9 +316,11 @@ init -1 python:
 
             self.__page = 0
 
+            self.__tooltip = ""
+
             if config.screen_width <= self.__min_screen:
-                self.__columns = 3 if self.__columns > 3 else self.__columns
-                self.__rows = 3 if self.__rows > 3 else self.__rows
+                self.__columns = 4 if self.__columns > 4 else self.__columns
+                self.__rows = 4 if self.__rows > 4 else self.__rows
                 self.__item_width = self._item_width()
 
             self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
@@ -336,37 +346,36 @@ init -1 python:
 
         def __init_distribution(self):
             self.__item_width = self._item_width()
-
-            if config.screen_width <= self.__min_screen:
-                self.__columns = 3 if self.__columns > 3 else self.__columns
-                self.__rows = 3 if self.__rows > 3 else self.__rows
-                self.__item_width = self._item_width()
-
-            self.__thumbnail_size = GallerynpySize(self.__item_width, int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
+            self.__thumbnail_size = GallerynpySize(int(self.__item_width), int(self.__item_width * 0.5625))  # change the 0.5625 according a image scale
             self.__max_in_page = self.__columns * self.__rows
             self.__gallery.locked_button = self.scale(gallerynpy_properties.locked)
             self.__video_idle_overlay = self.scale(gallerynpy_properties.play_idle_overlay)
             self.__video_hover_overlay = self.scale(gallerynpy_properties.play_hover_overlay)
-
 
         def __put_item(self, item, where, is_animation_slide=False):
             where = str(where)
             self.__sliders.put(GallerynpySlide(where, is_animation_slide=is_animation_slide))
             self.__sliders[where].put(item)
 
-        def __create_item(self, filename, song=None):
-            item = GallerynpyItem('gallerynpy-' + str(self.__index), filename, self.__thumbnail_size, song)
+        def __create_item(self, filename, song=None, condition=None, tooltip=None):
+            item = GallerynpyItem('gallerynpy-' + str(self.__index), filename, self.__thumbnail_size, song, condition, tooltip)
             self.__index += 1
             return item
 
-        def __add_to_gallery(self, item, condition=None):
+        def __add_to_gallery(self, item):
             self.__gallery.button(item.name)
-            self.__gallery.image(item.path)
-            if condition and is_string(condition):
-                self.__gallery.condition(condition)
+            if item.type == GallerynpyTypes.video:
+                self.__gallery.image(item.path)
+            else:
+                self.__gallery.image(item.image)
+            if item.condition and is_string(item.condition):
+                self.__gallery.condition(item.condition)
 
-        def __add_music(self, button, song):
-            button.action = [Play("music", song), button.action, Stop("music")]
+        def __add_music(self, button, song, is_movie=False):
+            if not is_movie:
+                song = str(song)
+                if renpy.loadable(song):
+                    button.action = [Play("music", song), button.action, Stop("music")]
             return button
 
         def __make_playable_button(self, item):
@@ -374,7 +383,9 @@ init -1 python:
                 item.name, item.thumbnail,
                 idle_border=self.__video_idle_overlay,
                 hover_border=self.__video_hover_overlay,
-                fit_first=True, xalign=0.5, yalign=0.5
+                fit_first=True, xalign=0.5, yalign=0.5,
+                hovered=Function(self.__change_tooltip, item.tooltip),
+                unhovered=Function(self.__change_tooltip, "")
             )
 
         def __change_current_slide(self, name, sliders):
@@ -389,7 +400,7 @@ init -1 python:
 
         def __put_slide(self, slide):
             for item in slide:
-                self.__add_to_gallery(item, item.condition)
+                self.__add_to_gallery(item)
 
         def __put_slider(self, slider):
             if is_gallerynpy_slider(slider):
@@ -409,7 +420,7 @@ init -1 python:
             self.__current_slider = self.__current_slider.father()
             if self.__current_slider is None:
                 self.__current_slider = self.__sliders
-            self.to_first_slide()
+            self.to_first_slide(gallerynpy_properties.sort_slides)
 
         def __slide(self, where):
             if where not in self.slides():
@@ -419,7 +430,17 @@ init -1 python:
         def __current_slide(self):
             return self.__slide(self.__current_page)
 
-        def create_image(self, image, song=None, condition=None):
+        def __create_playable_item(self, path, thumbnail=None, song=None, condition=None, tooltip=None):
+            if not is_string(path):
+                return None
+            item = self.__create_item(path, song, condition, tooltip)
+            item.set_custom_thumbnail(thumbnail)
+            return item
+
+        def __change_tooltip(self, text):
+            self.__tooltip = str(text)
+
+        def create_image(self, image, song=None, condition=None, tooltip=None):
             """
             Returns an image GallerynpyItem.
             Args:
@@ -427,18 +448,9 @@ init -1 python:
                 song: The filepath to the song that will be played when image is showed, default is None.
                 condition: The condition for unlock image, default is unlocked.
             """
-            item = self.__create_item(image, song)
-            if item.type is None:
-                image = renpy.get_registered_image(image)
-                if image:
-                    item.type = GallerynpyTypes.image
-                    item.path = image
-                    item.path = item.rescale_image()
-                    item.thumbnail = item.create_thumbnail()
+            return self.__create_item(image, song, condition, tooltip)
 
-            return item
-
-        def create_video(self, filename, thumbnail=None, song=None, condition=None):
+        def create_video(self, filename, thumbnail=None, song=None, condition=None, tooltip=None):
             """
             Returns an video GallerynpyItem.
             Args:
@@ -447,13 +459,9 @@ init -1 python:
                 song: The filepath to the song that will be played when video is played, default is None.
                 condition: The condition for unlock image, default is unlocked.
             """
-            item = self.__create_item(filename, song)
-            if item.type == GallerynpyTypes.video:
-                if thumbnail is not None and is_string(thumbnail):
-                    item.thumbnail = item.create_animation_thumbnail(thumbnail)
-            return item
+            return self.__create_playable_item(filename, thumbnail, song, condition, tooltip)
 
-        def create_animation(self, atl_object, thumbnail_name, song=None, condition=None):
+        def create_animation(self, atl_object, thumbnail_name, song=None, condition=None, tooltip=None):
             """
             Returns an animation GallerynpyItem.
             If atl_object or thumbnail_name are not valid, None is returned.
@@ -463,12 +471,7 @@ init -1 python:
                 song: The filepath to the song that will be played when video is played, default is None.
                 condition: The condition for unlock image, default is unlocked.
             """
-            if not is_string(atl_object) or not is_string(thumbnail_name):
-                return None
-            item = self.__create_item(atl_object, song)
-            item.thumbnail = item.create_animation_thumbnail(thumbnail_name)
-            item.type = GallerynpyTypes.animation
-            return item
+            return self.__create_playable_item(atl_object, thumbnail_name, song, condition, tooltip)
 
         def create_slide(self, name, is_animation_slide=False):
             """
@@ -525,8 +528,8 @@ init -1 python:
             if item and item.type == GallerynpyTypes.video:
                 button = self.__make_playable_button(item)
                 if button.action is not None:
-                    button.action = Call("gallerynpy_cinema", movie=item.path)
-                return self.__add_music(button, item.song) if item.song else button
+                    button.action = Call("gallerynpy_cinema", movie=item.path, song=item.song)
+                return self.__add_music(button, item.song, True) if item.song else button
             return self.__none_button()
 
         def make_image_button(self, item):
@@ -538,13 +541,14 @@ init -1 python:
             """
             if not is_gallerynpy_item(item):
                 return self.__none_button()
-            idle = gallerynpy_properties.idle_overlay
-            border = self.scale(idle) if is_string(idle) and idle.endswith(GallerynpyExtensions.image_extensions) else idle
+
             if item and item.type == GallerynpyTypes.image:
                 button = self.__gallery.make_button(
                     item.name, item.thumbnail,
-                    idle_border=border,
-                    xalign=0.5, yalign=0.5
+                    idle_border=gallerynpy_properties.idle_overlay,
+                    xalign=0.5, yalign=0.5,
+                    hovered=Function(self.__change_tooltip, item.tooltip),
+                    unhovered=Function(self.__change_tooltip, "")
                 )
 
                 return self.__add_music(button, item.song) if item.song else button
@@ -559,8 +563,8 @@ init -1 python:
             """
             item = self.current_item_at(index)
             if item is None:
-                return None
-
+                return Null()
+            item.change_size(self.__thumbnail_size)
             if item.type == GallerynpyTypes.image:
                 return self.make_image_button(item)
             elif item.type == GallerynpyTypes.animation:
@@ -568,7 +572,7 @@ init -1 python:
             elif item.type == GallerynpyTypes.video:
                 return self.make_video_button(item)
 
-            return None
+            return Null()
 
         def change_distribution(self, rows=None, columns=None):
             """
@@ -610,7 +614,7 @@ init -1 python:
             """
             return im.Scale(path, self.__thumbnail_size.width, self.__thumbnail_size.height)
 
-        def put_image(self, image, where, song=None, condition=None):
+        def put_image(self, image, where, song=None, condition=None, tooltip=None):
             """
             Puts a image to gallery on the base slider and on the the where slide
             Args:
@@ -619,12 +623,12 @@ init -1 python:
                 song: The filepath to the song that will be played when image is showed, default is None.
                 condition: The condition for unlock image, default is unlocked.
             """
-            item = self.create_image(image, song, condition)
+            item = self.create_image(image, song, condition, tooltip)
             if item.type == GallerynpyTypes.image:
                 self.__put_item(item, where)
-                self.__add_to_gallery(item, condition)
+                self.__add_to_gallery(item)
 
-        def put_video(self, filename, where, thumbnail=None, song=None, condition=None):
+        def put_video(self, filename, where, thumbnail=None, song=None, condition=None, tooltip=None):
             """
             Puts a video to gallery on the base slider and on the the where slide
             Args:
@@ -634,12 +638,12 @@ init -1 python:
                 song: The filepath to the song that will be played when video is played, default is None.
                 condition: The condition for unlock image, default is unlocked.
             """
-            item = self.create_video(filename, thumbnail, song, condition)
+            item = self.create_video(filename, thumbnail, song, condition, tooltip)
             if item.type == GallerynpyTypes.video:
                 self.__put_item(item, where)
-                self.__add_to_gallery(item, condition)
+                self.__add_to_gallery(item)
 
-        def put_animation(self, atl_object, thumbnail_name, where=gallerynpy_properties.animation_slide, song=None, condition=None, is_animation_slide=True):
+        def put_animation(self, atl_object, thumbnail_name, where=gallerynpy_properties.animation_slide, song=None, condition=None, is_animation_slide=True, tooltip=None):
             """
             Puts an animation to gallery on the base slider and on the where slide
             Args:
@@ -650,10 +654,10 @@ init -1 python:
                 condition: The condition for unlock image, default is unlocked.
                 is_animation_slide: If is True, mark the where slide as animation slide
             """
-            item = self.create_animation(atl_object, thumbnail_name, song, condition)
+            item = self.create_animation(atl_object, thumbnail_name, song, condition, tooltip)
             if item is not None:
                 self.__put_item(item, where, is_animation_slide)
-                self.__add_to_gallery(item, condition)
+                self.__add_to_gallery(item)
 
         def update(self, to_start=False):
             """
@@ -661,7 +665,6 @@ init -1 python:
             Args:
                 to_start: If True, back to the zero page in current slide.
             """
-            gallerynpy_properties.validate()
             if to_start:
                 self.__page = 0
             self.__start = self.__page * self.__max_in_page
@@ -779,6 +782,9 @@ init -1 python:
             """
             return self.__scaling
 
+        def tooltip(self):
+            return self.__tooltip
+
         def is_current_slide(self, slide):
             """
             Returns if the current slide is equals to slide.
@@ -795,7 +801,7 @@ init -1 python:
                 return [Function(self.update, True), Function(self.__change_to_father)]
 
             if from_animation_options and self.is_current_animation_slide():
-                return [Function(self.update, True), Function(self.to_first_slide)]
+                return [Function(self.update, True), Function(self.to_first_slide, gallerynpy_properties.sort_slides)]
 
             return Return()
 
@@ -839,17 +845,17 @@ init -1 python:
             """
             if slide in self.slides():
                 if self.__change_current_slide(slide, self.__current_slider):
-                    self.to_first_slide()
+                    self.to_first_slide(gallerynpy_properties.sort_slides)
                 else:
                     self.__current_page = slide
 
 
     gallerynpy = Gallerynpy()
-    config.log = 'gallerynpy.txt'
     gallerynpy_names = {}
+    config.log = 'gallerynpy.txt'
 
 init 9999 python:
     gallerynpy_db.save()
     gallerynpy_properties.validate()
     gallerynpy.to_first_slide(gallerynpy_properties.sort_slides)
-    
+       
