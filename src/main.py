@@ -1,4 +1,5 @@
 import glob
+import os.path
 
 import generation.converts as converts
 import generation.dump_py as dumpy
@@ -143,6 +144,7 @@ def generate_dumpy_renpy():
                 ])
             ]),
             dumpy.PyClass(name="Null"),
+            dumpy.PyClass(name="NullAction"),
             dumpy.PyClass(name="Return"),
             dumpy.PyClass(name="Gallery", methods=[
                 dumpy.PyFunction(name="image", params=[
@@ -187,10 +189,9 @@ def generate_rpy():
     Copy the contents of the _ren.py files and pass them to an .rpy file according to the renpy instruction present in it.
     """
     files = glob.glob("**/*_ren.py", recursive=True)
-    converts.to_python_rpy_files(files)
+    converts.to_python_rpy_files(files, out_folder=os.path.abspath("../dist/gallerynpy"))
 
 
 # generate_dumpy_renpy()
-# generate_rpy()
-
+generate_rpy()
 
