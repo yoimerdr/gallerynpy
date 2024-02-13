@@ -1,5 +1,6 @@
 from typing import Any
 from items_ren import Item, is_item
+from utils_ren import or_default
 
 __all__ = (
     "Slider",
@@ -9,75 +10,85 @@ __all__ = (
     "is_slide"
 )
 
+
 """renpy
 init -3 python in gallerynpy:
 """
 
 
 def is_slide(obj):
+    """
+    Checks if the object is a `Slide`
+
+    :param obj: The object to check
+    :return: True if the object is an `Slide`, False otherwise
+    """
     return isinstance(obj, Slide)
 
 
 def is_slider(obj):
+    """
+    Checks if the object is a `Slider`
+    :param obj: The object to check
+    :return: True if the object is an `Slider`, False otherwise
+    """
     return isinstance(obj, Slider)
 
 
 class SlideLike:
-    def __init__(self, name: str, parent: "Slider", is_for_animations: bool = False):
+    """
+    The base class for the slides and sliders.
+    """
+    def __init__(self, name: str, parent: "Slider"):
+        """
+        :param name: The name (identifier) of the `SlideLike`
+        :param parent: The `Slider` parent of the `SlideLike`
+        """
         self._name = str(name)
         self._parent = None
         self.parent = parent
         self._size = 0
         self._items = None
-        self.__is_anim_slide = is_for_animations
 
     @property
     def size(self) -> int:
         """
-        Gets the size of the slide.
+        Gets the current size.
         """
         return self._size
 
     @property
     def name(self) -> str:
         """
-        Gets the name of the slide.
+        Gets the current name.
         """
         return self._name
 
     @name.setter
     def name(self, name: str):
         """
-        Sets the name (str value) of the slide.
+        Sets the name (str value).
         :param name: The new name.
         """
-        self._name = str(name)
+        self._name = str(or_default(name, ""))
 
     @property
     def parent(self) -> "Slider":
         """
-        Gets the parent of the slide.
+        Gets the current parent `Slider`.
         """
         return self._parent
 
     @parent.setter
     def parent(self, parent: "Slider"):
         """
-        Sets the father of the slide. Only if is a GallerynpySlider instance or is None.
+        Sets the parent `Slider`. Only if is a `Slider` instance or is None.
         :param parent: The new parent.
         """
         if parent is None:
             self._parent = None
         elif is_slider(parent):
             self._parent = parent
-
-    @property
-    def is_for_animations(self) -> bool:
-        """
-        Gets whether the slide is marked as one for animations.
-        :return:
-        """
-        return self.__is_anim_slide
 
     def clone(self, name: str = None, include_parent: bool = False) -> "SlideLike":
         raise NotImplementedError("Must be implemented in child")
@@ -111,7 +122,14 @@ class SlideLike:
 
 
 class Slider(SlideLike):
+    """
+    A slider to contain `Slide`s or other `Slider`s
+    """
     def __init__(self, name: str, parent: "Slider" = None):
+        """
+        :param name: The name of the slider.
+        :param parent: The `Slider` parent of this one.
+        """
         super().__init__(name, parent)
         self._items = {}
 
@@ -119,7 +137,6 @@ class Slider(SlideLike):
     def slides(self) -> list[str]:
         """
         Gets all the names of the slider items.
-        :return:
         """
         return list(self._items.keys())
 
@@ -127,7 +144,7 @@ class Slider(SlideLike):
         """
         Clone the slider and every slide or slider it has.
         :param name: The new name of the slider. By default, is the own.
-        :param include_parent: If True, sets the parent slider as the parent of the cloned slide.
+        :param include_parent: If True, sets the parent `Slider` as the parent of the cloned slide.
         :return: The cloned slider.
         """
 
@@ -142,7 +159,7 @@ class Slider(SlideLike):
 
     def put(self, item: SlideLike):
         """
-        Adds the slide or slider item to the slider.
+        Adds the `Slide` or `Slider` to this one.
 
         The name of the given item must be unique in this slider.
         :param item: The item to be added.
@@ -154,10 +171,13 @@ class Slider(SlideLike):
 
     def get(self, identifier: str) -> SlideLike | None:
         """
-        Gets the BaseGallerynpySlide with the given identifier.
+        Gets the `Slide` or `Slider` with the given identifier.
         :param identifier: The item name
-        :return: The item with the given name, or None if not present.
+        :return: The item with the given name, or None if it is not present.
         """
+        if identifier is None:
+            return None
+
         identifier = str(identifier)
         if identifier in self.slides:
             return self._items[identifier]
@@ -165,7 +185,7 @@ class Slider(SlideLike):
 
     def create_slide(self, name: str, is_for_animations: bool = False) -> "Slide":
         """
-        Creates a new slide with this slider as parent.
+        Creates a new `Slide` with this slider as parent.
         :param name: The slide name
         :param is_for_animations: Sets True if the slide will be marked as one for animations.
         :return: The created slide
@@ -185,9 +205,26 @@ class Slider(SlideLike):
 
 
 class Slide(SlideLike):
+    """
+    A slide to contain the `Item`s
+    """
     def __init__(self, name: str, parent: Slider = None, is_for_animations: bool = False):
-        super().__init__(name, parent, is_for_animations)
+        """
+        :param name: The name of the slide.
+        :param parent: The `Slider` parent of this one.
+        :param is_for_animations: Sets True if the slide will be marked as one for animations.
+        If it is marked for animations, only items of that type (or maybe not) will be accepted.
+        """
+        super().__init__(name, parent)
+        self.__is_anim_slide = is_for_animations
         self._items = []
+
+    @property
+    def is_for_animations(self) -> bool:
+        """
+        Gets whether the slide is marked as one for animations.
+        """
+        return self.__is_anim_slide
 
     def clone(self, name: str = None, include_parent: bool = False) -> "Slide":
         """
@@ -203,7 +240,7 @@ class Slide(SlideLike):
 
     def put(self, item: Item):
         """
-        Adds a valid Item to the slide.
+        Adds a valid `Item` to the slide.
         :param item: The item to be added.
         """
         if is_item(item):
@@ -212,10 +249,13 @@ class Slide(SlideLike):
 
     def get(self, identifier: int) -> Item | None:
         """
-        Gets the Item with the given identifier.
+        Gets the `Item` with the given identifier.
         :param identifier: The item index
-        :return: The item with the given index, or None if not valid.
+        :return: The item in the given index, or None if invalid.
         """
+        if identifier is None:
+            return None
+
         identifier = int(identifier)
         if 0 <= identifier < self.size:
             return self._items[identifier]

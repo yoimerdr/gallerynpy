@@ -1,57 +1,61 @@
-screen gallerynpy_tooltip(tooltip):
-    if tooltip:
-        frame:
-            style_prefix "gallerynpy_tooltip"
-            style "gallerynpy_tooltip"
-            background None
-            text "[tooltip!t]":
-                xalign 0.5
-
-
 screen gallerynpy():
     tag menu
     $ gallerynpy.update()
-    ## Layout
     style_prefix "game_menu"
     add gallerynpy.properties.menu_bg.composite_to(gallerynpy.screen_size())
-    add "gallerynpy_bg_overlay"
     add gallerynpy.properties.menu.composite_to(gallerynpy.screen_size())
     text _("Gallerynpy v[gallerynpy.properties.version]"):
         style "gallerynpy_version"
+        if gallerynpy.properties.navigation_position == "r":
+            xalign 0.0
+
     hbox:
-        spacing gallerynpy.properties.frame_content_spacing
-        if gallerynpy.properties.frame_position == 'r':
-            use gallerynpy_content
-            use gallerynpy_sliders
+        xfill True
+        spacing gallerynpy.properties.spacing
+        if gallerynpy.properties.navigation_position == 'l':
+            use gallerynpy_navigation
+            use gallerynpy_items
         else:
-            use gallerynpy_sliders
-            use gallerynpy_content
-            
-    use gallerynpy_tooltip(gallerynpy.tooltip()) 
+            use gallerynpy_items
+            use gallerynpy_navigation
 
 
-screen gallerynpy_content():
+
+    use gallerynpy_tooltip(gallerynpy.tooltip())
+
+
+screen gallerynpy_navigation():
+    frame:
+        style "gallerynpy_navigation"
+        has vbox
+        style_prefix "gallerynpy"
+        spacing gallerynpy.properties.spacing
+        if gallerynpy.properties.with_speed and gallerynpy.is_for_animations():
+            use gallerynpy_animations_options
+            use gallerynpy_pages_options(True)
+        else:
+            use gallerynpy_slides_options
+            use gallerynpy_pages_options
+
+screen gallerynpy_items():
     $ columns, rows = gallerynpy.distribution()
     grid columns rows:
-        yfill True
-        xfill gallerynpy.properties.frame_position != 'r'
-        if gallerynpy.properties.frame_position == 'r':
-            xspacing gallerynpy.properties.item_xspacing
-
+        style "gallerynpy_items"
+        xspacing gallerynpy.properties.item_xspacing
         for btn in gallerynpy.page_buttons():
             add btn
-        
 
-screen gallerynpy_pages():
-    side "c " + gallerynpy.properties.pages_bar_position + " b":
-        spacing gallerynpy.properties.pages_spacing
-        viewport id "gallerynpy_pages":
-            ysize gallerynpy.properties.pages_ysize
+screen gallerynpy_slides_options(show_bar=True):
+    # gallerynpy.properties.slides_bar_position
+    side "c " + gallerynpy.properties.navigation_slides_bar_position:
+        # gallerynpy.properties.slides_spacing
+        viewport id "gallerynpy_slides_options":
+            style "gallerynpy_slides"
             mousewheel True
             draggable True
 
-            if gallerynpy.properties.show_pages_bar:
-                yadjustment gallerynpy.properties.adjustment
+            if show_bar:
+                yadjustment gallerynpy.properties.navigation_slides_adjustment
 
             has vbox
             for slide in gallerynpy.content_slides():
@@ -59,45 +63,16 @@ screen gallerynpy_pages():
                 textbutton _("[item!t]"):
                     selected gallerynpy.is_current(slide)
                     action gallerynpy.change_slide_to(slide)
-                    
 
-        
-        if gallerynpy.properties.show_pages_bar:
+        if show_bar:
             vbar:
-                value YScrollValue("gallerynpy_pages")
+                value YScrollValue("gallerynpy_slides_options")
                 style "gallerynpy_vscrollbar"
         else:
             null
 
-        vbox:
-            null height 35
-            use gallerynpy_options
 
-screen gallerynpy_sliders():
-    frame:
-        style "gallerynpy_frame"
-        has vbox
-        style_prefix "gallerynpy"
-        xpos gallerynpy.properties.frame_xpos
-        spacing gallerynpy.properties.spacing
-        if gallerynpy.properties.with_speed and gallerynpy.is_for_animations():
-            use gallerynpy_anim_speeds
-            use gallerynpy_options(True)
-        else:
-            use gallerynpy_pages 
-         
-
-
-screen gallerynpy_options(from_animation_options=False):
-    textbutton _("Previous"):
-        action gallerynpy.previous_page()
-    textbutton _("Next"):
-        action gallerynpy.next_page()
-    textbutton _("Return"):
-        action gallerynpy.back(from_animation_options)
-
-
-screen gallerynpy_anim_speeds():
+screen gallerynpy_animations_options():
     vbox:
         text "Velocity:"
         hbox:
@@ -105,3 +80,24 @@ screen gallerynpy_anim_speeds():
             textbutton "x2" action SetVariable("gallerynpy.properties.animation_speed", 2)
             textbutton "x3" action SetVariable("gallerynpy.properties.animation_speed", 3)
             textbutton "x4" action SetVariable("gallerynpy.properties.animation_speed", 4)
+
+screen gallerynpy_pages_options(from_animation_options=False):
+    vbox:
+        xfill True
+        textbutton _("Previous"):
+            action gallerynpy.previous_page()
+        textbutton _("Next"):
+            action gallerynpy.next_page()
+        textbutton _("Return"):
+            action gallerynpy.back(from_animation_options)
+
+screen gallerynpy_tooltip(tooltip):
+    if tooltip:
+        frame:
+            style_prefix "gallerynpy_tooltip"
+            style "gallerynpy_tooltip"
+            if gallerynpy.properties.navigation_position == "r":
+                xalign 0.0
+            background None
+            text "[tooltip!t]":
+                xalign 0.5

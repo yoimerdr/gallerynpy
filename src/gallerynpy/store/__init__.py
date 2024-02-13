@@ -42,6 +42,10 @@ class Null:
     pass
 
 
+class NullAction:
+    pass
+
+
 class Return:
     pass
 
@@ -59,5 +63,5 @@ class Gallery:
     def make_button(self, name, disp, *args, **kargs) -> Button:
         pass
 
-dissolve = None
 
+dissolve = None

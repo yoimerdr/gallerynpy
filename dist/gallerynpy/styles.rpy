@@ -1,15 +1,3 @@
-image gallerynpy_bg_overlay:
-    gallerynpy.properties.background.composite_to(gallerynpy.screen_size())
-    zoom gallerynpy.scaling()
-
-
-style gallerynpy:
-    xalign 0.5
-    yalign 0.46
-
-style gallerynpy_xcenter:
-    xalign 0.5
-
 style gallerynpy_button_text:
     size gallerynpy.properties.font_size
     font gallerynpy.properties.font
@@ -39,22 +27,21 @@ style gallerynpy_tooltip_text is gallerynpy_text
 style gallerynpy_tooltip_text:
     outlines [(1, "#000000", 0, 0)]
 
-style gallerynpy_rescaling:
-    yalign 0.0
-    xpos gallerynpy.properties.navigation_xpos
-
-style gallerynpy_frame:
-    yalign gallerynpy.properties.frame_yalign
-    xsize gallerynpy.properties.frame_xsize
-    background gallerynpy.properties.frame_color
-
-style gallerynpy_rescale_frame is gallerynpy_frame
-
-style gallerynpy_rescale_frame:
-    yalign 0.0
-
 style gallerynpy_vscrollbar is vscrollbar
 
 style gallerynpy_vscrollbar:
-    xsize gallerynpy.properties.pages_bar_xsize
-    xpos -gallerynpy.properties.pages_bar_xpos
+    xsize gallerynpy.properties.navigation_slides_bar_xsize
+    xpos gallerynpy.properties.navigation_slides_bar_xpos
+
+style gallerynpy_navigation:
+    yalign gallerynpy.properties.navigation_yalign
+    xsize gallerynpy.properties.navigation_xsize
+    background gallerynpy.properties.navigation_background.resource
+
+style gallerynpy_slides:
+    ysize gallerynpy.properties.navigation_slides_ysize
+    xfill True
+
+style gallerynpy_items:
+    yfill True
+    xsize gallerynpy.screen_size().width - gallerynpy.properties.navigation_xsize
