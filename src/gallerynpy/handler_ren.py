@@ -8,7 +8,7 @@ from utils_ren import Singleton, is_loadable, or_default
 """renpy
 init python in gallerynpy:
 """
-from store import Button, Function, Gallery, dissolve, Call, Play, Stop, Null, config, Return
+from store import Button, Function, Gallery, dissolve, Call, Play, Stop, Null, config, Return, NullAction
 
 properties = Properties()
 
@@ -19,14 +19,13 @@ class Handler(Singleton):
         self.__end = 0
         self.__rows = 0
         self.__cols = 0
+        self.__max_per_page = 0
 
         self.__thumbnail_size = None
         self.__gallery = Gallery()
         self.__gallery.transition = dissolve
 
-        self.rows = 5
-        self.columns = 5
-        self.min_screen = 1280
+        self.change_distribution(4, 4)
         self.__page = 0
         self.__tooltip = ""
 
@@ -37,23 +36,19 @@ class Handler(Singleton):
 
         self.__for_put = []
 
-    def __calculates_item_width(self):
-        spacing = properties.item_xspacing * (self.columns - 1)
-        screen = config.screen_width - properties.frame_xsize - properties.frame_content_spacing
-        return (screen - spacing) / self.columns
-
     def __change_tooltip(self, tooltip: str):
         self.__tooltip = str(tooltip)
 
     def __add_to_gallery(self, item: Item):
         if not is_item(item):
             return
+
         self.__gallery.button(item.name)
         if item.resource.type == ResourceTypes.IMAGE:
+            image = item.resource.resource
             if properties.rescale_images:
-                self.__gallery.image(item.resource.composite_to(_screen_size))
-            else:
-                self.__gallery.image(item.resource.resource)
+                image = item.resource.composite_to(_screen_size)
+            self.__gallery.image(image)
         else:
             self.__gallery.image(item.resource.resource)
         if item.condition:
@@ -109,59 +104,44 @@ class Handler(Singleton):
     def columns(self):
         return self.__cols
 
-    @columns.setter
-    def columns(self, value: int):
-        value = int(value)
-        if value < 1:
-            value = 4
-        self.__cols = value
-
-        width = self.__calculates_item_width()
-        new_size = Size(width, int(width * 0.5625))
-        if self.thumbnail_size is None:
-            self.__thumbnail_size = new_size
-        else:
-            self.thumbnail_size.set(new_size)
-        self.__max_per_page = self.rows * self.columns
-        self.__gallery.locked_button = self.scale(properties.locked)
-
     @property
     def rows(self):
         return self.__rows
 
-    @rows.setter
-    def rows(self, value: int):
-        value = int(value)
-        if value < 1:
-            value = 4
-        self.__rows = value
+    def change_distribution(self, columns: int = None, rows: int = None):
+        if columns is None:
+            columns = self.columns
+        if rows is None:
+            rows = self.rows
+
+        def get_max(value: int):
+            return 4 if value < 0 else value
+
+        columns = get_max(int(columns))
+        rows = get_max(int(rows))
+
+        if rows == self.rows and columns == self.columns:
+            return
+
+        self.__rows = rows
+        self.__cols = columns
         self.__max_per_page = self.rows * self.columns
+
+        target = max(columns, rows)
+        spacing = properties.item_xspacing * (target - 1)
+        actual_width = config.screen_width - properties.navigation_xsize - properties.navigation_spacing - spacing
+        width = actual_width / target
+
+        new_size = Size(width, int(width * _screen_size.aspect_ratio))
+        if self.thumbnail_size is None:
+            self.__thumbnail_size = new_size
+        else:
+            self.thumbnail_size.set(new_size)
+        self.__gallery.locked_button = self.scale(properties.locked)
 
     @property
     def max_per_page(self):
         return self.__max_per_page
-
-    @property
-    def min_screen(self):
-        return self.__min_screen
-
-    @min_screen.setter
-    def min_screen(self, value: int):
-        value = int(value)
-        if value < 480:
-            value = 480
-        self.__min_screen = value
-        self.__scaling = config.screen_width / self.min_screen
-        self.__navigation_width = int(290 * self.__scaling)
-        properties.frame_xsize = self.navigation_width
-
-    @property
-    def scaling(self):
-        return self.__scaling
-
-    @property
-    def navigation_width(self):
-        return self.__navigation_width
 
     def scale(self, resource: Resource):
         if not isinstance(resource, Resource):
@@ -246,37 +226,34 @@ class Handler(Singleton):
         return self.current_slide == str(or_default(name, ""))
 
     def is_current_for_animations(self):
-        slide = self.__current_slider[self.__current_slide]
-        return slide and slide.is_for_animations
+        slide: Slide | None = self.__current_slider[self.__current_slide]
+        return is_slide(slide) and slide.is_for_animations
 
     def make_item_button(self, item: Item):
         button = Button(action=None)
         if not is_item(item) or item.resource.type == ResourceTypes.NONE:
             return button
 
-        if item in self.__for_put:
-            self.__add_to_gallery(item)
-            self.__for_put.remove(item)
+        self.__add_to_gallery(item)
 
-        if item.resource.type == ResourceTypes.IMAGE:
-            button = self.__gallery.make_button(
-                item.name, item.thumbnail.create(),
-                idle_border=self.idle,
-                xalign=0.5, yalign=0.5,
-                hovered=Function(self.__change_tooltip, item.tooltip),
-                unhovered=Function(self.__change_tooltip, "")
-            )
+        if item.resource.type in (ResourceTypes.IMAGE, ResourceTypes.DISPLAYABLE):
+            idle_border = self.idle
+            hover_border = None
         else:
-            button = self.__gallery.make_button(
-                item.name, item.thumbnail.create(),
-                idle_border=self.video_idle,
-                hover_border=self.video_hover,
-                fit_first=True,
-                xalign=0.5, yalign=0.5,
-                hovered=Function(self.__change_tooltip, item.tooltip),
-                unhovered=Function(self.__change_tooltip, "")
-            )
-        if item.resource.type == ResourceTypes.VIDEO:
+            idle_border = self.video_idle
+            hover_border = self.video_hover
+
+        button = self.__gallery.make_button(
+            item.name, item.thumbnail.create(),
+            idle_border=idle_border,
+            hover_border=hover_border,
+            xalign=0.5, yalign=0.5,
+            hovered=Function(self.__change_tooltip, item.tooltip),
+            unhovered=Function(self.__change_tooltip, "")
+        )
+        if not item.meets_condition:
+            button.action = NullAction()
+        elif item.resource.type == ResourceTypes.VIDEO:
             button.action = Call("gallerynpy_cinema", movie=item.resource.resource, song=item.song)
         else:
             if item.song and is_loadable(item.song):
@@ -297,7 +274,7 @@ class Handler(Singleton):
                 names.sort()
 
             for name in names:
-                slide = self.__current_slider[name]
+                slide: Slide | None = self.__current_slider[name]
                 if is_slide(slide) and not (properties.with_speed and slide.is_for_animations):
                     self.change_slide(name)
                     return

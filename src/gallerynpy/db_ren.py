@@ -66,6 +66,12 @@ class Size:
             raise ValueError('The size must be an instance of Size')
         return Size(size.width, size.height)
 
+    @property
+    def aspect_ratio(self):
+        if self.width == 0:
+            return 0
+        return self.height / self.width
+
     def __eq__(self, other):
         if not is_size(other):
             return False

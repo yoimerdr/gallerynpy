@@ -1,6 +1,6 @@
 from db_ren import Size, is_size
 from utils_ren import (is_loadable, normalize_path, join_path, or_default)
-from resources_ren import Resource, ResourceTypes
+from resources_ren import Resource, ResourceTypes, Extensions
 from definitions import properties
 
 __all__ = (
@@ -19,10 +19,10 @@ def is_item(obj):
 
 
 class Thumbnail:
-    def __init__(self, item: Resource, size: Size):
-        if not isinstance(item, Resource):
-            item = Resource(item)
-        self.__resource = item
+    def __init__(self, resource: Resource, size: Size):
+        if not isinstance(resource, Resource):
+            resource = Resource(resource)
+        self.__resource = resource
         self.__custom = None
         self.size = size
 
@@ -47,7 +47,7 @@ class Thumbnail:
                 if is_loadable(path):
                     resource = Resource(path)
                     break
-        elif resource.type != ResourceTypes.IMAGE:
+        elif resource.type not in (ResourceTypes.IMAGE, ResourceTypes.DISPLAYABLE):
             resource = properties.not_found
 
         return resource.composite_to(self.size)
@@ -70,9 +70,6 @@ class Item:
         self.song = song
         self.condition = condition
         self.tooltip = tooltip
-
-    def __init_image(self):
-        self.__type = ResourceTypes.IMAGE
 
     @property
     def resource(self):
@@ -104,7 +101,10 @@ class Item:
 
     @song.setter
     def song(self, song: str):
-        self.__song = normalize_path(song, for_renpy=True)
+        song = normalize_path(song, for_renpy=True)
+        if not is_loadable(song, Extensions.AUDIO):
+            song = None
+        self.__song = song
 
     @property
     def condition(self) -> str:
@@ -112,11 +112,30 @@ class Item:
 
     @condition.setter
     def condition(self, condition: str):
-        if condition is None:
-            self.__condition = None
-        else:
-            self.__condition = str(condition)
+        if condition is not None:
+            condition = str(condition)
+        self.__condition = condition
+
+    @property
+    def meets_condition(self):
+        """
+        Checks if this `Item` meets the condition it has.
+        :return: True if it meets the condition `or does not have it`, False otherwise
+        """
+        return not self.condition or eval(self.condition)
+
+    def if_condition(self, to_return):
+        """
+        Gets the given param if this `Item` meets the condition it has.
+
+        See also `Item.meets_condition`
+        :param to_return: The object to return
+        :return: `to_return` if it meets the condition, None otherwise
+        """
+        return to_return if self.meets_condition else None
 
     @property
     def thumbnail(self) -> Thumbnail:
-        return self.__thumbnail
+        if self.meets_condition:
+            return self.__thumbnail
+        return Thumbnail(properties.locked, self.__thumbnail.size)

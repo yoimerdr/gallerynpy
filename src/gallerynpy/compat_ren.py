@@ -1,5 +1,6 @@
 from handler_ren import *
 from handler_ren import _handler, _custom_names, _screen_size
+from resources_ren import load_named_resources
 
 """renpy
 init python in gallerynpy:
@@ -10,16 +11,8 @@ def to_first_slide(sort: bool = False):
     _handler.to_first_slide(sort)
 
 
-def scaling():
-    return _handler.scaling
-
-
 def change_distribution(rows: int = None, columns: int = None):
-    if rows:
-        _handler.rows = rows
-
-    if columns:
-        _handler.columns = columns
+    _handler.change_distribution(rows=rows, columns=columns)
 
 
 def tooltip():
@@ -86,7 +79,7 @@ def put_item(where: str, resource, thumbnail_resource=None, song: str = None,
 
 def put_image(image, where: str = None, song: str = None, condition: str = None, tooltip: str = None,
               thumbnail_resource=None, ):
-    put_item(image, where, thumbnail_resource, song, condition, tooltip, False)
+    put_item(image, or_default(where, "images"), thumbnail_resource, song, condition, tooltip, False)
 
 
 def put_video(filename: str, where: str = None, thumbnail=None, song=None, condition=None, tooltip=None):

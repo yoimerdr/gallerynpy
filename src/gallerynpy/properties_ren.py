@@ -7,71 +7,64 @@ init -1 python in gallerynpy:
 from store import ui, config, Solid, persistent
 
 
+def width_ratio(ratio: float) -> int:
+    return int(config.screen_width * ratio)
+
+
 class Properties(Singleton):
+
     def __init__(self):
         self.__not_found = None
         self.__play_hover = None
         self.__play_idle = None
         self.__idle = None
         self.__locked = None
-        self.__background = None
         self.__menu = None
         self.__menu_bg = None
-        self.force_loader = False
+        self.__navigation_background = None
+        self.__version = "2.0"
 
+        self.force_loader = False
         self.not_found = images_path("not_found.png")
         self.play_hover = images_path("play_hover_overlay.png")
         self.play_idle = images_path("play_idle_overlay.png")
         self.idle = images_path("idle_overlay.png")
         self.locked = images_path("locked.png")
-        self.background = images_path("background_overlay.png")
-        self.__version = "2.0"
+        self.menu_bg = Solid("#fff5")
+        self.menu = images_path("background_overlay.png")
 
         self.thumbnails_folder = images_path("gallerynpy", "thumbnails", from_renpy=True)
+
         self.font_size = 20
         self.font = join_path("gallerynpy", "fonts", "JetBrainsMono-Bold.ttf", for_renpy=True)
+
         self.color = "#fff"
         self.hover_color = "#99ccff"
         self.selected_color = "#99ccff"
         self.insensitive_color = "#ffffff99"
 
-        # frame options properties
-        self.frame_color = "#0005"
-        self.frame_yalign = 0.992
-        self.frame_xsize = 420
-        self.frame_position = 'l'
-        self.frame_xpos = 45
-        self.frame_content_spacing = 10
-
         # item properties
-        self.item_xspacing = 10
+        self.spacing = width_ratio(0.0078125)
+        self.item_xspacing = self.spacing
 
-        self.spacing = 5
-        self.navigation_xpos = 45
-
-        self.pages_spacing = 0
-        self.pages_ysize = 120
-        self.adjustment = ui.adjustment()
-        self.animation_slide = 'animations'
-        self.show_pages_bar = False
-
-        self.pages_bar_position = 'r'
-        self.pages_bar_style = 'vscrollbar'  # No longer used
-        self.pages_bar_xsize = 20
-        if config.screen_width <= 1280:
-            self.pages_bar_xsize = 15
-        self.pages_bar_xpos = self.pages_bar_xsize * 2
-
-        if config.screen_width <= 1280:
-            self.pages_bar_xpos += 10
-
-        self.menu_bg = Solid("#ffffff00")
-        self.menu = Solid("#ffffff00")
         self.sort_slides = False
         self.rescale_images = True
-
         self.with_speed = persistent.gallerynpy_with_speed
         self.animation_speed = persistent.gallerynpy_animation_speed
+
+        self.navigation_position = "l"
+        self.navigation_xsize = width_ratio(0.21875)
+        self.navigation_yalign = 1.0
+        self.navigation_background = Solid("#0005")
+
+        self.navigation_slides_ysize = width_ratio(0.09)
+
+        self.navigation_slides_bar_xpos = 0
+        self.navigation_slides_bar_xsize = width_ratio(0.010416)
+        self.navigation_slides_bar_position = "r"
+
+        self.navigation_spacing = width_ratio(0.00390625)
+        self.navigation_slides_adjustment = ui.adjustment()
 
     def __set_resource_attribute(self, value: Resource, displayable):
         if value is None:
@@ -93,7 +86,7 @@ class Properties(Singleton):
 
     @not_found.setter
     def not_found(self, displayable):
-        self.__not_found = self.__set_resource_attribute(self.__not_found,  displayable)
+        self.__not_found = self.__set_resource_attribute(self.__not_found, displayable)
 
     @property
     def play_hover(self) -> Resource:
@@ -126,14 +119,6 @@ class Properties(Singleton):
     @locked.setter
     def locked(self, displayable):
         self.__locked = self.__set_resource_attribute(self.__locked, displayable)
-
-    @property
-    def background(self) -> Resource:
-        return self.__background
-
-    @background.setter
-    def background(self, displayable):
-        self.__background = self.__set_resource_attribute(self.__background, displayable)
 
     @property
     def version(self):
@@ -188,12 +173,12 @@ class Properties(Singleton):
         self.__selected_color = normalize_color(color)
 
     @property
-    def frame_color(self):
-        return self.__frame_color
+    def navigation_background(self):
+        return self.__navigation_background
 
-    @frame_color.setter
-    def frame_color(self, color: str):
-        self.__frame_color = normalize_color(color)
+    @navigation_background.setter
+    def navigation_background(self, displayable):
+        self.__navigation_background = self.__set_resource_attribute(self.__navigation_background, displayable)
 
     @property
     def menu_bg(self) -> Resource:
@@ -212,45 +197,46 @@ class Properties(Singleton):
         self.__menu = self.__set_resource_attribute(self.__menu, displayable)
 
     @property
-    def pages_bar_position(self):
-        return self.__pages_bar_position
+    def navigation_position(self):
+        return self.__navigation_position
 
-    @pages_bar_position.setter
-    def pages_bar_position(self, position: str):
+    @navigation_position.setter
+    def navigation_position(self, position: str):
         position = str(position).lower()
         if position not in ("l", "r"):
             position = "r"
-        self.__pages_bar_position = position
+        self.__navigation_position = position
 
     @property
-    def frame_position(self):
-        return self.__frame_position
+    def navigation_slides_bar_position(self):
+        return self.__navigation_slides_bar_position
 
-    @frame_position.setter
-    def frame_position(self, position: str):
+    @navigation_slides_bar_position.setter
+    def navigation_slides_bar_position(self, position: str):
         position = str(position).lower()
         if position not in ("l", "r"):
             position = "r"
-        self.__frame_position = position
+        self.__navigation_slides_bar_position = position
 
     @property
-    def frame_yalign(self):
-        return self.__frame_yalign
+    def navigation_yalign(self):
+        return self.__navigation_yalign
 
-    @frame_yalign.setter
-    def frame_yalign(self, yalign: float):
+    @navigation_yalign.setter
+    def navigation_yalign(self, yalign: float):
         yalign = float(yalign)
         if yalign < 0 or yalign > 1:
-            yalign = 0.90
-        self.__frame_yalign = yalign
+            yalign = 1.0
+        self.__navigation_yalign = yalign
 
     @property
-    def animation_slide(self):
-        return self.__animation_slide
+    def spacing(self):
+        return self.__spacing
 
-    @animation_slide.setter
-    def animation_slide(self, name: str):
-        self.__animation_slide = str(name)
+    @spacing.setter
+    def spacing(self, spacing: int):
+        spacing = max(int(spacing), 0)
+        self.__spacing = spacing
 
     @property
     def item_xspacing(self):
@@ -258,9 +244,7 @@ class Properties(Singleton):
 
     @item_xspacing.setter
     def item_xspacing(self, xspacing: int):
-        xspacing = int(xspacing)
-        if xspacing < 0:
-            xspacing = 10
+        xspacing = max(int(xspacing), 0)
         self.__item_xspacing = xspacing
 
     @property
@@ -280,9 +264,7 @@ class Properties(Singleton):
 
     @animation_speed.setter
     def animation_speed(self, value: int):
-        value = int(or_default(value, 1))
-        if value < 1:
-            value = 1
+        value = max(int(or_default(value, 1)), 1)
         self.__animation_speed = value
         persistent.gallerynpy_animation_speed = True
 
@@ -294,5 +276,47 @@ class Properties(Singleton):
     def force_loader(self, value: bool):
         self.__force_loader = or_default(value, False)
 
-    def __getattribute__(self, item):
-        return object.__getattribute__(self, item)
+    @property
+    def navigation_xsize(self):
+        return self.__navigation_xsize
+
+    @navigation_xsize.setter
+    def navigation_xsize(self, xsize: int):
+        xsize = max(int(xsize), 80)
+        self.__navigation_xsize = xsize
+
+    @property
+    def navigation_spacing(self):
+        return self.__navigation_spacing
+
+    @navigation_spacing.setter
+    def navigation_spacing(self, spacing: int):
+        spacing = max(int(spacing), 0)
+        self.__navigation_spacing = spacing
+
+    @property
+    def navigation_slides_ysize(self):
+        return self.__navigation_slides_ysize
+
+    @navigation_slides_ysize.setter
+    def navigation_slides_ysize(self, ysize: int):
+        ysize = max(int(ysize), 40)
+        self.__navigation_slides_ysize = ysize
+
+    @property
+    def navigation_slides_bar_xpos(self):
+        return self.__navigation_slides_bar_xpos
+
+    @navigation_slides_bar_xpos.setter
+    def navigation_slides_bar_xpos(self, xpos: int):
+        xpos = max(int(xpos), 0)
+        self.__navigation_slides_bar_xpos = xpos
+
+    @property
+    def navigation_slides_bar_xsize(self):
+        return self.__navigation_slides_bar_xsize
+
+    @navigation_slides_bar_xsize.setter
+    def navigation_slides_bar_xsize(self, xsize: int):
+        xsize = max(int(xsize), 5)
+        self.__navigation_slides_bar_xsize = xsize
