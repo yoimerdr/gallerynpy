@@ -9,6 +9,11 @@ init -3 python in gallerynpy:
 """
 from store import Image, renpy, im, Composite
 
+try:
+    displayable = renpy.display.displayable
+except:
+    displayable = renpy.display.core
+
 
 class UnsupportedResourceTypeError(Exception):
     def __init__(self, obj=None, message: str = None):
@@ -18,18 +23,18 @@ class UnsupportedResourceTypeError(Exception):
             else:
                 message = "The object type for the resource is not valid.: " + str(type(obj))
 
-        super().__init__(str(message))
+        super(UnsupportedResourceTypeError, self).__init__(str(message))
 
 
 class ResourceNameNotFoundError(Exception):
     def __init__(self, name: str, message: str = None):
         if message is None:
             message = "No image or animation block with name: '" + name + "'."
-        super().__init__(str(message))
+        super(ResourceNameNotFoundError, self).__init__(str(message))
 
 
 def is_displayable(obj):
-    return isinstance(obj, renpy.display.displayable.Displayable)
+    return isinstance(obj, displayable.Displayable)
 
 
 def get_displayable_of(displayable_like, force_check=False):
@@ -182,11 +187,11 @@ class Resource:
         if self.__size is None:
             return target
 
-        ratio = self.__size.width / self.__size.height
+        ratio = self.__size.aspect_ratio
 
-        if self.__size == target or ratio == 16 / 9:
+        if self.__size == target or ratio == 16.0 / 9:
             return target
-        elif ratio > 16 / 9:
+        elif ratio > 16.0 / 9:
             return Size(target.width, int(target.width / ratio))
 
         return Size(int(target.height * ratio), target.height)
@@ -212,7 +217,7 @@ class Resource:
             self.force_load_size()
             size = self.size_to(target)
             image = self.scale_to(target)
-        x = int(target.width / 2 - size.width / 2)
+        x = int(target.width / 2.0 - size.width / 2.0)
         return Composite((target.width, target.height), (x, 0), image)
 
 

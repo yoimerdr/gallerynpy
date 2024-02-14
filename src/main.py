@@ -11,7 +11,7 @@ def generate_dumpy_renpy():
 
     All the src/gallerynpy/store package is generated with this.
     """
-    args = [dumpy.PyParameter("*args"), dumpy.PyParameter("**kargs")]
+    args = [dumpy.PyParameter("*args"), dumpy.PyParameter("**kwargs")]
     display_pck = dumpy.PyPackage(
         name="display",
         files=[

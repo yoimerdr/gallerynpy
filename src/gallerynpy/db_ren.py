@@ -68,14 +68,17 @@ class Size:
 
     @property
     def aspect_ratio(self):
-        if self.width == 0:
+        if self.height == 0:
             return 0
-        return self.height / self.width
+        return float(self.width) / self.height
 
     def __eq__(self, other):
         if not is_size(other):
             return False
         return self.width == other.width and self.height == other.height
+
+    def __repr__(self):
+        return "<Size: " + str(self.width) + "x" + str(self.height) + ">"
 
 
 class SizesDb(Singleton):

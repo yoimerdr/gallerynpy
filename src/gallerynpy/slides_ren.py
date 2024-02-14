@@ -35,7 +35,7 @@ def is_slider(obj):
     return isinstance(obj, Slider)
 
 
-class SlideLike:
+class SlideLike(object):
     """
     The base class for the slides and sliders.
     """
@@ -130,7 +130,7 @@ class Slider(SlideLike):
         :param name: The name of the slider.
         :param parent: The `Slider` parent of this one.
         """
-        super().__init__(name, parent)
+        super(Slider, self).__init__(name, parent)
         self._items = {}
 
     @property
@@ -201,7 +201,7 @@ class Slider(SlideLike):
         return Slider(name=name, parent=self)
 
     def __getitem__(self, identifier: str) -> SlideLike | None:
-        return super().__getitem__(identifier)
+        return super(Slider, self).__getitem__(identifier)
 
 
 class Slide(SlideLike):
@@ -215,7 +215,7 @@ class Slide(SlideLike):
         :param is_for_animations: Sets True if the slide will be marked as one for animations.
         If it is marked for animations, only items of that type (or maybe not) will be accepted.
         """
-        super().__init__(name, parent)
+        super(Slide, self).__init__(name, parent)
         self.__is_anim_slide = is_for_animations
         self._items = []
 
@@ -262,4 +262,4 @@ class Slide(SlideLike):
         return None
 
     def __getitem__(self, identifier: int) -> Item | None:
-        return super().__getitem__(identifier)
+        return super(Slide, self).__getitem__(identifier)

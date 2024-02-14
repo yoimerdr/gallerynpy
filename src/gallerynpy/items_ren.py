@@ -45,8 +45,8 @@ class Thumbnail:
                 name = resource.resource.replace(resource.extension, ext)
                 path = join_path(properties.thumbnails_folder, name, for_renpy=True)
                 if is_loadable(path):
-                    resource = Resource(path)
-                    break
+                    return Resource(path).composite_to(self.size)
+            resource = properties.not_found
         elif resource.type not in (ResourceTypes.IMAGE, ResourceTypes.DISPLAYABLE):
             resource = properties.not_found
 

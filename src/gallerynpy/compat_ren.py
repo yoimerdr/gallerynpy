@@ -79,7 +79,7 @@ def put_item(where: str, resource, thumbnail_resource=None, song: str = None,
 
 def put_image(image, where: str = None, song: str = None, condition: str = None, tooltip: str = None,
               thumbnail_resource=None, ):
-    put_item(image, or_default(where, "images"), thumbnail_resource, song, condition, tooltip, False)
+    put_item(or_default(where, "images"), image,  thumbnail_resource, song, condition, tooltip, False)
 
 
 def put_video(filename: str, where: str = None, thumbnail=None, song=None, condition=None, tooltip=None):

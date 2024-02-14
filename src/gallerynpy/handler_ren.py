@@ -132,7 +132,7 @@ class Handler(Singleton):
         actual_width = config.screen_width - properties.navigation_xsize - properties.navigation_spacing - spacing
         width = actual_width / target
 
-        new_size = Size(width, int(width * _screen_size.aspect_ratio))
+        new_size = Size(width, int(width / _screen_size.aspect_ratio))
         if self.thumbnail_size is None:
             self.__thumbnail_size = new_size
         else:
@@ -242,7 +242,6 @@ class Handler(Singleton):
         else:
             idle_border = self.video_idle
             hover_border = self.video_hover
-
         button = self.__gallery.make_button(
             item.name, item.thumbnail.create(),
             idle_border=idle_border,
