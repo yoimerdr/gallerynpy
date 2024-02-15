@@ -91,8 +91,8 @@ class SizesDb(Singleton):
         self.__sizes = {}
         self.__save = False
         try:
-            fs = file(self.__source, from_game=True)
-            self.__sizes = json_module.load(fs)
+            with file(self.__source, from_game=True) as fs:
+                self.__sizes = json_module.load(fs)
         except:
             pass
 
@@ -148,8 +148,8 @@ class SizesDb(Singleton):
         if self.__save:
             try:
                 make_dir(self.__folder, from_game=True)
-                fs = file(self.__source, mode="w", encoding="utf-8", from_game=True)
-                json_module.dump(self.__sizes, fs)
+                with file(self.__source, mode="w", encoding="utf-8", from_game=True) as fs:
+                    json_module.dump(self.__sizes, fs)
                 self.__save = False
             except:
                 pass

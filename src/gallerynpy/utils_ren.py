@@ -14,8 +14,10 @@ __all__ = (
     "images_path",
     "make_dir",
     "normalize_color",
-    "or_default"
+    "or_default",
+    "_RENPY_SEPARATOR"
 )
+
 
 """renpy
 init -4 python in gallerynpy:
@@ -23,9 +25,10 @@ init -4 python in gallerynpy:
 
 import os
 import re
+import errno
 from store import renpy
 
-RENPY_SEPARATOR = "/"
+_RENPY_SEPARATOR = "/"
 
 
 class Singleton(object):
@@ -72,7 +75,7 @@ def join_path(first: str, *args: str, **kwargs):
     joined = os.path.join(first, *args)
     for_renpy = kwargs.get("for_renpy", False)
     if for_renpy:
-        return joined.replace(os.sep, RENPY_SEPARATOR)
+        return joined.replace(os.sep, _RENPY_SEPARATOR)
     return joined
 
 
@@ -117,7 +120,18 @@ def make_dir(path: str, from_game: bool = False):
     path = str(path)
     if from_game:
         path = join_path(gamepath(), path)
-    os.makedirs(path, exist_ok=True)
+
+    try:
+        return os.makedirs(path, exist_ok=True)
+    except TypeError:
+        pass
+    try:
+        return os.makedirs(path)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+        if os.path.isfile(path):
+            raise
 
 
 def split_folders(path: str):
@@ -160,7 +174,7 @@ def normalize_path(path: str, for_renpy: bool = False):
         return ""
     path = os.path.normpath(str(path))
     if for_renpy:
-        return path.replace(os.sep, RENPY_SEPARATOR)
+        return path.replace(os.sep, _RENPY_SEPARATOR)
     return path
 
 
