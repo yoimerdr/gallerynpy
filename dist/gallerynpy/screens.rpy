@@ -45,7 +45,7 @@ screen gallerynpy_items():
         for btn in gallerynpy.page_buttons():
             add btn
 
-screen gallerynpy_slides_options(show_bar=True):
+screen gallerynpy_slides_options():
     # gallerynpy.properties.slides_bar_position
     side "c " + gallerynpy.properties.navigation_slides_bar_position:
         # gallerynpy.properties.slides_spacing
@@ -54,7 +54,7 @@ screen gallerynpy_slides_options(show_bar=True):
             mousewheel True
             draggable True
 
-            if show_bar:
+            if gallerynpy.properties.navigation_slides_show_bar:
                 yadjustment gallerynpy.properties.navigation_slides_adjustment
 
             has vbox
@@ -64,7 +64,7 @@ screen gallerynpy_slides_options(show_bar=True):
                     selected gallerynpy.is_current(slide)
                     action gallerynpy.change_slide_to(slide)
 
-        if show_bar:
+        if gallerynpy.properties.navigation_slides_show_bar:
             vbar:
                 value YScrollValue("gallerynpy_slides_options")
                 style "gallerynpy_vscrollbar"

@@ -10,7 +10,6 @@ __all__ = (
     "is_slide"
 )
 
-
 """renpy
 init -3 python in gallerynpy:
 """
@@ -39,6 +38,7 @@ class SlideLike(object):
     """
     The base class for the slides and sliders.
     """
+
     def __init__(self, name: str, parent: "Slider"):
         """
         :param name: The name (identifier) of the `SlideLike`
@@ -125,6 +125,7 @@ class Slider(SlideLike):
     """
     A slider to contain `Slide`s or other `Slider`s
     """
+
     def __init__(self, name: str, parent: "Slider" = None):
         """
         :param name: The name of the slider.
@@ -203,11 +204,17 @@ class Slider(SlideLike):
     def __getitem__(self, identifier: str) -> SlideLike | None:
         return super(Slider, self).__getitem__(identifier)
 
+    def __iter__(self):
+        if self._items:
+            return iter(self._items.items())
+        return iter([])
+
 
 class Slide(SlideLike):
     """
     A slide to contain the `Item`s
     """
+
     def __init__(self, name: str, parent: Slider = None, is_for_animations: bool = False):
         """
         :param name: The name of the slide.

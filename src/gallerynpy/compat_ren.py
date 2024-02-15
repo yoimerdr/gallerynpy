@@ -1,10 +1,15 @@
 from handler_ren import *
 from handler_ren import _handler, _custom_names, _screen_size
-from resources_ren import load_named_resources
+from resources_ren import _named_resources_loader
 
 """renpy
 init python in gallerynpy:
 """
+
+
+def load_named_resources():
+    _named_resources_loader.load()
+    _handler.check_puts()
 
 
 def to_first_slide(sort: bool = False):
@@ -56,7 +61,7 @@ def is_current(name: str):
 
 
 def change_slide_to(slide_name: str):
-    return [Function(_handler.update, True), Function(_handler.change_slide, slide_name)]
+    return Function(_handler.change_slide, slide_name)
 
 
 def back(from_animation_options=False):
@@ -68,7 +73,7 @@ def is_for_animations():
 
 
 def update(start: bool = False):
-    return _handler.update(start)
+    return _handler.update()
 
 
 def put_item(where: str, resource, thumbnail_resource=None, song: str = None,
@@ -79,7 +84,7 @@ def put_item(where: str, resource, thumbnail_resource=None, song: str = None,
 
 def put_image(image, where: str = None, song: str = None, condition: str = None, tooltip: str = None,
               thumbnail_resource=None, ):
-    put_item(or_default(where, "images"), image,  thumbnail_resource, song, condition, tooltip, False)
+    put_item(or_default(where, "images"), image, thumbnail_resource, song, condition, tooltip, False)
 
 
 def put_video(filename: str, where: str = None, thumbnail=None, song=None, condition=None, tooltip=None):
@@ -116,7 +121,8 @@ def create_animation(atl_object, thumbnail_name, song=None, condition=None, tool
 
 def put_slide_like(slide: Slide | Slider, *args: Slide | Slider):
     _handler.put_slide_like(slide)
-    [_handler.put_slide_like(slide) for slide in args]
+    for slide in args:
+        _handler.put_slide_like(slide)
 
 
 def put_slider(slider: Slider):
@@ -125,3 +131,7 @@ def put_slider(slider: Slider):
 
 def screen_size():
     return Size.from_size(_screen_size)
+
+
+def change_transition(transition):
+    _handler.change_transition(transition)

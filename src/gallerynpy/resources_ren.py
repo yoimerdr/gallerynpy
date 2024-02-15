@@ -71,7 +71,8 @@ class NamedResourcesLoader(Singleton):
             self.__resources.append(resource)
 
     def load(self):
-        [resource.load(True) for resource in self.__resources]
+        for resource in self.__resources:
+            resource.load(True)
         self.__resources.clear()
 
 
@@ -220,6 +221,3 @@ class Resource:
         x = int(target.width / 2.0 - size.width / 2.0)
         return Composite((target.width, target.height), (x, 0), image)
 
-
-def load_named_resources():
-    _named_resources_loader.load()

@@ -48,6 +48,10 @@ class Properties(Singleton):
         self.item_xspacing = self.spacing
 
         self.sort_slides = False
+        self.keep_loaded = False
+        self.load_in_put = False
+
+
         self.rescale_images = True
         self.with_speed = persistent.gallerynpy_with_speed
         self.animation_speed = persistent.gallerynpy_animation_speed
@@ -59,6 +63,7 @@ class Properties(Singleton):
 
         self.navigation_slides_ysize = width_ratio(0.09)
 
+        self.navigation_slides_show_bar = False
         self.navigation_slides_bar_xpos = 0
         self.navigation_slides_bar_xsize = width_ratio(0.010416)
         self.navigation_slides_bar_position = "r"
@@ -267,14 +272,6 @@ class Properties(Singleton):
         value = max(int(or_default(value, 1)), 1)
         self.__animation_speed = value
         persistent.gallerynpy_animation_speed = True
-
-    @property
-    def force_loader(self):
-        return self.__force_loader
-
-    @force_loader.setter
-    def force_loader(self, value: bool):
-        self.__force_loader = or_default(value, False)
 
     @property
     def navigation_xsize(self):

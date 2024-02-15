@@ -22,6 +22,7 @@ class Handler(Singleton):
         self.__max_per_page = 0
 
         self.__thumbnail_size = None
+        self.__gallery_released = False
         self.__gallery = Gallery()
         self.__gallery.transition = dissolve
 
@@ -33,8 +34,6 @@ class Handler(Singleton):
         self.__current_slider = self.__sliders
         self.__current_slide = ""
         self.__item_id = 0
-
-        self.__for_put = []
 
     def __change_tooltip(self, tooltip: str):
         self.__tooltip = str(tooltip)
@@ -64,12 +63,12 @@ class Handler(Singleton):
     def __add_slide_to_gallery(self, slide: Slide):
         if not is_slide(slide):
             return
-        self.__for_put.extend(slide)
+        for item in slide:
+            self.__add_to_gallery(item)
 
     def __slide_like_to_gallery(self, slider: Slider | Slide):
         if is_slider(slider):
-            for item in slider:
-                key, slide = item
+            for (_, slide) in slider:
                 if is_slider(slide):
                     self.__slide_like_to_gallery(slide)
                 elif is_slide(slide):
@@ -87,6 +86,23 @@ class Handler(Singleton):
             self.__current_slider = self.__sliders
 
         self.to_first_slide(properties.sort_slides)
+
+    def __init_gallery(self):
+        if not self.__gallery_released or properties.keep_loaded:
+            return
+
+        self.__gallery = Gallery()
+        self.__gallery.transition = dissolve
+        self.__gallery.locked_button = self.scale(properties.locked)
+        self.__gallery_released = False
+        if properties.load_in_put:
+            self.__slide_like_to_gallery(self.__sliders)
+
+    def __release_gallery(self):
+        if properties.keep_loaded:
+            return
+        del self.__gallery
+        self.__gallery_released = True
 
     @property
     def start(self):
@@ -107,6 +123,37 @@ class Handler(Singleton):
     @property
     def rows(self):
         return self.__rows
+
+    @property
+    def max_per_page(self):
+        return self.__max_per_page
+
+    @property
+    def idle(self):
+        return self.scale(properties.idle)
+
+    @property
+    def video_idle(self):
+        return self.scale(properties.play_idle)
+
+    @property
+    def video_hover(self):
+        return self.scale(properties.play_hover)
+
+    @property
+    def current_slides(self):
+        return self.__current_slider.slides
+
+    @property
+    def current_slide(self):
+        return self.__current_slide
+
+    @property
+    def tooltip(self):
+        return self.__tooltip
+
+    def __change_page(self, page: int):
+        self.__page = int(page)
 
     def change_distribution(self, columns: int = None, rows: int = None):
         if columns is None:
@@ -139,41 +186,13 @@ class Handler(Singleton):
             self.thumbnail_size.set(new_size)
         self.__gallery.locked_button = self.scale(properties.locked)
 
-    @property
-    def max_per_page(self):
-        return self.__max_per_page
-
     def scale(self, resource: Resource):
         if not isinstance(resource, Resource):
             resource = Resource(resource, properties.force_loader)
         return resource.scale_to(self.thumbnail_size)
 
-    @property
-    def idle(self):
-        return self.scale(properties.idle)
-
-    @property
-    def video_idle(self):
-        return self.scale(properties.play_idle)
-
-    @property
-    def video_hover(self):
-        return self.scale(properties.play_hover)
-
-    @property
-    def current_slides(self):
-        return self.__current_slider.slides
-
-    @property
-    def current_slide(self):
-        return self.__current_slide
-
-    @property
-    def tooltip(self):
-        return self.__tooltip
-
-    def __change_page(self, page: int):
-        self.__page = int(page)
+    def change_transition(self, transition):
+        self.__gallery.transition = transition
 
     def put_item(self, item: Item, where: str, for_animation_slide: bool = False):
         if where is None or not where:
@@ -186,7 +205,6 @@ class Handler(Singleton):
             self.__sliders.put(slide)
 
         slide.put(item)
-        self.__for_put.append(item)
 
     def create_item(self, resource, thumbnail_resource=None, song: str = None, condition: str = None,
                     tooltip: str = None):
@@ -211,8 +229,12 @@ class Handler(Singleton):
     def put_slide_like(self, slide: Slide | Slider):
         if not is_slide(slide) and not is_slider(slide):
             return
-        self.__slide_like_to_gallery(slide)
         self.__sliders.put(slide)
+
+    def check_puts(self):
+        if not properties.load_in_put:
+            return
+        self.__slide_like_to_gallery(self.__sliders)
 
     def change_slide(self, name: str):
         name = str(or_default(name, ""))
@@ -221,6 +243,7 @@ class Handler(Singleton):
                 self.to_first_slide(properties.sort_slides)
             else:
                 self.__current_slide = name
+            self.__page = 0
 
     def is_current_slide(self, name: str):
         return self.current_slide == str(or_default(name, ""))
@@ -234,7 +257,10 @@ class Handler(Singleton):
         if not is_item(item) or item.resource.type == ResourceTypes.NONE:
             return button
 
-        self.__add_to_gallery(item)
+        if not properties.load_in_put:
+            if not properties.keep_loaded or (properties.keep_loaded and
+                                              item.name not in self.__gallery.buttons.keys()):
+                self.__add_to_gallery(item)
 
         if item.resource.type in (ResourceTypes.IMAGE, ResourceTypes.DISPLAYABLE):
             idle_border = self.idle
@@ -242,6 +268,7 @@ class Handler(Singleton):
         else:
             idle_border = self.video_idle
             hover_border = self.video_hover
+
         button = self.__gallery.make_button(
             item.name, item.thumbnail.create(),
             idle_border=idle_border,
@@ -250,6 +277,7 @@ class Handler(Singleton):
             hovered=Function(self.__change_tooltip, item.tooltip),
             unhovered=Function(self.__change_tooltip, "")
         )
+
         if not item.meets_condition:
             button.action = NullAction()
         elif item.resource.type == ResourceTypes.VIDEO:
@@ -315,17 +343,16 @@ class Handler(Singleton):
 
     def back(self, from_animation_options=False):
         if not from_animation_options and self.__current_slider != self.__sliders:
-            return [Function(self.update, True), Function(self.__change_to_parent)]
+            return Function(self.__change_to_parent)
 
+        to_first = Function(self.to_first_slide, properties.sort_slides)
         if from_animation_options and self.is_current_for_animations:
-            return [Function(self.update, True), Function(self.to_first_slide, properties.sort_slides)]
+            return to_first
 
-        return [Return(), Function(db.save)]
+        return [Function(self.__release_gallery), to_first, Return(), Function(db.save)]
 
-    def update(self, start: bool = False):
-        if start:
-            self.__page = 0
-
+    def update(self):
+        self.__init_gallery()
         self.__start = self.__page * self.max_per_page
         self.__end = min(self.start + self.max_per_page - 1, self.current_slide_size() - 1)
 
