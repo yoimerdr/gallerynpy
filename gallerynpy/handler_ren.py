@@ -226,6 +226,9 @@ class Handler(Singleton):
     def create_slider(self, name: str):
         return self.__sliders.create_slider(name)
 
+    def create_slide(self, name: str, for_animation=False):
+        return self.__sliders.create_slide(name, for_animation)
+
     def put_slide_like(self, slide: Slide | Slider):
         if not is_slide(slide) and not is_slider(slide):
             return

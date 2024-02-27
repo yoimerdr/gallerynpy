@@ -1,6 +1,6 @@
 from handler_ren import *
 from handler_ren import _handler, _custom_names, _screen_size
-from resources_ren import _named_resources_loader
+from resources_ren import _named_resources_loader, is_resource, is_animation
 
 """renpy
 init python in gallerynpy:
@@ -84,19 +84,27 @@ def put_item(where: str, resource, thumbnail_resource=None, song: str = None,
 
 def put_image(image, where: str = None, song: str = None, condition: str = None, tooltip: str = None,
               thumbnail_resource=None, ):
+    if is_resource(image):
+        image = image.resource
     put_item(or_default(where, "images"), image, thumbnail_resource, song, condition, tooltip, False)
 
 
-def put_video(filename: str, where: str = None, thumbnail=None, song=None, condition=None, tooltip=None):
+def put_video(filename: str | Resource, where: str = None, thumbnail=None, song=None, condition=None, tooltip=None):
     if filename:
-        filename = str(filename)
+        if is_resource(filename):
+            filename = filename.resource
+        else:
+            filename = str(filename)
     put_item(or_default(where, "videos"), filename, thumbnail, song, condition, tooltip, False)
 
 
-def put_animation(animation_name: str, thumbnail_name=None, where=None, song=None,
+def put_animation(animation_name: str | Resource, thumbnail_name=None, where=None, song=None,
                   condition=None, is_animation_slide=True, tooltip=None):
     if animation_name:
-        animation_name = str(animation_name)
+        if is_resource(animation_name):
+            animation_name = animation_name.resource
+        elif not is_animation(animation_name):
+            animation_name = str(animation_name)
     put_item(or_default(where, "animations"), animation_name, thumbnail_name,
              song, condition, tooltip, is_animation_slide)
 
@@ -119,14 +127,22 @@ def create_animation(atl_object, thumbnail_name, song=None, condition=None, tool
     return create_video(atl_object, thumbnail_name, song, condition, tooltip)
 
 
+def create_slider(name: str):
+    return _handler.create_slider(name)
+
+
+def create_slide(name, is_animation_slide=False):
+    return _handler.create_slide(name, is_animation_slide)
+
+
 def put_slide_like(slide: Slide | Slider, *args: Slide | Slider):
     _handler.put_slide_like(slide)
     for slide in args:
         _handler.put_slide_like(slide)
 
 
-def put_slider(slider: Slider):
-    put_slide_like(slider)
+def put_slider(slider: Slide | Slider, *args: Slide | Slider):
+    put_slide_like(slider, *args)
 
 
 def screen_size():

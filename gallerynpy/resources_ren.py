@@ -11,7 +11,9 @@ from store import Image, renpy, im, Composite
 
 try:
     displayable = renpy.display.displayable
-except:
+except AttributeError:
+    displayable = renpy.display.core
+except ImportError:
     displayable = renpy.display.core
 
 
@@ -35,6 +37,10 @@ class ResourceNameNotFoundError(Exception):
 
 def is_displayable(obj):
     return isinstance(obj, displayable.Displayable)
+
+
+def is_resource(obj):
+    return isinstance(obj, Resource)
 
 
 def get_displayable_of(displayable_like, force_check=False):
@@ -65,7 +71,7 @@ class NamedResourcesLoader(Singleton):
         self.__resources = []
 
     def push(self, resource: "Resource"):
-        if not isinstance(resource, Resource):
+        if not is_resource(resource):
             return
         if resource.type == ResourceTypes.NONE and resource.extension is None:
             self.__resources.append(resource)
@@ -94,11 +100,11 @@ class Resource:
 
         def image_like(displayable, nameable: bool = False):
             if displayable:
-                if is_image(displayable):
+                if is_animation(displayable):
+                    self.__type = ResourceTypes.ANIMATION
+                elif is_image(displayable):
                     self.__size = db.get_size(self.resource, named=True)
                     self.__type = ResourceTypes.IMAGE
-                elif is_animation(displayable):
-                    self.__type = ResourceTypes.ANIMATION
                 elif is_displayable(displayable):
                     self.__type = ResourceTypes.DISPLAYABLE
                 else:
@@ -136,7 +142,7 @@ class Resource:
 
     @resource.setter
     def resource(self, resource):
-        if isinstance(resource, Resource):
+        if is_resource(resource):
             resource = resource.resource
         self.__resource = resource
         self.load(self.__force_check)
@@ -211,7 +217,7 @@ class Resource:
     def composite_to(self, target: Size):
         if not is_size(target):
             raise ValueError("The target size mut be a Size object")
-        if self.type == ResourceTypes.DISPLAYABLE:
+        if self.type in (ResourceTypes.DISPLAYABLE, ResourceTypes.ANIMATION):
             image = self.resource
             size = target
         else:
@@ -221,3 +227,5 @@ class Resource:
         x = int(target.width / 2.0 - size.width / 2.0)
         return Composite((target.width, target.height), (x, 0), image)
 
+    def __repr__(self):
+        return "Resource('{}')".format(self.resource)
