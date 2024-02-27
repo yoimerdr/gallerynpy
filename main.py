@@ -1,8 +1,12 @@
 import glob
 import os.path
+import pathlib
 
 import generation.converts as converts
 import generation.dump_py as dumpy
+import generation.copyright as gencopy
+
+release_year = 2023
 
 
 def generate_dumpy_renpy():
@@ -181,7 +185,7 @@ def generate_dumpy_renpy():
         import_all=True
     )
 
-    store_pck.create("src/gallerynpy")
+    store_pck.create("gallerynpy")
 
 
 def generate_rpy():
@@ -189,9 +193,10 @@ def generate_rpy():
     Copy the contents of the _ren.py files and pass them to an .rpy file according to the renpy instruction present in it.
     """
     files = glob.glob("**/*_ren.py", recursive=True)
-    converts.to_python_rpy_files(files, out_folder=os.path.abspath("../dist/gallerynpy"))
+    out = pathlib.Path(os.path.abspath("dist"))
+    converts.to_rpyf(files, out_folder=str(out))
+    gencopy.add_to(out.glob("**/*.rpy"), release_year, "Yoimer Davila")
 
 
 # generate_dumpy_renpy()
 generate_rpy()
-
