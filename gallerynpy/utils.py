@@ -1,40 +1,41 @@
-__all__ = (
-    "Singleton",
-    "gamepath",
-    "join_path",
-    "file",
-    "file_extension",
-    "is_loadable",
-    "is_image",
-    "is_animation",
-    "is_hex_color",
-    "get_registered",
-    "split_folders",
-    "normalize_path",
-    "images_path",
-    "make_dir",
-    "normalize_color",
-    "or_default",
-    "_RENPY_SEPARATOR"
-)
+# Copyright © 2023-2024, Yoimer Davila. <https://github.com/yoimerdr/gallerynpy>
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 
 """renpy
-init -4 python in gallerynpy:
+init -5 python in gallerynpy:
+# docstring:1
+The gallerynpy stored module.
 """
 
 import os
 import re
 import errno
-from store import renpy
+from store import renpy, config
 
-_RENPY_SEPARATOR = "/"
+RENPY_SEP = "/"
 
 
 class Singleton(object):
     """
     A class to simulate a `singleton`.
-
     Each class that inherits from this one will only have a single instance.
     """
     _instances = {}
@@ -69,13 +70,13 @@ def join_path(first: str, *args: str, **kwargs):
     :param first: The initial path
     :param args: The other paths to joint with.
     :param kwargs: Only the variable keyword `from_renpy` will be taken.
-    If it is `True`, the system path separator is replaced by the one used by renpy
+        If it is `True`, the system path separator is replaced by the one used by renpy
     :return: The joined path.
     """
     joined = os.path.join(first, *args)
     for_renpy = kwargs.get("for_renpy", False)
     if for_renpy:
-        return joined.replace(os.sep, _RENPY_SEPARATOR)
+        return joined.replace(os.sep, RENPY_SEP)
     return joined
 
 
@@ -174,7 +175,7 @@ def normalize_path(path: str, for_renpy: bool = False):
         return ""
     path = os.path.normpath(str(path))
     if for_renpy:
-        return path.replace(os.sep, _RENPY_SEPARATOR)
+        return path.replace(os.sep, RENPY_SEP)
     return path
 
 
@@ -184,8 +185,8 @@ def images_path(first: str, *args, **kwargs):
     :param first: The first path to append
     :param args: The other paths to append with.
     :param kwargs: Only the variable keyword `from_renpy` will be taken.
-    If `True`, the paths will be appended to the `images` folder of the game,
-    otherwise to the gallerynpy images folder.
+        If `True`, the paths will be appended to the `images` folder of the game,
+        otherwise to the gallerynpy images folder.
     :return: The joined path.
     """
     from_renpy = kwargs.get("from_renpy", False)
@@ -287,3 +288,12 @@ def normalize_color(hex_color: str) -> str:
     if alpha:
         out += alpha
     return out.upper()
+
+
+def width_ratio(ratio: float) -> int:
+    """
+    Calculates the width corresponding to the given ratio with respect to the `config.screen_width`.
+    :param ratio: The ratio value
+    :return: The calculated width
+    """
+    return int(config.screen_width * ratio)

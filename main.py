@@ -1,12 +1,12 @@
 import glob
 import os.path
 import pathlib
-
 import generation.converts as converts
-import generation.dump_py as dumpy
 import generation.copyright as gencopy
+import generation.dump_py as dumpy
 
 release_year = 2023
+repo = "https://github.com/yoimerdr/gallerynpy"
 
 
 def generate_dumpy_renpy():
@@ -18,11 +18,18 @@ def generate_dumpy_renpy():
     args = [dumpy.PyParameter("*args"), dumpy.PyParameter("**kwargs")]
     display_pck = dumpy.PyPackage(
         name="display",
+        variables=[
+            dumpy.PyVariable("core", value="displayable", has_value=True)
+        ],
         files=[
             dumpy.PyFile(
                 name="im",
                 imports=[
-                    "from .displayable import Displayable"
+                    dumpy.PyImport(
+                        dumpy.Nameable("displayable"),
+                        imports=[dumpy.Nameable("Displayable")],
+                        relative=True
+                    )
                 ],
                 classes=[
                     dumpy.PyClass(name="Surfer", methods=[
@@ -71,9 +78,7 @@ def generate_dumpy_renpy():
             dumpy.PyFile(
                 name="config",
                 variables=[
-                    dumpy.PyVariable(name="basedir", value="/"),
-                    dumpy.PyVariable(name="screen_width", value=1920),
-                    dumpy.PyVariable(name="screen_height", value=1080)
+                    dumpy.PyVariable(name="basedir", value="'/'")
                 ]
             )
         ],
@@ -87,7 +92,8 @@ def generate_dumpy_renpy():
                 name="get_registered_image",
                 params=[dumpy.PyParameter("name")],
                 simple_return="Image(name)"
-            )
+            ),
+            dumpy.PyFunction(name="restart_interaction")
         ],
         packages=[
             display_pck
@@ -97,10 +103,28 @@ def generate_dumpy_renpy():
 
     store_pck = dumpy.PyPackage(
         "store",
+        imports=[
+            dumpy.PyImport(
+                dumpy.Nameable("renpy.display"),
+                relative=True,
+                import_all=True
+            )
+        ],
         variables=[
             dumpy.PyVariable(name="dissolve")
         ],
         classes=[
+            dumpy.PyClass(
+                name="Action",
+                methods=[
+                    dumpy.PyFunction(name="get_sensitive", simple_return="True"),
+                    dumpy.PyFunction(name="get_selected", simple_return="False"),
+                    dumpy.PyFunction(name="__call__", params=[
+                        dumpy.PyParameter(name="*args"),
+                        dumpy.PyParameter(name="**kwargs")
+                    ])
+                ]
+            ),
             dumpy.PyClass(
                 name="Solid",
                 parent=dumpy.Nameable("Displayable"),
@@ -148,7 +172,7 @@ def generate_dumpy_renpy():
                 ])
             ]),
             dumpy.PyClass(name="Null"),
-            dumpy.PyClass(name="NullAction"),
+            dumpy.PyClass(name="NullAction", parent=dumpy.Nameable(name="Action")),
             dumpy.PyClass(name="Return"),
             dumpy.PyClass(name="Gallery", methods=[
                 dumpy.PyFunction(name="image", params=[
@@ -180,23 +204,36 @@ def generate_dumpy_renpy():
             dumpy.PyFile(name="persistent", variables=[
                 dumpy.PyVariable(name="gallerynpy_with_speed"),
                 dumpy.PyVariable(name="gallerynpy_animation_speed")
+            ]),
+            dumpy.PyFile(name="config", variables=[
+                dumpy.PyVariable(name="screen_width", value=1920),
+                dumpy.PyVariable(name="screen_height", value=1080)
             ])
         ],
-        import_all=True
+        import_all=False
     )
 
-    store_pck.create("gallerynpy")
+    store_pck.create()
+
+
+def add_copyright():
+    files = glob.glob("gallerynpy/**/*.py", recursive=True)
+    gencopy.remove_from(files, release_year, "Yoimer Davila", repo)
+    gencopy.add_to(files, release_year, "Yoimer Davila", repo)
 
 
 def generate_rpy():
     """
     Copy the contents of the _ren.py files and pass them to an .rpy file according to the renpy instruction present in it.
     """
-    files = glob.glob("**/*_ren.py", recursive=True)
+    files = glob.glob("gallerynpy/**/*.py", recursive=True)
     out = pathlib.Path(os.path.abspath("dist"))
     converts.to_rpyf(files, out_folder=str(out))
-    gencopy.add_to(out.glob("**/*.rpy"), release_year, "Yoimer Davila")
+    gencopy.add_to(out.glob("**/*.rpy"), release_year, "Yoimer Davila", repo)
 
 
 # generate_dumpy_renpy()
+add_copyright()
+
 generate_rpy()
+

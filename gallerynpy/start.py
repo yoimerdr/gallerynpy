@@ -19,12 +19,18 @@
 # SOFTWARE.
 
 
-from .utils import *
-from .db import *
-from . import resources, actions
-from .properties import *
-from .items import *
-from .slides import *
-from .handler import *
-from .compat import *
-from .start import *
+import gallerynpy
+
+"""renpy
+init python:
+"""
+gallerynpy.init()
+
+"""renpy
+init 9999 python:
+"""
+gallerynpy.properties.force_loader = True
+gallerynpy.init()
+gallerynpy.load_named_resources()
+gallerynpy.db.save()
+gallerynpy.to_first_slide(gallerynpy.properties.sort_slides)
