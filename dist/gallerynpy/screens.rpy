@@ -1,9 +1,29 @@
+# Copyright © 2023-2024, Yoimer Davila
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 screen gallerynpy():
     tag menu
     $ gallerynpy.update()
     style_prefix "game_menu"
-    add gallerynpy.properties.menu_bg.composite_to(gallerynpy.screen_size())
-    add gallerynpy.properties.menu.composite_to(gallerynpy.screen_size())
+    add gallerynpy.properties.menu_bg.composite_to(gallerynpy.screen_size)
+    add gallerynpy.properties.menu.composite_to(gallerynpy.screen_size)
     text _("Gallerynpy v[gallerynpy.properties.version]"):
         style "gallerynpy_version"
         if gallerynpy.properties.navigation_position == "r":
@@ -38,17 +58,14 @@ screen gallerynpy_navigation():
             use gallerynpy_pages_options
 
 screen gallerynpy_items():
-    $ columns, rows = gallerynpy.distribution()
-    grid columns rows:
+    grid gallerynpy.cols() gallerynpy.rows():
         style "gallerynpy_items"
         xspacing gallerynpy.properties.item_xspacing
         for btn in gallerynpy.page_buttons():
             add btn
 
 screen gallerynpy_slides_options():
-    # gallerynpy.properties.slides_bar_position
     side "c " + gallerynpy.properties.navigation_slides_bar_position:
-        # gallerynpy.properties.slides_spacing
         viewport id "gallerynpy_slides_options":
             style "gallerynpy_slides"
             mousewheel True
@@ -76,10 +93,10 @@ screen gallerynpy_animations_options():
     vbox:
         text "Velocity:"
         hbox:
-            textbutton "x1" action SetVariable("gallerynpy.properties.animation_speed", 1)
-            textbutton "x2" action SetVariable("gallerynpy.properties.animation_speed", 2)
-            textbutton "x3" action SetVariable("gallerynpy.properties.animation_speed", 3)
-            textbutton "x4" action SetVariable("gallerynpy.properties.animation_speed", 4)
+            textbutton "x1" action gallerynpy.actions.ChangeAnimationSpeed(1)
+            textbutton "x2" action gallerynpy.actions.ChangeAnimationSpeed(2)
+            textbutton "x3" action gallerynpy.actions.ChangeAnimationSpeed(3)
+            textbutton "x4" action gallerynpy.actions.ChangeAnimationSpeed(4)
 
 screen gallerynpy_pages_options(from_animation_options=False):
     vbox:
@@ -97,7 +114,7 @@ screen gallerynpy_tooltip(tooltip):
             style_prefix "gallerynpy_tooltip"
             style "gallerynpy_tooltip"
             if gallerynpy.properties.navigation_position == "r":
-                xalign 0.0
+                xalign 1.0
             background None
             text "[tooltip!t]":
                 xalign 0.5
