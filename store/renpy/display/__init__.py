@@ -3,3 +3,5 @@ from .transform import *
 from .displayable import *
 
 
+core = displayable
+

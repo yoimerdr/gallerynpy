@@ -15,6 +15,6 @@ class Image(Displayable):
 
 
 class Scale(Displayable):
-    def __init__(self, path, width, height, *args, **kargs):
+    def __init__(self, path, width, height, *args, **kwargs):
         pass
 

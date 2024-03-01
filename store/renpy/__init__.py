@@ -8,3 +8,7 @@ def loadable(path):
 
 def get_registered_image(name):
     return Image(name)
+
+
+def restart_interaction():
+    pass
