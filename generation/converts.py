@@ -34,9 +34,12 @@ def to_rpys(text: str) -> str:
     text = strip_types(text)
 
     text = formate_code(text)
+    command_pattern = re.compile(r'^"""renpy\n([\s\w:$=.\',()#"-]*?)\n"""$', re.MULTILINE)
 
-    matches = [(match.group(1), text.count("\n", 0, match.start()))
-               for match in re.finditer(r'^"""renpy\n([\s\w:$=.\',()"-]*)\n"""$', text, re.MULTILINE)]
+    def match_line(pattern, text):
+        return [(match, text.count("\n", 0, match.start())) for match in re.finditer(pattern, text)]
+
+    matches = [(match.group(1), line) for (match, line) in match_line(command_pattern, text)]
 
     if matches:
         lines = text.split("\n")
@@ -76,10 +79,25 @@ def to_rpys(text: str) -> str:
                     break
                 end, _ = blocks[index]
                 text += make_block(item, end) + "\n\n"
+            text = text + make_block(blocks[-1])
+        else:
+            text = make_block(blocks[0])
+        docstring_pattern = re.compile(r"# *?docstring:([0-9]+)*?$", re.MULTILINE)
+        matches = match_line(docstring_pattern, text)
+        if not matches:
+            return text
 
-            return text + make_block(blocks[-1])
+        lines = text.split("\n")
 
-        return make_block(blocks[0])
+        for match, line in matches:
+            length = match.group(1)
+            if length:
+                length = int(length)
+                start = "\n".join(lines[line: line + 1 + length])
+                docs = '{}"""\n{}\n{}"""'.format(INDENT, "\n".join(lines[line + 1: line + 1 + length]), INDENT)
+                text = text.replace(start, docs)
+
+        return text
     return ""
 
 

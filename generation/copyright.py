@@ -22,7 +22,7 @@ def create(text, endline="\n"):
 
 def copyline(start, owner, contact="", end=None):
     if contact:
-        contact = " <{}>".format(contact)
+        contact = ". <{}>".format(contact)
 
     if not end:
         end = datetime.datetime.now().year
@@ -284,15 +284,28 @@ def remove_from(filepaths, start, owner, contact="", end=None, copytype=MIT):
     if copytype not in LICENSES:
         raise ValueError("Unknown copyright type '{}'".format(copytype))
 
-    copy = ""
-    if copytype == MIT:
-        copy = create_mit(start, owner, contact, end)
-    elif copytype == APACHE2:
-        copy = creat_apache2(start, owner, contact, end)
+    if not end:
+        end = datetime.datetime.now().year
+    difference = end - start
+
+    def create_copy(end):
+        if copytype == MIT:
+            return create_mit(start, owner, contact, end)
+        elif copytype == APACHE2:
+            return creat_apache2(start, owner, contact, end)
+        return ""
 
     for filepath in filepaths:
         if not isinstance(filepath, pathlib.Path):
             filepath = pathlib.Path(filepath)
-        if filepath.is_file() and copy:
-            data = filepath.read_text(encoding="utf-8").replace(copy, "")
+        if filepath.is_file():
+            data = filepath.read_text(encoding="utf-8")
+            for index in range(difference):
+                copy = create_copy(start + index)
+                if copy:
+                    data = data.replace(copy + "\n\n", "")
+
+            copy = create_copy(end)
+            if copy:
+                data = data.replace(copy + "\n\n", "")
             filepath.write_text(data, encoding="utf-8")

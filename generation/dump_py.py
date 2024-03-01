@@ -74,11 +74,10 @@ class PyVariable(Nameable, Indenteable):
 
     @value.setter
     def value(self, value: str):
-        _val = str(value)
-        if isinstance(value, str):
-            _val = "'" + value + "'"
-        elif value is None:
+        if value is None:
             _val = "None"
+        else:
+            _val = str(value)
         self._value = _val
 
     @property
@@ -213,9 +212,40 @@ class PyClass(Nameable, Indenteable):
         return out
 
 
+class PyImport:
+    def __init__(self, package: Nameable, imports: list[Nameable] = None,
+                 import_all: bool = False, relative: bool = False):
+        self.__package = package
+        if not imports:
+            imports = []
+        self.__imports = tuple(imports)
+        self.__import_all = import_all
+        self.__relative = relative
+
+    def __str__(self):
+        def get_imports():
+            if self.__imports:
+                return ", ".join(str(it) for it in self.__imports)
+            return ""
+
+        if self.__relative:
+            if self.__import_all:
+                return "from .{} import *".format(self.__package)
+            elif self.__imports:
+                return "from .{} import {}".format(self.__package, get_imports())
+
+            return "from . {}".format(self.__package)
+        elif self.__imports:
+            return "from {} import {}".format(self.__package, get_imports())
+        elif self.__import_all:
+            return "from {} import *".format(self.__package)
+
+        return "import {}".format(self.__package)
+
+
 class PyFile(Nameable):
     def __init__(self, name: str, functions: list[PyFunction] = None, classes: list[PyClass] = None,
-                 variables: list[PyVariable] = None, imports: list[str] = None):
+                 variables: list[PyVariable] = None, imports: list[PyImport] = None):
         super().__init__(name)
         self.functions = functions
         self.classes = classes
@@ -247,7 +277,7 @@ class PyFile(Nameable):
         self.__vars = _to_nameable_dict(variables)
 
     @property
-    def imports(self) -> list[str]:
+    def imports(self) -> tuple[str]:
         return self.__imports
 
     @imports.setter
@@ -255,7 +285,7 @@ class PyFile(Nameable):
         imports = _or_default(imports, [])
         if not isinstance(imports, list) and isinstance(imports, tuple):
             imports = list(imports)
-        self.__imports = imports
+        self.__imports = tuple(imports)
 
     def _get_file_data(self):
         data = ""
@@ -288,8 +318,8 @@ class PyFile(Nameable):
 class PyPackage(PyFile):
     def __init__(self, name: str, files: list[PyFile] = None, packages: list["PyPackage"] = None,
                  functions: list[PyFunction] = None, classes: list[PyClass] = None,
-                 variables: list[PyVariable] = None, import_all: bool = False):
-        super().__init__(name, functions=functions, classes=classes, variables=variables)
+                 variables: list[PyVariable] = None, import_all: bool = False, imports: list[PyImport] = None):
+        super().__init__(name, functions=functions, classes=classes, variables=variables, imports=imports)
         self.files = files
         self.packages = packages
         self.import_all = import_all
