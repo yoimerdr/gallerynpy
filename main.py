@@ -233,7 +233,6 @@ def generate_rpy():
 
 
 # generate_dumpy_renpy()
-add_copyright()
+# add_copyright()
 
 generate_rpy()
-
