@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css?family=JetBrains+Mono');
+
+* {
+  --bg-color: #27282c;
+  --font-color: #fffd;
+  --font-family: JetBrains Sans, Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Droid Sans, Helvetica Neue, Arial, sans-serif;
+  --font-size: 16px;
+  --anchor-color: #349ae0;
+  --anchor-hover-color: #349ae0;
+  --anchor-visited-color: #349ae0;
+  --code-bg: #FFFFFF0C;
+  --code-keyword: #499CD5;
+  --code-font-family: JetBrains Mono, SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+  --code-font-size: 13px;
+  --code-string: #CD9069;
+  --code-comment: #699856;
+  --code-property: #9CDCFE;
+  --code-number: #B4CDA8;
+  --code-operator: #a9b7c6;
+  --code-class: #39C8B0;
+  --code-function: #DCDCAA;
+  --code-params: #989898;
+  --lunr-color: var(--font-color);
+  --lunr-bg: var(--bg-color);
+  --lunr-bg-border: transparent;
+  --lunr-hover-color: var(--font-color);
+  --lunr-hover-bg: var(--code-bg);
+  --lunr-hover-bg-border: transparent;
+}
+
+.toctree-wrapper ul li .rst-content code,
+.toctree-wrapper ul li code.docutils,
+body {
+  font-family: var(--font-family);
+}
+
+.rst-content code,
+body, p {
+  font-size: var(--font-size)
+}
+
+
+.wy-nav-content-wrap, .wy-nav-content {
+  background: var(--bg-color);
+}
+
+.fab-up,
+footer,
+a:visited.icon, a.icon,
+.rst-content .warning,
+.rst-content code.xref,
+.wy-nav-content-wrap {
+  color: var(--font-color);
+}
+
+.rst-content .warning .admonition-title {
+  background: #803b00;
+}
+
+.rst-content .warning {
+  background: #533500;
+}
+
+dl.py:not(dd .py),
+.rst-content code,
+code,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) dl:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt,
+.highlight {
+  background: var(--code-bg);
+}
+
+dl.py:not(dd .py),
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) dl:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt,
+.rst-content div[class^=highlight] {
+  border: none;
+  border-radius: 8px;
+}
+
+.rst-content code.xref,
+dt.sig span,
+.rst-content div[class^=highlight] pre {
+  font-family: var(--code-font-family);
+  font-size: var(--code-font-size);
+}
+
+code {
+  font-family: var(--code-font-family);
+}
+
+.sig .property > .pre,
+.highlight .k,
+.highlight .kc {
+  color: var(--code-keyword);
+}
+
+.highlight .s2,
+.highlight .s1,
+.highlight .se,
+.highlight .sd {
+  color: var(--code-string);
+}
+
+.highlight .c,
+.highlight .c1 {
+  color: var(--code-comment)
+}
+
+.highlight .mi,
+.highlight .mf {
+  color: var(--code-number);
+}
+
+code.py-attr > span.pre,
+.sig span,
+.highlight .na {
+  color: var(--code-property);
+}
+
+:where(.py-class, .py-exc) > .pre,
+.sig .property:nth-of-type(2) > .pre,
+.attribute .sig .property > .pre,
+.sig .property > .reference .pre:last-of-type,
+.sig .sig-param .n :where(.pre, .reference > .pre),
+.sig .sig-return .sig-return-typehint .pre,
+.highlight .nc {
+  color: var(--code-class);
+}
+
+.sig,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) dl:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt,
+.sig :where(.p, .o) .pre,
+.sig .sig-paren,
+.highlight .o {
+  color: var(--code-operator);
+}
+
+.py-func > .pre,
+:where(.function, .method, .class, .exception) > .sig .sig-name .pre,
+.highlight .nf {
+  color: var(--code-function);
+}
+
+.sig .sig-return .sig-return-icon,
+.sig .sig-param .n:first-of-type .pre {
+  color: var(--code-params)
+}
+
+.rst-content code.xref,
+dt.sig span,
+.highlight .s1,
+.highlight .se,
+.highlight .sd,
+.highlight .nf,
+.highlight .nc,
+.highlight .o,
+.highlight .mi,
+.highlight .c,
+.highlight .c1,
+.highlight .k,
+.highlight .kc,
+.highlight .mf {
+  font-weight: normal;
+}
+
+.wy-menu-vertical a,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) dl:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt .headerlink,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt .headerlink,
+.toctree-wrapper ul li code.docutils,
+a {
+  color: var(--anchor-color);
+}
+
+a:visited {
+  color: var(--anchor-visited-color);
+}
+
+.toctree-wrapper ul li code.docutils span:hover,
+a:hover {
+  color: var(--anchor-color);
+  border-bottom: 1px solid var(--anchor-hover-color);
+}
+
+a:hover.icon {
+  border-bottom: none;
+}
+
+code span,
+p,
+dl dt span,
+.toctree-wrapper .reference {
+  word-wrap: break-word;
+}
+
+.wy-nav-content {
+  max-width: 1080px;
+}
+
+.sig {
+  display: block !important;
+}
+
+dl:where(.py, .sig) {
+  display: inline-block !important;
+  padding-right: 0 !important;
+  width: 100%;
+}
+
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) dl:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt {
+  border: none;
+}
+
+.rst-content code,
+.rst-content code.xref,
+code {
+  border: none;
+}
+
+.fab-up,
+.toctree-wrapper ul li .rst-content code,
+.toctree-wrapper ul li code.docutils {
+  background: var(--bg-color);
+}
+
+strong,
+html.writer-html5 .rst-content dl.field-list > dt {
+  font-weight: 600;
+}
+
+.field-list dd .reference:hover strong {
+  border-bottom: 1px solid var(--anchor-hover-color);
+}
+
+dl .reference:hover {
+  border-bottom: none;
+}
+
+dl:where(.attribute, .property) .property > .reference:hover,
+.reference:hover:has(.py-class, .py-exc),
+.sig .sig-param .n > a .pre:hover,
+.sig .sig-return .sig-return-typehint .reference:hover {
+  border-bottom: 1px solid var(--code-class);
+}
+
+.reference:hover:has(code.py-attr) {
+  border-bottom: 1px solid var(--code-property);
+}
+
+.reference:hover:has(code.py-func) {
+  border-bottom: 1px solid var(--code-function);
+}
+
+.wy-side-nav-search {
+  text-align: center;
+}
+
+
+html.writer-html5 .rst-content dl.field-list {
+  grid-template-columns: auto minmax(70%, 95%);
+}
+
+html.writer-html5 .rst-content dl.field-list > dt {
+  padding-left: 0;
+}
+
+dl.class dl.py:last-of-type {
+  margin-bottom: 12px !important;
+}
+
+dl.py > dd {
+  margin: 0 24px 12px 24px;
+}
+
+@media screen and (max-width: 768px) {
+  .wy-nav-top {
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+  }
+
+}
+
+.fab-up {
+  position: fixed;
+  bottom: 1.4em;
+  right: 1.6em;
+  border: none;
+  font-size: 20px;
+  border-radius: 50%;
+  height: 2em;
+  width: 2em;
+  z-index: 3;
+  -webkit-box-shadow: 0 3px 14px 4px rgba(0, 0, 0, 0.62);
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 3px 14px 4px rgba(0, 0, 0, 0.62);
+}
+
+
+.wy-nav-top {
+  line-height: 0;
+}
+
+.icon::after,
+.icon::before {
+  display: none;
+}
+
+a.icon:hover {
+  color: var(--font-color);
+}
+
+a.icon:visited {
+  color: var(--font-color);
+}
+a.icon > :where(small, img) {
+  display: block;
+}
+
+a.icon > img {
+  margin: 0 auto;
+}

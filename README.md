@@ -46,8 +46,7 @@ screen navigation():
 
 ## Docs
 
-The web page of the documentation is still under development, for now you should read it directly 
-from the methods/variables inside the .rpy files (or .py if you want to read it in the repository).
+You can read a quick guide and more about gallerynpy in the [docs](https://yoimerdr.github.io/gallerynpy/docs/quickstart.html).
 
 ## License
 

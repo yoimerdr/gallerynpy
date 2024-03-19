@@ -1,2 +1,4 @@
 black
 strip-hints
+Sphinx
+docutils
