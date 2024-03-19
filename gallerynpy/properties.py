@@ -54,7 +54,7 @@ class Properties(gallerynpy.Singleton):
         If true, forces the `Resource` to load/validate when it is created. 
         Affects only instances created internally by gallerynpy.
         
-        Default is False.
+        Default is False. Changes to true once the game has finished starting.
         """
 
         self.not_found = gallerynpy.images_path("not_found.png")
@@ -94,6 +94,12 @@ class Properties(gallerynpy.Singleton):
         Default is False.
         """
         self.load_in_put = False
+        """
+        If true, the (displayables) gallery items will be loaded after the start of the game. 
+        Otherwise, they will be loaded when needed. 
+        
+        Default is False.
+        """
 
         self.rescale_images = True
         """
@@ -377,7 +383,7 @@ class Properties(gallerynpy.Singleton):
     def menu_bg(self, displayable):
         """
         Sets the resource `menu_bg`.
-        :param displayable: The new resource for `navigation_background`
+        :param displayable: The new resource for `menu_bg`
         """
         self.__menu_bg = self.__set_resource_attribute(self.__menu_bg, displayable)
 
@@ -394,7 +400,7 @@ class Properties(gallerynpy.Singleton):
     def menu(self, displayable):
         """
         Sets the resource `menu`.
-        :param displayable: The new resource for `navigation_background`
+        :param displayable: The new resource for `menu`
         """
         self.__menu = self.__set_resource_attribute(self.__menu, displayable)
 
@@ -409,7 +415,7 @@ class Properties(gallerynpy.Singleton):
     def navigation_position(self, position: str):
         """
         Sets the position where the navigation section will be located.
-        :param position: The new position.
+        :param position: The new position. Possible values are `l` or `r`.
         """
         position = str(position).lower()
         if position not in ("l", "r"):
@@ -427,7 +433,7 @@ class Properties(gallerynpy.Singleton):
     def navigation_slides_bar_position(self, position: str):
         """
         Sets the position where the navigation bar will be located.
-        :param position: The new position.
+        :param position: The new position. Possible values are `l` or `r`.
         """
         position = str(position).lower()
         if position not in ("l", "r"):

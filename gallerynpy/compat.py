@@ -166,7 +166,7 @@ def back(from_animation_options=False):
 def is_for_animations():
     """
     Checks if the current slide is one for animations
-    :return: True if the current slide is one for animations, False otherwis
+    :return: True if the current slide is one for animations, False otherwise
     """
     return gallerynpy.handler.is_current_for_animations()
 

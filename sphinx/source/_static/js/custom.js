@@ -83,6 +83,7 @@
       .click(function () {
         $("#fab-up")
           .toggle()
+        checkFabUpPosition()
       })
 
     checkFabUpPosition()
