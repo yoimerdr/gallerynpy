@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources Classes &mdash; Gallerynpy Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/lunr-searchbox.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=45675182" />
+      <link rel="stylesheet" type="text/css" href="_static/css/font-jb-sans.css?v=e3b0d0c7" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=60dbed4a"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.6.0/lunr.min.js"></script>
+        <script src="_static/js/lunr-searchbox.js"></script>
+        <script src="_static/js/lunr-search-data.js"></script>
+        <script src="_static/js/custom.js?v=e5163ee4"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Generic Actions" href="actions.html" />
+    <link rel="prev" title="Utils" href="utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            gallerynpy
+              <img src="_static/navbar-logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0 Documentation
+              </div><form class="search" action="search.html" method="get">
+  <input type="hidden" name="check_keywords" value="yes"/>
+  <input type="hidden" name="area" value="default"/>
+  <input type="hidden" id="ls_lunrsearch-highlight" value="true"/>
+  <input autocomplete="off" type="text" class="search-field" id="ls_search-field" name="q" placeholder="Search"/>
+  <ul class="results" id="ls_search-results"></ul>
+</form>
+
+
+<script>
+  (function (){
+    document.addEventListener("DOMContentLoaded", function () {
+      if (location.pathname && location.pathname.endsWith("search.html")) {
+        var form = document.querySelector('form[action="search.html"]')
+        form.action = "#"
+      }
+    })
+  })()
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="properties.html">Gallerynpy Properties</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallerynpy Stored Resource</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gallerynpy.html">Gallery Related Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sliders.html">Slide and Slider Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Item and Size Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handler.html">Handler Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="db.html">Db Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources Stored Module</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Resources Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.Resource"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.composite_to"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.composite_to()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.force_load_size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.force_load_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.get_image"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.get_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.load"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.scale_to"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.scale_to()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.size_to"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.size_to()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.extension"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.extension</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.is_animation_type"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.is_animation_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.is_displayable_type"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.is_displayable_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.is_image_type"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.is_image_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.is_named"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.is_named</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.is_none_type"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.is_none_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.is_video_type"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.is_video_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.resource"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.resource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Resource.type"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Resource.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.Thumbnail"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Thumbnail</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Thumbnail.create"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Thumbnail.create()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Thumbnail.set_custom"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Thumbnail.set_custom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Thumbnail.resource"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Thumbnail.resource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Thumbnail.size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Thumbnail.size</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#resources-functions">Resources Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.is_displayable"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.is_displayable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.is_resource"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.is_resource()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#resources-enums-like-classes">Resources Enums like Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.ResourceTypes"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceTypes</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.ResourceTypes.ANIMATION"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceTypes.ANIMATION</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.ResourceTypes.DISPLAYABLE"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceTypes.DISPLAYABLE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.ResourceTypes.IMAGE"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceTypes.IMAGE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.ResourceTypes.NONE"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceTypes.NONE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.ResourceTypes.VIDEO"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceTypes.VIDEO</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.Extensions"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Extensions</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Extensions.AUDIO"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Extensions.AUDIO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Extensions.IMAGES"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Extensions.IMAGES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.resources.Extensions.VIDEOS"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.Extensions.VIDEOS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#resources-exceptions">Resources Exceptions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.ResourceForbiddenOperationError"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceForbiddenOperationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.UnsupportedResourceTypeError"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.UnsupportedResourceTypeError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.ResourceNameNotFoundError"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceNameNotFoundError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.resources.ResourceNoLoadableError"><code class="docutils literal notranslate"><span class="pre">gallerynpy.resources.ResourceNoLoadableError</span></code></a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Actions Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Generic Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html#gallerynpy-related-actions">Gallerynpy Related Actions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">gallerynpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Resources Classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="resources-classes">
+<h1>Resources Classes<a class="headerlink" href="#resources-classes" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">Resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Resource" title="Link to this definition"></a></dt>
+<dd><p>A helper to trait with resources such as images, videos, animations or displayable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource</strong> – The resource</p></li>
+<li><p><strong>force_check</strong> – If <cite>true</cite>, named resources such as images or animations will throw <a class="reference internal" href="#gallerynpy.resources.ResourceNameNotFoundError" title="gallerynpy.resources.ResourceNameNotFoundError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ResourceNameNotFoundError</span></code></a>  if they are not found, otherwise the <cite>self resource</cite> will be put in the resource loader.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.composite_to">
+<span class="sig-name descname"><span class="pre">composite_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="items.html#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Resource.composite_to" title="Link to this definition"></a></dt>
+<dd><p>Creates a <cite>Composite</cite> object from the current resource,
+trying to center it according to the given size and the resource size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target</strong> – The size to composite the resource.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <cite>Composite</cite> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.force_load_size">
+<span class="sig-name descname"><span class="pre">force_load_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Resource.force_load_size" title="Link to this definition"></a></dt>
+<dd><p>Forces to load the image size of the resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#gallerynpy.resources.ResourceForbiddenOperationError" title="gallerynpy.resources.ResourceForbiddenOperationError"><strong>ResourceForbiddenOperationError</strong></a> – if the resource type is not <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.IMAGE" title="gallerynpy.resources.ResourceTypes.IMAGE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IMAGE</span></code></a> .</p></li>
+<li><p><a class="reference internal" href="#gallerynpy.resources.ResourceNoLoadableError" title="gallerynpy.resources.ResourceNoLoadableError"><strong>ResourceNoLoadableError</strong></a> – If the resource filepath is not loadable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.get_image">
+<span class="sig-name descname"><span class="pre">get_image</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Resource.get_image" title="Link to this definition"></a></dt>
+<dd><p>Gets the image object of the resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#gallerynpy.resources.ResourceForbiddenOperationError" title="gallerynpy.resources.ResourceForbiddenOperationError"><strong>ResourceForbiddenOperationError</strong></a> – if the resource type is not <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.IMAGE" title="gallerynpy.resources.ResourceTypes.IMAGE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IMAGE</span></code></a> .</p></li>
+<li><p><a class="reference internal" href="#gallerynpy.resources.ResourceNoLoadableError" title="gallerynpy.resources.ResourceNoLoadableError"><strong>ResourceNoLoadableError</strong></a> – If the resource filepath is not loadable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Resource.load" title="Link to this definition"></a></dt>
+<dd><p>Try to load the resource.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force_check</strong> – If <cite>true</cite>, named resources such as images or animations will force to load, otherwise the <cite>self resource</cite> will be put in the resource loader.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#gallerynpy.resources.UnsupportedResourceTypeError" title="gallerynpy.resources.UnsupportedResourceTypeError"><strong>UnsupportedResourceTypeError</strong></a> – If the resource type is not valid.</p></li>
+<li><p><a class="reference internal" href="#gallerynpy.resources.ResourceNameNotFoundError" title="gallerynpy.resources.ResourceNameNotFoundError"><strong>ResourceNameNotFoundError</strong></a> – If the resource is force to load and don’t exist the image or animation for the given resource name</p></li>
+<li><p><a class="reference internal" href="#gallerynpy.resources.ResourceNoLoadableError" title="gallerynpy.resources.ResourceNoLoadableError"><strong>ResourceNoLoadableError</strong></a> – If the resource filepath is not loadable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.scale_to">
+<span class="sig-name descname"><span class="pre">scale_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="items.html#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Resource.scale_to" title="Link to this definition"></a></dt>
+<dd><p>Creates an <cite>im.Scale</cite> object from the current resource according to the given size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target</strong> – The size to scale the resource.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <cite>im.Scale</cite> object.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the target size is not a <a class="reference internal" href="items.html#gallerynpy.Size" title="gallerynpy.Size"><code class="xref py py-class docutils literal notranslate"><span class="pre">Size</span></code></a>  object.</p></li>
+<li><p><a class="reference internal" href="#gallerynpy.resources.ResourceForbiddenOperationError" title="gallerynpy.resources.ResourceForbiddenOperationError"><strong>ResourceForbiddenOperationError</strong></a> – if the resource type is not <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.IMAGE" title="gallerynpy.resources.ResourceTypes.IMAGE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IMAGE</span></code></a>  or <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.DISPLAYABLE" title="gallerynpy.resources.ResourceTypes.DISPLAYABLE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">DISPLAYABLE</span></code></a> .</p></li>
+<li><p><a class="reference internal" href="#gallerynpy.resources.ResourceNoLoadableError" title="gallerynpy.resources.ResourceNoLoadableError"><strong>ResourceNoLoadableError</strong></a> – If the resource filepath is not loadable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.size_to">
+<span class="sig-name descname"><span class="pre">size_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="items.html#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Resource.size_to" title="Link to this definition"></a></dt>
+<dd><p>Adjusts the current size to match the aspect ratio of the provided target size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target</strong> – The target size to match.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The adjusted size, or the target size if the resource doesn’t have a <cite>size</cite>.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – If the target size is not a Size object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.extension">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extension</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#gallerynpy.resources.Resource.extension" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the extension of the resource asset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The extension if the loaded resource asset was a filepath, otherwise None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.is_animation_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_animation_type</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.is_animation_type" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Checks if the resource type is <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.ANIMATION" title="gallerynpy.resources.ResourceTypes.ANIMATION"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ANIMATION</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.is_displayable_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_displayable_type</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.is_displayable_type" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Checks if the resource type is <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.DISPLAYABLE" title="gallerynpy.resources.ResourceTypes.DISPLAYABLE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">DISPLAYABLE</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.is_image_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_image_type</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.is_image_type" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Checks if the resource type is <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.IMAGE" title="gallerynpy.resources.ResourceTypes.IMAGE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IMAGE</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.is_named">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_named</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.is_named" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Checks if the resource is named. <br /> That means, the resource type is <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.IMAGE" title="gallerynpy.resources.ResourceTypes.IMAGE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IMAGE</span></code></a>  or <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.ANIMATION" title="gallerynpy.resources.ResourceTypes.ANIMATION"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ANIMATION</span></code></a>  and doesn’t have extension.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.is_none_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_none_type</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.is_none_type" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Checks if the resource type is <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.NONE" title="gallerynpy.resources.ResourceTypes.NONE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">NONE</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.is_video_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_video_type</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.is_video_type" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Checks if the resource type is <a class="reference internal" href="#gallerynpy.resources.ResourceTypes.VIDEO" title="gallerynpy.resources.ResourceTypes.VIDEO"><code class="xref py py-attr docutils literal notranslate"><span class="pre">VIDEO</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.resource">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resource</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.resource" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource</strong> – The new resource.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.size" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the size of the resource.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Size object if the loaded resource was an image and its size was in <a class="reference internal" href="db.html#gallerynpy.db" title="gallerynpy.db"><code class="xref py py-attr docutils literal notranslate"><span class="pre">db</span></code></a> , otherwise None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Resource.type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#gallerynpy.resources.Resource.type" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the type of the resource.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gallerynpy.resources.Thumbnail">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">Thumbnail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="items.html#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Thumbnail" title="Link to this definition"></a></dt>
+<dd><p>Handles the creation of thumbnails for the different types of <a class="reference internal" href="#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><code class="xref py py-class docutils literal notranslate"><span class="pre">Resource</span></code></a> .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource</strong> – The resource object, or an object for instance the resource.</p></li>
+<li><p><strong>size</strong> – The size of the thumbnail dimensions.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.resources.Thumbnail.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Thumbnail.create" title="Link to this definition"></a></dt>
+<dd><p>Create a thumbnail <cite>displayable</cite> for the current thumbnail <cite>resource</cite>.</p>
+<p>See also <a class="reference internal" href="#gallerynpy.resources.Resource.composite_to" title="gallerynpy.resources.Resource.composite_to"><code class="xref py py-func docutils literal notranslate"><span class="pre">composite_to()</span></code></a></p>
+<p>If the <cite>resource</cite> is not valid, the <a class="reference internal" href="properties.html#gallerynpy.properties.not_found" title="gallerynpy.properties.not_found"><code class="xref py py-attr docutils literal notranslate"><span class="pre">not_found</span></code></a>  resource will be used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.resources.Thumbnail.set_custom">
+<span class="sig-name descname"><span class="pre">set_custom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.Thumbnail.set_custom" title="Link to this definition"></a></dt>
+<dd><p>Set the given <cite>resource</cite> as custom.</p>
+<p>It will not change the initial resource.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Thumbnail.resource">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resource</span></span><a class="headerlink" href="#gallerynpy.resources.Thumbnail.resource" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource of the thumbnail.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The custom resource if was set, otherwise the initial resource.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.resources.Thumbnail.size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="items.html#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></em><a class="headerlink" href="#gallerynpy.resources.Thumbnail.size" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the size of the thumbnail.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the size of the thumbnail. <br /> It changes the self <cite>size</cite> reference to the new size object.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> – The new size object to set.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="resources-functions">
+<h1>Resources Functions<a class="headerlink" href="#resources-functions" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.resources.is_displayable">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">is_displayable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.is_displayable" title="Link to this definition"></a></dt>
+<dd><p>Checks if the object is <cite>renpy displayable</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> – The object to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the object is a displayable, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.resources.is_resource">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">is_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.is_resource" title="Link to this definition"></a></dt>
+<dd><p>Checks if the object is a <a class="reference internal" href="#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><code class="xref py py-class docutils literal notranslate"><span class="pre">Resource</span></code></a> .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> – The object to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the object is a <a class="reference internal" href="#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><code class="xref py py-class docutils literal notranslate"><span class="pre">Resource</span></code></a> , False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="resources-enums-like-classes">
+<h1>Resources Enums like Classes<a class="headerlink" href="#resources-enums-like-classes" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">ResourceTypes</span></span><a class="headerlink" href="#gallerynpy.resources.ResourceTypes" title="Link to this definition"></a></dt>
+<dd><p>Enum class for the types of resources to be found.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceTypes.ANIMATION">
+<span class="sig-name descname"><span class="pre">ANIMATION</span></span><a class="headerlink" href="#gallerynpy.resources.ResourceTypes.ANIMATION" title="Link to this definition"></a></dt>
+<dd><p>Represents that the resource is an animation, this means that the saved resource 
+is a str (name) of an atl block or the atl block itself (object).</p>
+<p>An atl block is the animation declaration.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceTypes.DISPLAYABLE">
+<span class="sig-name descname"><span class="pre">DISPLAYABLE</span></span><a class="headerlink" href="#gallerynpy.resources.ResourceTypes.DISPLAYABLE" title="Link to this definition"></a></dt>
+<dd><p>Represents that the resource is an displayable, this means that the saved resource is instance of renpy displayable.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceTypes.IMAGE">
+<span class="sig-name descname"><span class="pre">IMAGE</span></span><a class="headerlink" href="#gallerynpy.resources.ResourceTypes.IMAGE" title="Link to this definition"></a></dt>
+<dd><p>Represents that the resource is an image, this means that the saved resource 
+is a str (name) of an image or the image itself (object).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceTypes.NONE">
+<span class="sig-name descname"><span class="pre">NONE</span></span><a class="headerlink" href="#gallerynpy.resources.ResourceTypes.NONE" title="Link to this definition"></a></dt>
+<dd><p>Represents that the resource is not valid, and at any moment it will raise an error.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceTypes.VIDEO">
+<span class="sig-name descname"><span class="pre">VIDEO</span></span><a class="headerlink" href="#gallerynpy.resources.ResourceTypes.VIDEO" title="Link to this definition"></a></dt>
+<dd><p>Represents that the resource is an video, this means that the saved resource is a filepath to the video.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gallerynpy.resources.Extensions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">Extensions</span></span><a class="headerlink" href="#gallerynpy.resources.Extensions" title="Link to this definition"></a></dt>
+<dd><p>Enum class for resource extensions that renpy can load.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.resources.Extensions.AUDIO">
+<span class="sig-name descname"><span class="pre">AUDIO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('.mp3',</span> <span class="pre">'.ogg',</span> <span class="pre">'.opus',</span> <span class="pre">'.mp2')</span></em><a class="headerlink" href="#gallerynpy.resources.Extensions.AUDIO" title="Link to this definition"></a></dt>
+<dd><p>List of audio extensions that renpy can load.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.resources.Extensions.IMAGES">
+<span class="sig-name descname"><span class="pre">IMAGES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('.png',</span> <span class="pre">'.jpg',</span> <span class="pre">'.web',</span> <span class="pre">'.jpeg',</span> <span class="pre">'.webp')</span></em><a class="headerlink" href="#gallerynpy.resources.Extensions.IMAGES" title="Link to this definition"></a></dt>
+<dd><p>List of image extensions that renpy can load.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.resources.Extensions.VIDEOS">
+<span class="sig-name descname"><span class="pre">VIDEOS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('.webm',</span> <span class="pre">'.avi',</span> <span class="pre">'.mp4',</span> <span class="pre">'.wav',</span> <span class="pre">'.mkv',</span> <span class="pre">'.ogv')</span></em><a class="headerlink" href="#gallerynpy.resources.Extensions.VIDEOS" title="Link to this definition"></a></dt>
+<dd><p>List of video extensions that renpy can load.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="resources-exceptions">
+<h1>Resources Exceptions<a class="headerlink" href="#resources-exceptions" title="Link to this heading"></a></h1>
+<dl class="py exception">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceForbiddenOperationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">ResourceForbiddenOperationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rtype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.ResourceForbiddenOperationError" title="Link to this definition"></a></dt>
+<dd><p>Raised when a resource does not have the required type for the operation.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="gallerynpy.resources.UnsupportedResourceTypeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">UnsupportedResourceTypeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.UnsupportedResourceTypeError" title="Link to this definition"></a></dt>
+<dd><p>Raised when the object of the resource is not supported.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceNameNotFoundError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">ResourceNameNotFoundError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.ResourceNameNotFoundError" title="Link to this definition"></a></dt>
+<dd><p>Raised when the resource name is not found in the renpy declared images.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="gallerynpy.resources.ResourceNoLoadableError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.resources.</span></span><span class="sig-name descname"><span class="pre">ResourceNoLoadableError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.resources.ResourceNoLoadableError" title="Link to this definition"></a></dt>
+<dd><p>Raised when the rosource filepath is not loadable by renpy.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="utils.html" class="btn btn-neutral float-left" title="Utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="actions.html" class="btn btn-neutral float-right" title="Generic Actions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2024, Yoimer Davila.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

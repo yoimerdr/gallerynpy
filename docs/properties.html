@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallerynpy Properties &mdash; Gallerynpy Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/lunr-searchbox.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=45675182" />
+      <link rel="stylesheet" type="text/css" href="_static/css/font-jb-sans.css?v=e3b0d0c7" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=60dbed4a"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.6.0/lunr.min.js"></script>
+        <script src="_static/js/lunr-searchbox.js"></script>
+        <script src="_static/js/lunr-search-data.js"></script>
+        <script src="_static/js/custom.js?v=e5163ee4"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Gallery Related Functions" href="gallerynpy.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            gallerynpy
+              <img src="_static/navbar-logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0 Documentation
+              </div><form class="search" action="search.html" method="get">
+  <input type="hidden" name="check_keywords" value="yes"/>
+  <input type="hidden" name="area" value="default"/>
+  <input type="hidden" id="ls_lunrsearch-highlight" value="true"/>
+  <input autocomplete="off" type="text" class="search-field" id="ls_search-field" name="q" placeholder="Search"/>
+  <ul class="results" id="ls_search-results"></ul>
+</form>
+
+
+<script>
+  (function (){
+    document.addEventListener("DOMContentLoaded", function () {
+      if (location.pathname && location.pathname.endsWith("search.html")) {
+        var form = document.querySelector('form[action="search.html"]')
+        form.action = "#"
+      }
+    })
+  })()
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gallerynpy Properties</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#style-properties">Style Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.font"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.font</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.font_size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.font_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.color"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.color</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.hover_color"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.hover_color</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.selected_color"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.selected_color</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.insensitive_color"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.insensitive_color</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.navigation_background"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.navigation_background</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.menu_bg"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.menu_bg</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.menu"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.menu</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.spacing"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.spacing</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.item_xspacing"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.item_xspacing</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.navigation_position"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.navigation_position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.navigation_yalign"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.navigation_yalign</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.navigation_xsize"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.navigation_xsize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.navigation_slides_ysize"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.navigation_slides_ysize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.navigation_slides_bar_position"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.navigation_slides_bar_position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.navigation_slides_bar_xpos"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.navigation_slides_bar_xpos</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.navigation_slides_bar_xsize"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.navigation_slides_bar_xsize</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#item-properties">Item Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.not_found"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.not_found</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.locked"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.locked</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.idle"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.idle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.play_idle"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.play_idle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.play_hover"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.play_hover</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.thumbnails_folder"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.thumbnails_folder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-properties">Configuration Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.force_loader"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.force_loader</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.sort_slides"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.sort_slides</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.keep_loaded"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.keep_loaded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.rescale_images"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.rescale_images</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.load_in_put"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.load_in_put</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.with_speed"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.with_speed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.animation_speed"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.animation_speed</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#other-properties">Other Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.version"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.properties.video_thumbnail_extensions"><code class="docutils literal notranslate"><span class="pre">gallerynpy.properties.video_thumbnail_extensions</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallerynpy Stored Resource</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gallerynpy.html">Gallery Related Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sliders.html">Slide and Slider Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Item and Size Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handler.html">Handler Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="db.html">Db Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-functions">Resources Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-enums-like-classes">Resources Enums like Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-exceptions">Resources Exceptions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Actions Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Generic Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html#gallerynpy-related-actions">Gallerynpy Related Actions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">gallerynpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Gallerynpy Properties</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gallerynpy-properties">
+<h1>Gallerynpy Properties<a class="headerlink" href="#gallerynpy-properties" title="Link to this heading"></a></h1>
+<p>Gallerynpy uses multiple values accessible from <strong>gallerynpy.properties</strong> to configure and/or style the screens to be displayed.
+The properties that can be accessed are shown below.</p>
+<section id="style-properties">
+<h2>Style Properties<a class="headerlink" href="#style-properties" title="Link to this heading"></a></h2>
+<p>To customize the screen where the gallery is displayed, you can do it directly in the <strong>screens.rpy</strong> file by modifying
+the code to your liking. But if you don’t want to make big changes, and you only want to change some styles as
+colours or background of the gallery, you can do this by changing the value of the following properties.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.font">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">font</span></span><a class="headerlink" href="#gallerynpy.properties.font" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the filepath to the font. <br /> Used as on styles for text.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the filepath to the font</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>font</strong> – The new filepath to the font.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.font_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">font_size</span></span><a class="headerlink" href="#gallerynpy.properties.font_size" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the font size. <br /> Used on styles for text.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the font size.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> – The new font size.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">color</span></span><a class="headerlink" href="#gallerynpy.properties.color" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the primary color. <br /> Used on styles for text.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the primary color.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong> – The new primary color. Must be in hexadecimal format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.hover_color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">hover_color</span></span><a class="headerlink" href="#gallerynpy.properties.hover_color" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the hover color. <br /> Used on styles for text.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the hover color.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong> – The new hover color. Must be in hexadecimal format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.selected_color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">selected_color</span></span><a class="headerlink" href="#gallerynpy.properties.selected_color" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the selected color. <br /> Used on styles for text.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the selected color.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong> – The new hover color. Must be in hexadecimal format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.insensitive_color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">insensitive_color</span></span><a class="headerlink" href="#gallerynpy.properties.insensitive_color" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the insensitive color. <br /> Used on styles for text.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the insensitive color.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong> – The new insensitive color. Must be in hexadecimal format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.navigation_background">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">navigation_background</span></span><a class="headerlink" href="#gallerynpy.properties.navigation_background" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource <cite>navigation_background</cite>. <br /> It is used as a displayable background for the navigation section.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource <cite>navigation_background</cite>.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>displayable</strong> – The new resource for <cite>navigation_background</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.menu_bg">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">menu_bg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></em><a class="headerlink" href="#gallerynpy.properties.menu_bg" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource <cite>menu_bg</cite>. <br /> It is used as a displayable background for the main gallerynpy screen.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource <cite>menu_bg</cite>.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>displayable</strong> – The new resource for <cite>menu_bg</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.menu">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">menu</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></em><a class="headerlink" href="#gallerynpy.properties.menu" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource <cite>menu</cite>. <br /> It is used as a displayable for the main gallerynpy screen. It’s added after <cite>menu_bg</cite>.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource <cite>menu</cite>.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>displayable</strong> – The new resource for <cite>menu</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.spacing">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">spacing</span></span><a class="headerlink" href="#gallerynpy.properties.spacing" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the spacing between the navigation section and the items section.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the spacing between the navigation section and the items section.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>spacing</strong> – The new spacing value. The min is 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.item_xspacing">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">item_xspacing</span></span><a class="headerlink" href="#gallerynpy.properties.item_xspacing" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the xspacing between each item in the items section.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the xspacing between each item in the items section.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>xspacing</strong> – The new xspacing value. The min is 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.navigation_position">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">navigation_position</span></span><a class="headerlink" href="#gallerynpy.properties.navigation_position" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the position where the navigation section was located.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the position where the navigation section will be located.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> – The new position. Possible values are <cite>l</cite> or <cite>r</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.navigation_yalign">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">navigation_yalign</span></span><a class="headerlink" href="#gallerynpy.properties.navigation_yalign" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the yalgin value where the navigation was located.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the yalgin value where the navigation will be located.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>yalign</strong> – The new yalign value. The min is 0 and max is 1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.navigation_xsize">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">navigation_xsize</span></span><a class="headerlink" href="#gallerynpy.properties.navigation_xsize" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the current xsize (width) of the navigation section.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the current xsize (width) of the navigation section.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>xsize</strong> – The new xsize value. The min is 80.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.navigation_slides_ysize">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">navigation_slides_ysize</span></span><a class="headerlink" href="#gallerynpy.properties.navigation_slides_ysize" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the current ysize (height) of the button section (slides names) in the navigation section.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the current ysize (height) of the button section (slides names) in the navigation section.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ysize</strong> – The new ysize value. The min is 40.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.navigation_slides_bar_position">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">navigation_slides_bar_position</span></span><a class="headerlink" href="#gallerynpy.properties.navigation_slides_bar_position" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the position where the navigation bar was located.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the position where the navigation bar will be located.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> – The new position. Possible values are <cite>l</cite> or <cite>r</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.navigation_slides_bar_xpos">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">navigation_slides_bar_xpos</span></span><a class="headerlink" href="#gallerynpy.properties.navigation_slides_bar_xpos" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the current xpos of the navigation bar in the navigation section.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the current xpos of the navigation bar in the navigation section.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>xpos</strong> – The new xpos value. The min is 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.navigation_slides_bar_xsize">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">navigation_slides_bar_xsize</span></span><a class="headerlink" href="#gallerynpy.properties.navigation_slides_bar_xsize" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the current xsize (width) of the navigation bar in the navigation section.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the current xsize (width) of the navigation bar in the navigation section.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>xsize</strong> – The new xsize value. The min is 5.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="item-properties">
+<h2>Item Properties<a class="headerlink" href="#item-properties" title="Link to this heading"></a></h2>
+<p>You can configure images (or viewables) for gallery item thumbnails such as <strong>blocked</strong> and <strong>image not found</strong>,
+or special overlays such as <strong>play icon</strong> for videos or animations.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.not_found">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">not_found</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></em><a class="headerlink" href="#gallerynpy.properties.not_found" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource <cite>not_found</cite>. <br /> Used when a thumbnail has not been set for <a class="reference internal" href="resources.html#gallerynpy.resources.ResourceTypes.VIDEO" title="gallerynpy.resources.ResourceTypes.VIDEO"><code class="xref py py-attr docutils literal notranslate"><span class="pre">VIDEO</span></code></a>  or <a class="reference internal" href="resources.html#gallerynpy.resources.ResourceTypes.ANIMATION" title="gallerynpy.resources.ResourceTypes.ANIMATION"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ANIMATION</span></code></a>  type items.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource <cite>not_found</cite></p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>displayable</strong> – The new resource for <cite>not_found</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.locked">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">locked</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></em><a class="headerlink" href="#gallerynpy.properties.locked" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource <cite>locked</cite>. <br /> It is used as a thumbnail on items that have not met the unlock condition they have.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource <cite>locked</cite>.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>displayable</strong> – The new resource for <cite>locked</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.idle">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">idle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></em><a class="headerlink" href="#gallerynpy.properties.idle" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource <cite>idle</cite>. <br /> Used as idle displayable on <a class="reference internal" href="resources.html#gallerynpy.resources.ResourceTypes.IMAGE" title="gallerynpy.resources.ResourceTypes.IMAGE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">IMAGE</span></code></a>  or <a class="reference internal" href="resources.html#gallerynpy.resources.ResourceTypes.DISPLAYABLE" title="gallerynpy.resources.ResourceTypes.DISPLAYABLE"><code class="xref py py-attr docutils literal notranslate"><span class="pre">DISPLAYABLE</span></code></a>  type items.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource <cite>idle</cite>.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>displayable</strong> – The new resource for <cite>idle</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.play_idle">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">play_idle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></em><a class="headerlink" href="#gallerynpy.properties.play_idle" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the resource <cite>play_idle</cite>. <br /> Used as idle displayable in <a class="reference internal" href="resources.html#gallerynpy.resources.ResourceTypes.VIDEO" title="gallerynpy.resources.ResourceTypes.VIDEO"><code class="xref py py-attr docutils literal notranslate"><span class="pre">VIDEO</span></code></a>  or <a class="reference internal" href="resources.html#gallerynpy.resources.ResourceTypes.ANIMATION" title="gallerynpy.resources.ResourceTypes.ANIMATION"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ANIMATION</span></code></a>  type items.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource <cite>play_idle</cite>.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>displayable</strong> – The new resource for <cite>play_idle</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.play_hover">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">play_hover</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></em><a class="headerlink" href="#gallerynpy.properties.play_hover" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sets the resource <cite>play_hover</cite>. <br /> Used as hover displayable when is hover in <a class="reference internal" href="resources.html#gallerynpy.resources.ResourceTypes.VIDEO" title="gallerynpy.resources.ResourceTypes.VIDEO"><code class="xref py py-attr docutils literal notranslate"><span class="pre">VIDEO</span></code></a>  or <a class="reference internal" href="resources.html#gallerynpy.resources.ResourceTypes.ANIMATION" title="gallerynpy.resources.ResourceTypes.ANIMATION"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ANIMATION</span></code></a>  type items.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the resource <cite>play_hover</cite>.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>displayable</strong> – The new resource for <cite>play_hover</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.thumbnails_folder">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">thumbnails_folder</span></span><a class="headerlink" href="#gallerynpy.properties.thumbnails_folder" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the folder where video thumbnails are stored. <br /> This is where files for thumbnails like <cite>videpath_thumbnail.jpg</cite> will be searched.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the folder where video thumbnails are stored.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder</strong> – The new folder path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="configuration-properties">
+<h2>Configuration Properties<a class="headerlink" href="#configuration-properties" title="Link to this heading"></a></h2>
+<p>You can set some parameters to change the behavior of some functions in gallerynpy.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.properties.force_loader">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">force_loader</span></span><a class="headerlink" href="#gallerynpy.properties.force_loader" title="Link to this definition"></a></dt>
+<dd><p>If true, forces the <a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><code class="xref py py-class docutils literal notranslate"><span class="pre">Resource</span></code></a>  to load/validate when it is created. 
+Affects only instances created internally by gallerynpy.</p>
+<p>Default is False. Changes to true once the game has finished starting.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.properties.sort_slides">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">sort_slides</span></span><a class="headerlink" href="#gallerynpy.properties.sort_slides" title="Link to this definition"></a></dt>
+<dd><p>If true, sorts the names (keys) of each slide/slider in the current slider before displaying them as options.</p>
+<p>Default is False.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.properties.keep_loaded">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">keep_loaded</span></span><a class="headerlink" href="#gallerynpy.properties.keep_loaded" title="Link to this definition"></a></dt>
+<dd><p>If true, the (displayables) elements of the gallery will be stored in the Gallery object. 
+Otherwise, when you exit the gallerynpy screen, the reference to the Gallery object will be removed (<cite>del</cite>) 
+to try to free up space, and it will be re-initialized when you return.</p>
+<p>Default is False.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.properties.rescale_images">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">rescale_images</span></span><a class="headerlink" href="#gallerynpy.properties.rescale_images" title="Link to this definition"></a></dt>
+<dd><p>If true, the images will be rescaled to the size of the game screen. 
+Trying to keep the original width / height ratio to avoid deformation.</p>
+<p>Default is True.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.properties.load_in_put">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">load_in_put</span></span><a class="headerlink" href="#gallerynpy.properties.load_in_put" title="Link to this definition"></a></dt>
+<dd><p>If true, the (displayables) gallery items will be loaded after the start of the game. 
+Otherwise, they will be loaded when needed.</p>
+<p>Default is False.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.properties.with_speed">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">with_speed</span></span><a class="headerlink" href="#gallerynpy.properties.with_speed" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets whether gallerynpy slides marked as animation one will display the screen with speed options</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets whether gallerynpy slides marked as animation one will display the screen with speed options. <br /> It will also be saved in <cite>persistent.gallerynpy_with_speed</cite> variable.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – The new value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gallerynpy.properties.animation_speed">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">animation_speed</span></span><a class="headerlink" href="#gallerynpy.properties.animation_speed" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the current animation speed.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the current animation speed.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – The new animation speed value. The min is 1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="other-properties">
+<h2>Other Properties<a class="headerlink" href="#other-properties" title="Link to this heading"></a></h2>
+<p>There are also other properties which, although not editable, may be useful.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#gallerynpy.properties.version" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the current version of Gallerynpy in string format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.properties.video_thumbnail_extensions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.properties.</span></span><span class="sig-name descname"><span class="pre">video_thumbnail_extensions</span></span><a class="headerlink" href="#gallerynpy.properties.video_thumbnail_extensions" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the thumbnail extensions accepted for automatically loading video element extensions. <br /> e.g. <cite>_thumbnail.jpg</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gallerynpy.html" class="btn btn-neutral float-right" title="Gallery Related Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2024, Yoimer Davila.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

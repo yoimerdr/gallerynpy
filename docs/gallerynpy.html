@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery Related Functions &mdash; Gallerynpy Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/lunr-searchbox.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=45675182" />
+      <link rel="stylesheet" type="text/css" href="_static/css/font-jb-sans.css?v=e3b0d0c7" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=60dbed4a"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.6.0/lunr.min.js"></script>
+        <script src="_static/js/lunr-searchbox.js"></script>
+        <script src="_static/js/lunr-search-data.js"></script>
+        <script src="_static/js/custom.js?v=e5163ee4"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Slide and Slider Classes" href="sliders.html" />
+    <link rel="prev" title="Gallerynpy Properties" href="properties.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            gallerynpy
+              <img src="_static/navbar-logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0 Documentation
+              </div><form class="search" action="search.html" method="get">
+  <input type="hidden" name="check_keywords" value="yes"/>
+  <input type="hidden" name="area" value="default"/>
+  <input type="hidden" id="ls_lunrsearch-highlight" value="true"/>
+  <input autocomplete="off" type="text" class="search-field" id="ls_search-field" name="q" placeholder="Search"/>
+  <ul class="results" id="ls_search-results"></ul>
+</form>
+
+
+<script>
+  (function (){
+    document.addEventListener("DOMContentLoaded", function () {
+      if (location.pathname && location.pathname.endsWith("search.html")) {
+        var form = document.querySelector('form[action="search.html"]')
+        form.action = "#"
+      }
+    })
+  })()
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="properties.html">Gallerynpy Properties</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallerynpy Stored Resource</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gallery Related Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.put_item"><code class="docutils literal notranslate"><span class="pre">gallerynpy.put_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.create_item"><code class="docutils literal notranslate"><span class="pre">gallerynpy.create_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.rows"><code class="docutils literal notranslate"><span class="pre">gallerynpy.rows()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.cols"><code class="docutils literal notranslate"><span class="pre">gallerynpy.cols()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.distribution"><code class="docutils literal notranslate"><span class="pre">gallerynpy.distribution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.change_distribution"><code class="docutils literal notranslate"><span class="pre">gallerynpy.change_distribution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.custom_name_for"><code class="docutils literal notranslate"><span class="pre">gallerynpy.custom_name_for()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.name_for"><code class="docutils literal notranslate"><span class="pre">gallerynpy.name_for()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.tooltip"><code class="docutils literal notranslate"><span class="pre">gallerynpy.tooltip()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.content_slides"><code class="docutils literal notranslate"><span class="pre">gallerynpy.content_slides()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.page_buttons"><code class="docutils literal notranslate"><span class="pre">gallerynpy.page_buttons()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.next_page"><code class="docutils literal notranslate"><span class="pre">gallerynpy.next_page()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.previous_page"><code class="docutils literal notranslate"><span class="pre">gallerynpy.previous_page()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.back"><code class="docutils literal notranslate"><span class="pre">gallerynpy.back()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.is_current"><code class="docutils literal notranslate"><span class="pre">gallerynpy.is_current()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.is_for_animations"><code class="docutils literal notranslate"><span class="pre">gallerynpy.is_for_animations()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.create_slide"><code class="docutils literal notranslate"><span class="pre">gallerynpy.create_slide()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.put_slide_like"><code class="docutils literal notranslate"><span class="pre">gallerynpy.put_slide_like()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.scale"><code class="docutils literal notranslate"><span class="pre">gallerynpy.scale()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.change_transition"><code class="docutils literal notranslate"><span class="pre">gallerynpy.change_transition()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.animation_speed"><code class="docutils literal notranslate"><span class="pre">gallerynpy.animation_speed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.put_video"><code class="docutils literal notranslate"><span class="pre">gallerynpy.put_video()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.put_image"><code class="docutils literal notranslate"><span class="pre">gallerynpy.put_image()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.put_animation"><code class="docutils literal notranslate"><span class="pre">gallerynpy.put_animation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.create_video"><code class="docutils literal notranslate"><span class="pre">gallerynpy.create_video()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.create_image"><code class="docutils literal notranslate"><span class="pre">gallerynpy.create_image()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.create_animation"><code class="docutils literal notranslate"><span class="pre">gallerynpy.create_animation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.put_slider"><code class="docutils literal notranslate"><span class="pre">gallerynpy.put_slider()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sliders.html">Slide and Slider Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Item and Size Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handler.html">Handler Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="db.html">Db Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-functions">Resources Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-enums-like-classes">Resources Enums like Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-exceptions">Resources Exceptions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Actions Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Generic Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html#gallerynpy-related-actions">Gallerynpy Related Actions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">gallerynpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Gallery Related Functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gallery-related-functions">
+<h1>Gallery Related Functions<a class="headerlink" href="#gallery-related-functions" title="Link to this heading"></a></h1>
+<p>For the insertion or creation of gallery items and other functions, gallerynpy provides some common methods for this.
+For other methods and related attributes, see <a class="reference internal" href="handler.html#gallerynpy.handler" title="gallerynpy.handler"><code class="xref py py-attr docutils literal notranslate"><span class="pre">handler</span></code></a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.put_item">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">put_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">for_animation_slide</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.put_item" title="Link to this definition"></a></dt>
+<dd><p>Creates a new item and put it into the gallerynpy gallery.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>where</strong> – The name of the slide to put the item into</p></li>
+<li><p><strong>resource</strong> – The item resource</p></li>
+<li><p><strong>thumbnail</strong> – The item custom thumbnail resource.</p></li>
+<li><p><strong>song</strong> – A valid filepath for an audio that renpy can load.</p></li>
+<li><p><strong>condition</strong> – The condition to unlock the item.</p></li>
+<li><p><strong>tooltip</strong> – The tooltip text to display when the item is hovered.</p></li>
+<li><p><strong>for_animation_slide</strong> – If true and the slide with the given name has not yet been created, the slide is marked as one for animations.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.create_item">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">create_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.create_item" title="Link to this definition"></a></dt>
+<dd><p>Creates an item with the given params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource</strong> – The item resource</p></li>
+<li><p><strong>thumbnail</strong> – The item custom thumbnail resource.</p></li>
+<li><p><strong>song</strong> – A valid filepath for an audio that renpy can load.</p></li>
+<li><p><strong>condition</strong> – The condition to unlock the item.</p></li>
+<li><p><strong>tooltip</strong> – The tooltip text to display when the item is hovered.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created item.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the given resource is None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.rows">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.rows" title="Link to this definition"></a></dt>
+<dd><p>Gets the maximum number of rows on each page of each slide.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.cols">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">cols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.cols" title="Link to this definition"></a></dt>
+<dd><p>Gets the maximum number of columns on each page of each slide.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.distribution">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">distribution</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.distribution" title="Link to this definition"></a></dt>
+<dd><p>Gets the current distribution on each page.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple containing the (cols, rows) values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.change_distribution">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">change_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.change_distribution" title="Link to this definition"></a></dt>
+<dd><p>Changes the distribution on each page of each slide.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>columns</strong> – The number of columns in the page.</p></li>
+<li><p><strong>rows</strong> – The number of rows in the page.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.custom_name_for">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">custom_name_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slide_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.custom_name_for" title="Link to this definition"></a></dt>
+<dd><p>Sets a custom name for the slides or sliders with the given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>slide_name</strong> – The name of the slides or sliders</p></li>
+<li><p><strong>new_name</strong> – The custom name</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.name_for">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">name_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.name_for" title="Link to this definition"></a></dt>
+<dd><p>Gets the name for the sliders or slides with the given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – The name of the slides or sliders</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The custom name if it exists, otherwise the capitalized name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.tooltip">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">tooltip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.tooltip" title="Link to this definition"></a></dt>
+<dd><p>Gets the current tooltip.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.content_slides">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">content_slides</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.content_slides" title="Link to this definition"></a></dt>
+<dd><p>Gets the name of all slides that have at least one item into.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.page_buttons">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">page_buttons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.page_buttons" title="Link to this definition"></a></dt>
+<dd><p>Gets all buttons for the current page items on the current slide.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.next_page">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">next_page</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.next_page" title="Link to this definition"></a></dt>
+<dd><p>Gets the action to switch to the next page on the current slide.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The action to change the page, or None if the current page number is the last.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.previous_page">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">previous_page</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.previous_page" title="Link to this definition"></a></dt>
+<dd><p>Gets the action to switch to the previous page on the current slide.
+The action to change the page, or None if the current page number is the first</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.back">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">back</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_animation_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.back" title="Link to this definition"></a></dt>
+<dd><p>Gets the action to return to the menu since gallerynpy was called or to navigate between sliders.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>from_animation_options</strong> – If true, and the current slide is for animations, it means that it must return to the first valid slide of the current slider</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The action to return or navigate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.is_current">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">is_current</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.is_current" title="Link to this definition"></a></dt>
+<dd><p>Checks if the given name is equal to the currently selected name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – The name of the slide, or slide, to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the name is equal to the currently selected, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.is_for_animations">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">is_for_animations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.is_for_animations" title="Link to this definition"></a></dt>
+<dd><p>Checks if the current slide is one for animations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the current slide is one for animations, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.create_slide">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">create_slide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_animation_slide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.create_slide" title="Link to this definition"></a></dt>
+<dd><p>Create a slide with the given name and the base slider as its parent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The slide name</p></li>
+<li><p><strong>is_animation_slide</strong> – Sets true if the slide will be marked as one for animations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created slide.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.put_slide_like">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">put_slide_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slide</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sliders.html#gallerynpy.Slide" title="gallerynpy.slides.Slide"><span class="pre">Slide</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="sliders.html#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sliders.html#gallerynpy.Slide" title="gallerynpy.slides.Slide"><span class="pre">Slide</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="sliders.html#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.put_slide_like" title="Link to this definition"></a></dt>
+<dd><p>Adds the given slide or slider to the base slider and all its items to the gallerynpy gallery.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>slide</strong> – The slide or slider to add</p></li>
+<li><p><strong>args</strong> – Other slides or sliders to add</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.scale">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.scale" title="Link to this definition"></a></dt>
+<dd><p>Scales the given resource according to the current thumbnail size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource</strong> – The resource to scale</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.change_transition">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">change_transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.change_transition" title="Link to this definition"></a></dt>
+<dd><p>Changes the current transition of the gallerynpy gallery.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>transition</strong> – Changes the current transition of the gallerynpy gallery.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.animation_speed">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">animation_speed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.animation_speed" title="Link to this definition"></a></dt>
+<dd><p>Gets the current animation speed.</p>
+<p>A shortcut to <a class="reference internal" href="properties.html#gallerynpy.properties.animation_speed" title="gallerynpy.properties.animation_speed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">animation_speed</span></code></a> .</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.put_video">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">put_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.put_video" title="Link to this definition"></a></dt>
+<dd><p>Deprecated. Use <a class="reference internal" href="#gallerynpy.put_item" title="gallerynpy.put_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">put_item()</span></code></a>  instead.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.put_image">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">put_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail_resource</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.put_image" title="Link to this definition"></a></dt>
+<dd><p>Deprecated. Use <a class="reference internal" href="#gallerynpy.put_item" title="gallerynpy.put_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">put_item()</span></code></a>  instead.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.put_animation">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">put_animation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">animation_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Resource" title="gallerynpy.resources.Resource"><span class="pre">Resource</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_animation_slide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.put_animation" title="Link to this definition"></a></dt>
+<dd><p>Deprecated. Use <a class="reference internal" href="#gallerynpy.put_item" title="gallerynpy.put_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">put_item()</span></code></a>  instead.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.create_video">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">create_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.create_video" title="Link to this definition"></a></dt>
+<dd><p>Deprecated. Use <a class="reference internal" href="#gallerynpy.create_item" title="gallerynpy.create_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_item()</span></code></a>  instead.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.create_image">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">create_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail_resource</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.create_image" title="Link to this definition"></a></dt>
+<dd><p>Deprecated. Use <a class="reference internal" href="#gallerynpy.create_item" title="gallerynpy.create_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_item()</span></code></a>  instead.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.create_animation">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">create_animation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atl_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.create_animation" title="Link to this definition"></a></dt>
+<dd><p>Deprecated. Use <a class="reference internal" href="#gallerynpy.create_item" title="gallerynpy.create_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_item()</span></code></a>  instead.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gallerynpy.put_slider">
+<span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">put_slider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sliders.html#gallerynpy.Slide" title="gallerynpy.slides.Slide"><span class="pre">Slide</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="sliders.html#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.put_slider" title="Link to this definition"></a></dt>
+<dd><p>Deprecated. Use <a class="reference internal" href="#gallerynpy.put_slide_like" title="gallerynpy.put_slide_like"><code class="xref py py-func docutils literal notranslate"><span class="pre">put_slide_like()</span></code></a>  instead.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="properties.html" class="btn btn-neutral float-left" title="Gallerynpy Properties" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sliders.html" class="btn btn-neutral float-right" title="Slide and Slider Classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2024, Yoimer Davila.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

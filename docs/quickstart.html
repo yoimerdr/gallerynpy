@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; Gallerynpy Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/lunr-searchbox.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=45675182" />
+      <link rel="stylesheet" type="text/css" href="_static/css/font-jb-sans.css?v=e3b0d0c7" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=60dbed4a"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.6.0/lunr.min.js"></script>
+        <script src="_static/js/lunr-searchbox.js"></script>
+        <script src="_static/js/lunr-search-data.js"></script>
+        <script src="_static/js/custom.js?v=e5163ee4"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Gallerynpy Properties" href="properties.html" />
+    <link rel="prev" title="Welcome to gallerynpy’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            gallerynpy
+              <img src="_static/navbar-logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0 Documentation
+              </div><form class="search" action="search.html" method="get">
+  <input type="hidden" name="check_keywords" value="yes"/>
+  <input type="hidden" name="area" value="default"/>
+  <input type="hidden" id="ls_lunrsearch-highlight" value="true"/>
+  <input autocomplete="off" type="text" class="search-field" id="ls_search-field" name="q" placeholder="Search"/>
+  <ul class="results" id="ls_search-results"></ul>
+</form>
+
+
+<script>
+  (function (){
+    document.addEventListener("DOMContentLoaded", function () {
+      if (location.pathname && location.pathname.endsWith("search.html")) {
+        var form = document.querySelector('form[action="search.html"]')
+        form.action = "#"
+      }
+    })
+  })()
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-gallerynpy-scripts">The gallerynpy scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-default-gallery">The default gallery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-slider-like-gallery">The slider like gallery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gallery-items">Gallery Items</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#animations-with-speed">Animations with speed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="properties.html">Gallerynpy Properties</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallerynpy Stored Resource</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gallerynpy.html">Gallery Related Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sliders.html">Slide and Slider Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Item and Size Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handler.html">Handler Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="db.html">Db Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-functions">Resources Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-enums-like-classes">Resources Enums like Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-exceptions">Resources Exceptions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Actions Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Generic Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html#gallerynpy-related-actions">Gallerynpy Related Actions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">gallerynpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
+<p>Welcome to the Gallerynpy quick start manual.
+The purpose of this manual is to show you how you can add the gallery offered by gallerynpy to your game.
+We will do this using a basic renpy project like <strong>tutorial</strong>.</p>
+<p>Therefore, it is assumed that you have a basic knowledge of how Ren’py works. If not, give the
+<a class="reference external" href="https://www.renpy.org/doc/html/quickstart.html">docs</a> a thorough reading.</p>
+<section id="the-gallerynpy-scripts">
+<h2>The gallerynpy scripts<a class="headerlink" href="#the-gallerynpy-scripts" title="Link to this heading"></a></h2>
+<p>Before you start creating the gallery,
+you need to download the files necessary for the correct functioning of gallerynpy.
+To get started you must download the
+<a class="reference external" href="https://www.github.com/yoimerdr/gallerynpy/releases/latest">latest release</a> of gallerynpy.</p>
+<p>Once you have downloaded <cite>gallerynpy</cite>, you must extract it into the <cite>game</cite> folder of the game.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/gallerynpy_extract.png"><img alt="_images/gallerynpy_extract.png" src="_images/gallerynpy_extract.png" style="width: 45em;" /></a>
+<figcaption>
+<p><span class="caption-text">The <cite>game</cite> folder of the game.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="the-default-gallery">
+<span id="default-gallery"></span><h2>The default gallery<a class="headerlink" href="#the-default-gallery" title="Link to this heading"></a></h2>
+<p>After extracting the files into the game folder, you can add some items to display in the gallerynpy gallery.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span><span class="nc"> gallerynpy img example </span><span class="o">=</span> <span class="s2">&quot;images/concert1.png&quot;</span>
+
+<span class="k">image</span><span class="nc"> gallerynpy animation</span><span class="p">:</span>
+    <span class="s2">&quot;concert1&quot;</span> <span class="k">with</span> <span class="nf">Dissolve</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+    <span class="k">pause</span> <span class="mf">.4</span>
+    <span class="s2">&quot;concert2&quot;</span> <span class="k">with</span> <span class="nf">Dissolve</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+    <span class="k">pause</span> <span class="mf">.4</span>
+    <span class="s2">&quot;concert3&quot;</span> <span class="k">with</span> <span class="nf">Dissolve</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+    <span class="k">pause</span> <span class="mf">.4</span>
+    <span class="s2">&quot;concert2&quot;</span> <span class="k">with</span> <span class="nf">Dissolve</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+    <span class="k">pause</span> <span class="mf">.4</span>
+    <span class="k">repeat</span>
+
+<span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+    <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">put_item</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;gallerynpy img example&quot;</span><span class="p">)</span>
+    <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">put_item</span><span class="p">(</span><span class="s2">&quot;animations&quot;</span><span class="p">,</span> <span class="s2">&quot;gallerynpy animation&quot;</span><span class="p">,</span> <span class="s2">&quot;concert1&quot;</span><span class="p">)</span>
+    <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">put_item</span><span class="p">(</span><span class="s2">&quot;videos&quot;</span><span class="p">,</span> <span class="s2">&quot;oa4_launch.webm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And to display the gallery, inside the <cite>screens.rpy</cite> file and on the <cite>navigation screen</cite>,
+or wherever you want to display the option, you could put something like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="c1"># the renpy default navigation</span>
+<span class="k">screen</span><span class="nc"> navigation</span><span class="p">():</span>
+    <span class="k">vbox</span><span class="p">:</span>
+        <span class="c1"># ..... other options</span>
+        <span class="k">textbutton</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Gallerynpy&quot;</span><span class="p">)</span> <span class="na">action</span> <span class="nf">ShowMenu</span><span class="p">(</span><span class="s2">&quot;gallerynpy&quot;</span><span class="p">)</span>
+        <span class="c1"># ..... other options</span>
+</pre></div>
+</div>
+<p>And that’s it, you now have a basic gallery to display in your renpy games.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/gallerynpy_gallery.png"><img alt="_images/gallerynpy_gallery.png" src="_images/gallerynpy_gallery.png" style="width: 70em;" /></a>
+<figcaption>
+<p><span class="caption-text">A basic gallerynpy gallery.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="the-slider-like-gallery">
+<h2>The slider like gallery<a class="headerlink" href="#the-slider-like-gallery" title="Link to this heading"></a></h2>
+<p>When displaying the gallery, you may want to qualify the images, animations or videos to be displayed according to certain parameters.
+For example, divide them by chapter or game character. Gallerynpy also offers methods for this.
+Although the definition names may be a bit crude, gallerynpy calls them <a class="reference internal" href="sliders.html#gallerynpy.Slide" title="gallerynpy.Slide"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slide</span></code></a> and <a class="reference internal" href="sliders.html#gallerynpy.Slider" title="gallerynpy.Slider"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slider</span></code></a>.</p>
+<p><strong>Slide</strong> refers to a list of items (images, animations or videos) and <strong>Slider</strong> refers to a collection of Slide and others Slider.
+For example in <a class="reference internal" href="#default-gallery"><span class="std std-ref">The default gallery</span></a>, the function <a class="reference internal" href="gallerynpy.html#gallerynpy.put_item" title="gallerynpy.put_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">put_item()</span></code></a> creates and places the item in the Slide with the designated name.
+But if it does not exist, it creates it first.
+Thus, the Slide are created: <cite>images</cite>, <cite>animations</cite> and <cite>videos</cite>.</p>
+<p>But if you wanted those slides to be inside a slider called <cite>Chapter 1</cite>, you could do something like this:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+    <span class="n">chapter1</span> <span class="o">=</span> <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">create_slider</span><span class="p">(</span><span class="s2">&quot;ch1&quot;</span><span class="p">)</span>
+
+    <span class="n">images</span> <span class="o">=</span> <span class="n">chapter1</span><span class="o">.</span><span class="nf">create_slide</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">)</span>
+    <span class="n">animations</span> <span class="o">=</span> <span class="n">chapter1</span><span class="o">.</span><span class="nf">create_slide</span><span class="p">(</span><span class="s2">&quot;animations&quot;</span><span class="p">)</span>
+    <span class="n">videos</span> <span class="o">=</span> <span class="n">chapter1</span><span class="o">.</span><span class="nf">create_slide</span><span class="p">(</span><span class="s2">&quot;videos&quot;</span><span class="p">)</span>
+
+    <span class="n">images</span><span class="o">.</span><span class="nf">put</span><span class="p">(</span><span class="n">gallerynpy</span><span class="o">.</span><span class="nf">create_item</span><span class="p">(</span><span class="s2">&quot;gallerynpy img example&quot;</span><span class="p">))</span>
+    <span class="n">animations</span><span class="o">.</span><span class="nf">put</span><span class="p">(</span><span class="n">gallerynpy</span><span class="o">.</span><span class="nf">create_item</span><span class="p">(</span><span class="s2">&quot;gallerynpy animation&quot;</span><span class="p">,</span> <span class="s2">&quot;concert1&quot;</span><span class="p">))</span>
+    <span class="n">videos</span><span class="o">.</span><span class="nf">put</span><span class="p">(</span><span class="n">gallerynpy</span><span class="o">.</span><span class="nf">create_item</span><span class="p">(</span><span class="s2">&quot;oa4_launch.webm&quot;</span><span class="p">))</span>
+
+    <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">custom_name_for</span><span class="p">(</span><span class="s2">&quot;ch1&quot;</span><span class="p">,</span> <span class="s2">&quot;Chapter 1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thus, the result obtained would be:</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="_images/gallerynpy_sliders.gif"><img alt="_images/gallerynpy_sliders.gif" src="_images/gallerynpy_sliders.gif" style="width: 70em;" /></a>
+<figcaption>
+<p><span class="caption-text">A basic slider like gallery</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="gallery-items">
+<h2>Gallery Items<a class="headerlink" href="#gallery-items" title="Link to this heading"></a></h2>
+<section id="animations-with-speed">
+<h3>Animations with speed<a class="headerlink" href="#animations-with-speed" title="Link to this heading"></a></h3>
+<p>In your gallery you may want to display animations with the option to view them with more speed according to a certain value,
+<cite>gallerynpy</cite> offers an extra display for these elements. For example, by editing the animation in <a class="reference internal" href="#default-gallery"><span class="std std-ref">The default gallery</span></a>.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span><span class="nc"> gallerynpy animation</span><span class="p">:</span>
+    <span class="s2">&quot;concert1&quot;</span> <span class="k">with</span> <span class="nf">Dissolve</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+    <span class="k">pause</span> <span class="mf">.4</span> <span class="o">/</span> <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">animation_speed</span><span class="p">()</span>
+    <span class="s2">&quot;concert2&quot;</span> <span class="k">with</span> <span class="nf">Dissolve</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+    <span class="k">pause</span> <span class="mf">.4</span> <span class="o">/</span> <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">animation_speed</span><span class="p">()</span>
+    <span class="s2">&quot;concert3&quot;</span> <span class="k">with</span> <span class="nf">Dissolve</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+    <span class="k">pause</span> <span class="mf">.4</span> <span class="o">/</span> <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">animation_speed</span><span class="p">()</span>
+    <span class="s2">&quot;concert2&quot;</span> <span class="k">with</span> <span class="nf">Dissolve</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+    <span class="k">pause</span> <span class="mf">.4</span> <span class="o">/</span> <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">animation_speed</span><span class="p">()</span>
+    <span class="k">repeat</span>
+
+<span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+    <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">put_item</span><span class="p">(</span><span class="s2">&quot;anim&quot;</span><span class="p">,</span> <span class="s2">&quot;gallerynpy animation&quot;</span><span class="p">,</span> <span class="s2">&quot;concert1&quot;</span><span class="p">,</span> <span class="n">for_animation_slide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">gallerynpy</span><span class="o">.</span><span class="na">properties</span><span class="o">.</span><span class="nf">with_speed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">gallerynpy</span><span class="o">.</span><span class="nf">custom_name_for</span><span class="p">(</span><span class="s2">&quot;anim&quot;</span><span class="p">,</span> <span class="s2">&quot;Animations&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These changes will enable the display of animations with speed and, depending on the option selected,
+animations that use <a class="reference internal" href="gallerynpy.html#gallerynpy.animation_speed" title="gallerynpy.animation_speed"><code class="xref py py-func docutils literal notranslate"><span class="pre">animation_speed()</span></code></a> in the <strong>pause</strong> directive, as shown above, will have higher speed.</p>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="_images/gallerynpy_item_animation_speed.png"><img alt="_images/gallerynpy_item_animation_speed.png" src="_images/gallerynpy_item_animation_speed.png" style="width: 70em;" /></a>
+<figcaption>
+<p><span class="caption-text">The animation screen with speed</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to gallerynpy’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="properties.html" class="btn btn-neutral float-right" title="Gallerynpy Properties" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2024, Yoimer Davila.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

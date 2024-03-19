@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item and Size Classes &mdash; Gallerynpy Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/lunr-searchbox.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=45675182" />
+      <link rel="stylesheet" type="text/css" href="_static/css/font-jb-sans.css?v=e3b0d0c7" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=60dbed4a"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.6.0/lunr.min.js"></script>
+        <script src="_static/js/lunr-searchbox.js"></script>
+        <script src="_static/js/lunr-search-data.js"></script>
+        <script src="_static/js/custom.js?v=e5163ee4"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Handler Object" href="handler.html" />
+    <link rel="prev" title="Slide and Slider Classes" href="sliders.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            gallerynpy
+              <img src="_static/navbar-logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0 Documentation
+              </div><form class="search" action="search.html" method="get">
+  <input type="hidden" name="check_keywords" value="yes"/>
+  <input type="hidden" name="area" value="default"/>
+  <input type="hidden" id="ls_lunrsearch-highlight" value="true"/>
+  <input autocomplete="off" type="text" class="search-field" id="ls_search-field" name="q" placeholder="Search"/>
+  <ul class="results" id="ls_search-results"></ul>
+</form>
+
+
+<script>
+  (function (){
+    document.addEventListener("DOMContentLoaded", function () {
+      if (location.pathname && location.pathname.endsWith("search.html")) {
+        var form = document.querySelector('form[action="search.html"]')
+        form.action = "#"
+      }
+    })
+  })()
+</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="properties.html">Gallerynpy Properties</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Gallerynpy Stored Resource</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gallerynpy.html">Gallery Related Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sliders.html">Slide and Slider Classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Item and Size Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.Item"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Item.if_condition"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item.if_condition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Item.condition"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item.condition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Item.meets_condition"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item.meets_condition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Item.name"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Item.resource"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item.resource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Item.song"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item.song</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Item.thumbnail"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item.thumbnail</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Item.tooltip"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Item.tooltip</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gallerynpy.Size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Size</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Size.from_size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Size.from_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Size.set"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Size.set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Size.aspect_ratio"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Size.aspect_ratio</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Size.height"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Size.height</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Size.width"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Size.width</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="handler.html">Handler Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="db.html">Db Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Resources Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-functions">Resources Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-enums-like-classes">Resources Enums like Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html#resources-exceptions">Resources Exceptions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Actions Stored Module</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Generic Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html#gallerynpy-related-actions">Gallerynpy Related Actions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">gallerynpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Item and Size Classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="item-and-size-classes">
+<h1>Item and Size Classes<a class="headerlink" href="#item-and-size-classes" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gallerynpy.Item">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">Item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">song</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Item" title="Link to this definition"></a></dt>
+<dd><p>Represents a single item in gallerynpy gallery.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The item name. Must be unique.</p></li>
+<li><p><strong>resource</strong> – The resource of the item.</p></li>
+<li><p><strong>size</strong> – The size of the item thumbnail.</p></li>
+<li><p><strong>song</strong> – A valid filepath for an audio that renpy can load.</p></li>
+<li><p><strong>condition</strong> – The condition to unlock the item.</p></li>
+<li><p><strong>tooltip</strong> – The tooltip text to display when the item is hovered.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.Item.if_condition">
+<span class="sig-name descname"><span class="pre">if_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_return</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Item.if_condition" title="Link to this definition"></a></dt>
+<dd><p>Gets the given param if this <a class="reference internal" href="#gallerynpy.Item" title="gallerynpy.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a>  meets the condition it has.</p>
+<p>See also <a class="reference internal" href="#gallerynpy.Item.meets_condition" title="gallerynpy.Item.meets_condition"><code class="xref py py-attr docutils literal notranslate"><span class="pre">meets_condition</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>to_return</strong> – The object to return</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>to_return</cite> if it meets the condition, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Item.condition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">condition</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.Item.condition" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the item condition.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the item condition.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>condition</strong> – The new condition to unlock the item</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Item.meets_condition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">meets_condition</span></span><a class="headerlink" href="#gallerynpy.Item.meets_condition" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Checks if this <a class="reference internal" href="#gallerynpy.Item" title="gallerynpy.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a>  meets the condition it has or does not have it.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Item.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.Item.name" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the item name</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the item name</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – The new item name. Must be unique.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Item.resource">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resource</span></span><a class="headerlink" href="#gallerynpy.Item.resource" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the item resource.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Changes the item resource</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resource</strong> – The new resource of the item.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Item.song">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">song</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.Item.song" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the item song.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the item song.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>song</strong> – A valid filepath for an audio that renpy can load</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Item.thumbnail">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thumbnail</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="resources.html#gallerynpy.resources.Thumbnail" title="gallerynpy.resources.Thumbnail"><span class="pre">Thumbnail</span></a></em><a class="headerlink" href="#gallerynpy.Item.thumbnail" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the thumbnail object of the item. If not meets its condition, returns a thumbnail of the locked resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Item.tooltip">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tooltip</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.Item.tooltip" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the item tooltip.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the item tooltip.</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tooltip</strong> – The new item tooltip</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gallerynpy.Size">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">Size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Size" title="Link to this definition"></a></dt>
+<dd><p>Represents the dimensions (integers) of an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – The width dimension.</p></li>
+<li><p><strong>height</strong> – The height dimension.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.Size.from_size">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></span></span><a class="headerlink" href="#gallerynpy.Size.from_size" title="Link to this definition"></a></dt>
+<dd><p>Creates a new size object from the given size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> – The size object</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the given size not is an instance of Size.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The new size object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.Size.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Size" title="gallerynpy.db.Size"><span class="pre">Size</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Size.set" title="Link to this definition"></a></dt>
+<dd><p>Sets the actual dimensions to those of the given size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – If the given size not is an instance of Size.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>size</strong> – The size object with the new dimensions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Size.aspect_ratio">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aspect_ratio</span></span><a class="headerlink" href="#gallerynpy.Size.aspect_ratio" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the aspect ratio of the current dimensions. <br /> Calculated as <cite>width / height</cite>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The calculated aspect ratio.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Size.height">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#gallerynpy.Size.height" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the height of the size.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the height of the size. <br /> This value must be a positive integer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Size.width">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#gallerynpy.Size.width" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the width of the size.</p>
+</dd>
+<dt class="field-even">Setter<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sets the width of the size. <br /> This value must be a positive integer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sliders.html" class="btn btn-neutral float-left" title="Slide and Slider Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="handler.html" class="btn btn-neutral float-right" title="Handler Object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2024, Yoimer Davila.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
