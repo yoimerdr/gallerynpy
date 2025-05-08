@@ -1,6 +1,8 @@
 Quickstart
 ==========
 
+.. warning:: This project will no longer be updated, since there is an improved version of gallerynpy that I recommend you to use: `gallerynpyx <https://www.github.com/yoimerdr/gallerynpy/releases/latest>`_.
+
 Welcome to the Gallerynpy quick start manual.
 The purpose of this manual is to show you how you can add the gallery offered by gallerynpy to your game.
 We will do this using a basic renpy project like **tutorial**.

@@ -5,9 +5,9 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Slide and Slider Classes &mdash; Gallerynpy Documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/css/lunr-searchbox.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/lunr-searchbox.css?v=a7f041c7" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=45675182" />
       <link rel="stylesheet" type="text/css" href="_static/css/font-jb-sans.css?v=e3b0d0c7" />
 
@@ -20,11 +20,11 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=60dbed4a"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9bcbadda"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.6.0/lunr.min.js"></script>
-        <script src="_static/js/lunr-searchbox.js"></script>
-        <script src="_static/js/lunr-search-data.js"></script>
+        <script src="_static/js/lunr-searchbox.js?v=40881346"></script>
+        <script src="_static/js/lunr-search-data.js?v=1a49211b"></script>
         <script src="_static/js/custom.js?v=e5163ee4"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -80,8 +80,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.clone"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.clone()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.get"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.get()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.put"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.put()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.remove"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.remove()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.removeself"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.removeself()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.name"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.name</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.parent"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.parent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.root_route"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.root_route</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.SlideLike.size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.SlideLike.size</span></code></a></li>
 </ul>
 </li>
@@ -92,6 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slide.is_for_animations"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slide.is_for_animations</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slide.name"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slide.name</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slide.parent"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slide.parent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slide.root_route"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slide.root_route</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slide.size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slide.size</span></code></a></li>
 </ul>
 </li>
@@ -103,6 +107,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slider.put"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slider.put()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slider.name"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slider.name</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slider.parent"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slider.parent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slider.root_route"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slider.root_route</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slider.size"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slider.size</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gallerynpy.Slider.slides"><code class="docutils literal notranslate"><span class="pre">gallerynpy.Slider.slides</span></code></a></li>
 </ul>
@@ -154,7 +159,7 @@
 <h1>Slide and Slider Classes<a class="headerlink" href="#slide-and-slider-classes" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="gallerynpy.SlideLike">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">SlideLike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.SlideLike" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">SlideLike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.SlideLike" title="Link to this definition"></a></dt>
 <dd><p>The base class for the slides and sliders.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -179,9 +184,19 @@
 <span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#gallerynpy.SlideLike.put" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.SlideLike.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#gallerynpy.SlideLike.remove" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gallerynpy.SlideLike.removeself">
+<span class="sig-name descname"><span class="pre">removeself</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#gallerynpy.SlideLike.removeself" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.SlideLike.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.SlideLike.name" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.SlideLike.name" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current name.</p>
@@ -197,7 +212,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.SlideLike.parent">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></em><a class="headerlink" href="#gallerynpy.SlideLike.parent" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></em><a class="headerlink" href="#gallerynpy.SlideLike.parent" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current parent <a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.Slider"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slider</span></code></a> .</p>
@@ -212,8 +227,18 @@
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.SlideLike.root_route">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_route</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gallerynpy.SlideLike.root_route" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the names from the current slide to the root.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.SlideLike.size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#gallerynpy.SlideLike.size" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#gallerynpy.SlideLike.size" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current size.</p>
@@ -225,7 +250,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="gallerynpy.Slide">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">Slide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_for_animations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Slide" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">Slide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_for_animations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Slide" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gallerynpy.SlideLike" title="gallerynpy.slides.SlideLike"><code class="xref py py-class docutils literal notranslate"><span class="pre">SlideLike</span></code></a></p>
 <p>A slide to contain the <a class="reference internal" href="items.html#gallerynpy.Item" title="gallerynpy.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a> s</p>
 <dl class="field-list simple">
@@ -270,7 +295,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gallerynpy.Slide.put">
-<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="items.html#gallerynpy.Item" title="gallerynpy.items.Item"><span class="pre">Item</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Slide.put" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="items.html#gallerynpy.Item" title="gallerynpy.items.Item"><span class="pre">Item</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#gallerynpy.Slide.put" title="Link to this definition"></a></dt>
 <dd><p>Adds a valid <a class="reference internal" href="items.html#gallerynpy.Item" title="gallerynpy.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a>  to the slide.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -284,7 +309,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.Slide.is_for_animations">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_for_animations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#gallerynpy.Slide.is_for_animations" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_for_animations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#gallerynpy.Slide.is_for_animations" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets whether the slide is marked as one for animations.</p>
@@ -294,7 +319,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.Slide.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.Slide.name" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.Slide.name" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current name.</p>
@@ -310,7 +335,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.Slide.parent">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></em><a class="headerlink" href="#gallerynpy.Slide.parent" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></em><a class="headerlink" href="#gallerynpy.Slide.parent" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current parent <a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.Slider"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slider</span></code></a> .</p>
@@ -325,8 +350,18 @@
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Slide.root_route">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_route</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gallerynpy.Slide.root_route" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the names from the current slide to the root.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.Slide.size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#gallerynpy.Slide.size" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#gallerynpy.Slide.size" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current size.</p>
@@ -343,7 +378,7 @@ This will be fixed in later versions.</p>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="gallerynpy.Slider">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">Slider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Slider" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gallerynpy.</span></span><span class="sig-name descname"><span class="pre">Slider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gallerynpy.Slider" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#gallerynpy.SlideLike" title="gallerynpy.slides.SlideLike"><code class="xref py py-class docutils literal notranslate"><span class="pre">SlideLike</span></code></a></p>
 <p>A slider to contain <a class="reference internal" href="#gallerynpy.Slide" title="gallerynpy.Slide"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slide</span></code></a> s or other <a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.Slider"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slider</span></code></a> s</p>
 <dl class="field-list simple">
@@ -373,7 +408,7 @@ This will be fixed in later versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gallerynpy.Slider.create_slide">
-<span class="sig-name descname"><span class="pre">create_slide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_for_animations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gallerynpy.Slide" title="gallerynpy.slides.Slide"><span class="pre">Slide</span></a></span></span><a class="headerlink" href="#gallerynpy.Slider.create_slide" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_slide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_for_animations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gallerynpy.Slide" title="gallerynpy.slides.Slide"><span class="pre">Slide</span></a></span></span><a class="headerlink" href="#gallerynpy.Slider.create_slide" title="Link to this definition"></a></dt>
 <dd><p>Creates a new <a class="reference internal" href="#gallerynpy.Slide" title="gallerynpy.Slide"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slide</span></code></a>  with this slider as parent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -390,7 +425,7 @@ This will be fixed in later versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gallerynpy.Slider.create_slider">
-<span class="sig-name descname"><span class="pre">create_slider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span></span><a class="headerlink" href="#gallerynpy.Slider.create_slider" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_slider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></span></span><a class="headerlink" href="#gallerynpy.Slider.create_slider" title="Link to this definition"></a></dt>
 <dd><p>Creates a new slide with this slider as parent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -404,7 +439,7 @@ This will be fixed in later versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gallerynpy.Slider.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gallerynpy.SlideLike" title="gallerynpy.slides.SlideLike"><span class="pre">SlideLike</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#gallerynpy.Slider.get" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gallerynpy.SlideLike" title="gallerynpy.slides.SlideLike"><span class="pre">SlideLike</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#gallerynpy.Slider.get" title="Link to this definition"></a></dt>
 <dd><p>Gets the <a class="reference internal" href="#gallerynpy.Slide" title="gallerynpy.Slide"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slide</span></code></a>  or <a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.Slider"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slider</span></code></a>  with the given identifier.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -433,7 +468,7 @@ This will be fixed in later versions.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.Slider.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.Slider.name" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gallerynpy.Slider.name" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current name.</p>
@@ -449,7 +484,7 @@ This will be fixed in later versions.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.Slider.parent">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></em><a class="headerlink" href="#gallerynpy.Slider.parent" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.slides.Slider"><span class="pre">Slider</span></a></em><a class="headerlink" href="#gallerynpy.Slider.parent" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current parent <a class="reference internal" href="#gallerynpy.Slider" title="gallerynpy.Slider"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slider</span></code></a> .</p>
@@ -464,8 +499,18 @@ This will be fixed in later versions.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="gallerynpy.Slider.root_route">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_route</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gallerynpy.Slider.root_route" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Getter<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Gets the names from the current slide to the root.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.Slider.size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#gallerynpy.Slider.size" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#gallerynpy.Slider.size" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets the current size.</p>
@@ -475,7 +520,7 @@ This will be fixed in later versions.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="gallerynpy.Slider.slides">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">slides</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gallerynpy.Slider.slides" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">slides</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gallerynpy.Slider.slides" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Getter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Gets all the names of the slider items.</p>
@@ -498,7 +543,7 @@ This will be fixed in later versions.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023-2024, Yoimer Davila.</p>
+    <p>&#169; Copyright 2023-2025, Yoimer Davila.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
