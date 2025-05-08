@@ -4,6 +4,8 @@ Gallerynpy are Ren'Py scripts which allows you to display a gallery screen in yo
 The gallery screen displays all images, animations and videos that have been inserted 
 into gallerynpy.
 
+There is an [improved version](https://github.com/yoimerdr/gallerynpyx) of gallerynpy, so this repository will be archived.
+
 ## Usage
 
 Before using gallerynpy, you need to download the [latest version](https://github.com/yoimerdr/gallerynpy/releases/latest) and copy it to your game.
